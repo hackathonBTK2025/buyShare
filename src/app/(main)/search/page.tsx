@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useFormState } from "react-dom";
+import { useActionState, useState } from "react";
 import { Loader2 } from "lucide-react";
 import {
   aiPoweredProductSearch,
@@ -20,7 +19,7 @@ type SearchState = {
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
-  const [state, formAction] = useFormState<SearchState, FormData>(
+  const [state, formAction, isPending] = useActionState<SearchState, FormData>(
     async (prevState, formData) => {
       const query = formData.get("query") as string;
       if (!query) return { result: null, error: "Please enter a search query." };
@@ -60,16 +59,6 @@ export default function SearchPage() {
     },
     { result: null, error: null }
   );
-  
-  const [isPending, setIsPending] = useState(false);
-
-  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsPending(true);
-    const formData = new FormData(event.currentTarget);
-    await formAction(formData);
-    setIsPending(false);
-  };
 
   return (
     <div className="container mx-auto">
@@ -79,8 +68,8 @@ export default function SearchPage() {
           Describe what you're looking for in your own words.
         </p>
       </div>
-      <form onSubmit={handleFormSubmit} className="max-w-2xl mx-auto mb-8">
-        <div className="flex gap-2">
+      <form action={formAction}>
+        <div className="flex gap-2 max-w-2xl mx-auto mb-8">
           <Input
             name="query"
             value={query}
