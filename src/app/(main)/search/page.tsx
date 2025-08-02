@@ -11,9 +11,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product-card";
 import { products as allProducts } from "@/lib/data"; // mock product data
+import { Product } from "@/lib/types";
+
+type EnrichedProduct = Product & { suitabilityExplanation?: string };
 
 type SearchState = {
-  result: AiPoweredProductSearchOutput | null;
+  result: (AiPoweredProductSearchOutput & { products: EnrichedProduct[] }) | null;
   error: string | null;
 };
 
@@ -41,18 +44,8 @@ export default function SearchPage() {
                 suitabilityExplanation: result.products.find(rp => rp.id === p.id)?.suitabilityExplanation || ""
             }))
         }
-        
-        // The AI might return products not in our mock list, so we'll just use what we have.
-        // For the demo we replace the AI's products with our mock product objects
-        result.products = result.products.map(p => {
-            const mockProduct = allProducts.find(mp => mp.name.toLowerCase().includes(p.name.split(' ')[1].toLowerCase()));
-            return {
-                ...p,
-                ...(mockProduct)
-            }
-        })
 
-        return { result, error: null };
+        return { result: enrichedResult, error: null };
       } catch (e: any) {
         return { result: null, error: e.message || "An unexpected error occurred." };
       }
@@ -99,7 +92,7 @@ export default function SearchPage() {
              <p className="text-muted-foreground">{state.result.explanation}</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {state.result.products.map((product: any) => (
+            {state.result.products.map((product) => (
                 <ProductCard key={product.id} product={product} />
             ))}
           </div>
