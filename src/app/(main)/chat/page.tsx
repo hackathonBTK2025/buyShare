@@ -76,18 +76,22 @@ function ChatPageContent() {
         const input: AiPoweredProductSearchInput = { query: currentQuery };
         const result = await aiPoweredProductSearch(input);
         
-        const productIds = new Set(result.products.map(p => p.id));
-        const suggestedProducts = allProducts.filter(p => productIds.has(p.id));
-
-        const enrichedProducts = suggestedProducts.map(p => ({
-            ...p,
-            suitabilityExplanation: result.products.find(rp => rp.id === p.id)?.suitabilityExplanation || ""
-        }));
+        // Match products from the AI result with the full product data
+        const suggestedProducts = result.products
+          .map(p => {
+            const fullProduct = allProducts.find(ap => ap.id === p.id);
+            if (!fullProduct) return null; // Or handle missing products
+            return {
+              ...fullProduct,
+              suitabilityExplanation: p.suitabilityExplanation || ""
+            };
+          })
+          .filter((p): p is EnrichedProduct => p !== null); // Filter out any nulls
 
         const assistantMessage: Message = {
             role: 'assistant',
             content: result.explanation,
-            products: enrichedProducts,
+            products: suggestedProducts,
             explanation: result.explanation
         };
         
