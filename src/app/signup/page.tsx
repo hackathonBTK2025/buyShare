@@ -15,8 +15,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Flame } from 'lucide-react';
-import { users } from '@/lib/data';
 import { toast } from '@/hooks/use-toast';
+import { auth, db } from '@/lib/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { doc, setDoc, getDocs, collection, query, where } from 'firebase/firestore';
 
 export default function SignupPage() {
     const router = useRouter();
@@ -62,7 +64,7 @@ export default function SignupPage() {
         return null;
     }
 
-    const handleInitialSubmit = (event: FormEvent) => {
+    const handleInitialSubmit = async (event: FormEvent) => {
         event.preventDefault();
         setError(null);
         
@@ -81,39 +83,51 @@ export default function SignupPage() {
             setError(passwordError);
             return;
         }
+        
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("username", "==", username.toLowerCase()));
+        const querySnapshot = await getDocs(q);
 
-        if (users.some(user => user.username.toLowerCase() === username.toLowerCase())) {
+        if (!querySnapshot.empty) {
             setError('Bu kullanıcı adı zaten alınmış.');
             return;
         }
 
         // In a real app, you would send the verification code here.
-        console.log('Verification code sent to:', email);
-        setStep(2);
-        setError(null);
+        // For now, we will skip the verification step and create the user directly.
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Save additional user info to Firestore
+            await setDoc(doc(db, "users", user.uid), {
+                username: username,
+                fullname: fullname,
+                email: email,
+                bio: '',
+                followerCount: 0,
+                followingCount: 0,
+                followingIds: [],
+                hasStory: false,
+                profilePictureUrl: `https://placehold.co/100x100`, // Default placeholder
+            });
+            
+             toast({
+                title: 'Hesap Oluşturuldu!',
+                description: 'Giriş sayfasına yönlendiriliyorsunuz.',
+            });
+
+            router.push('/login');
+
+        } catch (e: any) {
+            if(e.code === 'auth/email-already-in-use') {
+                setError("Bu e-posta adresi zaten kullanılıyor.");
+            } else {
+                 setError('Kayıt sırasında bir hata oluştu.');
+            }
+            console.error(e);
+        }
     };
-
-    const handleVerificationSubmit = (event: FormEvent) => {
-         event.preventDefault();
-         setError(null);
-
-         // In a real app, you would verify the code against the backend.
-         // For this prototype, we'll assume any 6-digit code is valid.
-         if (verificationCode.length !== 6) {
-            setError('Lütfen 6 haneli onay kodunu girin.');
-            return;
-         }
-
-        // In a real app, you would handle the user creation here after verification.
-        console.log('User created:', { email, fullname, username });
-
-        toast({
-            title: 'Hesap Oluşturuldu!',
-            description: 'Giriş sayfasına yönlendiriliyorsunuz.',
-        });
-
-        router.push('/login');
-    }
 
     const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -130,7 +144,6 @@ export default function SignupPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="mx-auto max-w-sm w-full">
-        {step === 1 && (
             <>
                 <CardHeader className="text-center">
                     <Link href="/" className="flex items-center gap-2 font-semibold justify-center mb-4">
@@ -199,41 +212,6 @@ export default function SignupPage() {
                     </div>
                 </CardContent>
             </>
-        )}
-
-        {step === 2 && (
-             <>
-                <CardHeader className="text-center">
-                    <CardTitle className="text-2xl">Onay Kodunu Gir</CardTitle>
-                    <CardDescription>
-                        {email} adresine gönderilen 6 haneli kodu gir.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <form onSubmit={handleVerificationSubmit} className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="verificationCode">Onay Kodu</Label>
-                            <Input 
-                                id="verificationCode" 
-                                type="text" 
-                                placeholder="_ _ _ _ _ _" 
-                                required 
-                                value={verificationCode} 
-                                onChange={(e) => setVerificationCode(e.target.value)}
-                                maxLength={6}
-                             />
-                        </div>
-                         {error && <p className="text-destructive text-sm text-center">{error}</p>}
-                        <Button type="submit" className="w-full">
-                            Kaydı Tamamla
-                        </Button>
-                         <Button variant="link" onClick={() => setStep(1)}>
-                            Geri Dön
-                        </Button>
-                    </form>
-                </CardContent>
-             </>
-        )}
       </Card>
     </div>
   );

@@ -15,37 +15,57 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Flame } from 'lucide-react';
-import { users } from '@/lib/data';
 import { toast } from '@/hooks/use-toast';
+import { db } from '@/lib/firebase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth';
 
 
 export default function LoginPage() {
   const router = useRouter();
+  const auth = getAuth();
   const [loginIdentifier, setLoginIdentifier] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = (event: FormEvent) => {
+  const handleLogin = async (event: FormEvent) => {
     event.preventDefault();
     setError(null);
 
-    const user = users.find(
-      (u) =>
-        u.username.toLowerCase() === loginIdentifier.toLowerCase() ||
-        (u as any).email?.toLowerCase() === loginIdentifier.toLowerCase()
-        // In a real app, you'd also check for phone number
-    );
-
-    // Mock password check for demo purposes.
-    // Let's assume user 'maybeno' has the password 'password123!'
-    if (user && user.username === 'maybeno' && password === 'password123!') {
+    try {
+        // Assume loginIdentifier can be email, username, or phone. Firestore query will be a bit more complex.
+        // For simplicity, we'll try to sign in with email first.
+        await signInWithEmailAndPassword(auth, loginIdentifier, password);
+        
         toast({
             title: 'Giriş Başarılı!',
             description: 'Ana sayfaya yönlendiriliyorsunuz.',
         });
-      router.push('/');
-    } else {
-      setError('Kullanıcı adı veya şifre hatalı.');
+        router.push('/');
+
+    } catch (e) {
+        // If email sign-in fails, try to find user by username.
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("username", "==", loginIdentifier));
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0];
+            const userData = userDoc.data();
+            try {
+                // We found a user by username, now try to sign in with their email.
+                await signInWithEmailAndPassword(auth, userData.email, password);
+                toast({
+                    title: 'Giriş Başarılı!',
+                    description: 'Ana sayfaya yönlendiriliyorsunuz.',
+                });
+                router.push('/');
+            } catch (signInError) {
+                 setError('Kullanıcı adı veya şifre hatalı.');
+            }
+        } else {
+            setError('Kullanıcı adı veya şifre hatalı.');
+        }
     }
   };
 
