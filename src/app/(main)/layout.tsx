@@ -21,6 +21,7 @@ import {
   Settings,
   Menu,
   Activity,
+  Bookmark,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -145,7 +146,8 @@ export default function MainLayout({
                         <Activity className="mr-2 h-4 w-4" />
                         <span>Hareketlerin</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => router.push('/saved')}>
+                        <Bookmark className="mr-2 h-4 w-4" />
                         <span>Kaydedilenler</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem>

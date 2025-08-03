@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart, MessageSquare, MoreHorizontal } from 'lucide-react';
+import { Heart, MessageSquare, MoreHorizontal, Bookmark } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
@@ -18,6 +18,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 
 interface AiChatCardProps {
@@ -29,6 +31,8 @@ export function AiChatCard({ chat }: AiChatCardProps) {
 
   // Mock data for likers - in a real app this would come from props or a hook
   const likers = users.slice(0, Math.min(users.length, chat.likeCount));
+  const [isSaved, setIsSaved] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   return (
     <Card className="shadow-none border-b rounded-none bg-transparent">
@@ -67,50 +71,55 @@ export function AiChatCard({ chat }: AiChatCardProps) {
         )}
       </CardContent>
        <CardFooter className="flex flex-col items-start p-4 gap-2">
-        <div className="flex justify-start gap-2">
-            <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="ghost" size="icon">
-                <Heart className="h-6 w-6" />
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                <DialogTitle>Beğenenler</DialogTitle>
-                </DialogHeader>
-                <ScrollArea className="max-h-[60vh]">
-                    <div className="space-y-4 pr-4">
-                    {likers.map((user) => (
-                        <div key={user.id} className="flex items-center gap-4">
-                            <Link href={`/profile/${user.username}`}>
-                                <Avatar>
-                                    <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
-                                    <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
-                                </Avatar>
-                            </Link>
-                            <div className="flex-grow">
-                            <Link href={`/profile/${user.username}`} className="font-semibold hover:underline">
-                                {user.username}
-                            </Link>
+        <div className="w-full flex justify-between items-center">
+            <div className="flex justify-start gap-2">
+                <Dialog>
+                <DialogTrigger asChild>
+                    <Button variant="ghost" size="icon" onClick={() => setIsLiked(!isLiked)}>
+                        <Heart className={cn("h-6 w-6", isLiked && "text-red-500 fill-red-500")} />
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[425px]">
+                    <DialogHeader>
+                    <DialogTitle>Beğenenler</DialogTitle>
+                    </DialogHeader>
+                    <ScrollArea className="max-h-[60vh]">
+                        <div className="space-y-4 pr-4">
+                        {likers.map((user) => (
+                            <div key={user.id} className="flex items-center gap-4">
+                                <Link href={`/profile/${user.username}`}>
+                                    <Avatar>
+                                        <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
+                                        <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
+                                    </Avatar>
+                                </Link>
+                                <div className="flex-grow">
+                                <Link href={`/profile/${user.username}`} className="font-semibold hover:underline">
+                                    {user.username}
+                                </Link>
+                                </div>
+                                <Button size="sm" variant={user.id === 'user1' ? 'outline' : 'default'}>
+                                    {user.id === 'user1' ? 'Takip ediliyor' : 'Takip Et'}
+                                </Button>
                             </div>
-                            <Button size="sm" variant={user.id === 'user1' ? 'outline' : 'default'}>
-                                {user.id === 'user1' ? 'Takip ediliyor' : 'Takip Et'}
-                            </Button>
+                        ))}
                         </div>
-                    ))}
-                    </div>
-                </ScrollArea>
-            </DialogContent>
-            </Dialog>
+                    </ScrollArea>
+                </DialogContent>
+                </Dialog>
 
-            <Button variant="ghost" size="icon">
-            <MessageSquare className="h-6 w-6" />
+                <Button variant="ghost" size="icon">
+                <MessageSquare className="h-6 w-6" />
+                </Button>
+            </div>
+            <Button variant="ghost" size="icon" onClick={() => setIsSaved(!isSaved)}>
+                <Bookmark className={cn("h-6 w-6", isSaved && "fill-foreground")} />
             </Button>
         </div>
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="link" className="text-foreground font-semibold p-0 h-auto">
-                {chat.likeCount} beğenme
+                {chat.likeCount + (isLiked ? 1 : 0)} beğenme
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
