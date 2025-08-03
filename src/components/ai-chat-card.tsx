@@ -19,14 +19,16 @@ export function AiChatCard({ chat }: AiChatCardProps) {
   return (
     <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
       <CardHeader className="flex flex-row items-center gap-3 p-4">
-        <Avatar>
-          <AvatarImage src={chat.user.profilePictureUrl} data-ai-hint="person face" />
-          <AvatarFallback>{chat.user.username.charAt(0).toUpperCase()}</AvatarFallback>
-        </Avatar>
-        <div>
-          <p className="font-semibold">{chat.user.username}</p>
-          <p className="text-xs text-muted-foreground">bir ürün paylaştı</p>
-        </div>
+        <Link href={`/profile/${chat.user.username}`} className="flex items-center gap-3">
+            <Avatar>
+              <AvatarImage src={chat.user.profilePictureUrl} data-ai-hint="person face" />
+              <AvatarFallback>{chat.user.username.charAt(0).toUpperCase()}</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-semibold">{chat.user.username}</p>
+              <p className="text-xs text-muted-foreground">bir ürün paylaştı</p>
+            </div>
+        </Link>
       </CardHeader>
       <CardContent className="p-4 pt-0 flex-grow">
         <p className="italic mb-4">"{chat.userComment}"</p>
@@ -36,7 +38,10 @@ export function AiChatCard({ chat }: AiChatCardProps) {
       </CardContent>
       <CardFooter className="flex justify-start gap-2 p-4 pt-0">
         <Button variant="ghost" size="sm">
-          <Heart className="mr-2 h-4 w-4" /> {chat.likeCount} Beğeni
+          <Heart className="mr-2 h-4 w-4" /> {chat.likeCount}
+        </Button>
+        <Button variant="ghost" size="sm">
+          <MessageSquare className="mr-2 h-4 w-4" /> Yorum yap
         </Button>
       </CardFooter>
     </Card>
