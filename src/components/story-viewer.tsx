@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -63,7 +64,7 @@ export function StoryViewer({ stories: initialStories, initialUser, allStories, 
              // First user, do nothing
             return prev;
         });
-    }, [currentUserIndex, orderedUsersWithStories]);
+    }, [currentUserIndex, orderedUsersWithStories, allStories]);
 
     useEffect(() => {
         const user = orderedUsersWithStories[currentUserIndex];
@@ -113,11 +114,15 @@ export function StoryViewer({ stories: initialStories, initialUser, allStories, 
                 </div>
                 <div className="flex items-center justify-between mt-3">
                      <div className="flex items-center gap-2">
-                        <Avatar className="h-9 w-9">
-                            <AvatarImage src={currentUser.profilePictureUrl} />
-                            <AvatarFallback>{currentUser.username.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <span className="text-white font-semibold text-sm">{currentUser.username}</span>
+                        <Link href={`/profile/${currentUser.username}`}>
+                            <Avatar className="h-9 w-9">
+                                <AvatarImage src={currentUser.profilePictureUrl} />
+                                <AvatarFallback>{currentUser.username.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                        </Link>
+                        <Link href={`/profile/${currentUser.username}`} className="text-white font-semibold text-sm hover:underline">
+                            {currentUser.username}
+                        </Link>
                     </div>
                     <DialogClose asChild>
                         <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 hover:text-white">
