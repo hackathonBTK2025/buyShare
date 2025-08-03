@@ -20,6 +20,7 @@ import {
   PanelLeftOpen,
   Settings,
   Menu,
+  Activity,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -68,7 +69,6 @@ export default function MainLayout({
     { href: "/chat", label: "Yeni sohbet", icon: PlusSquare },
     { href: "/explore", label: "Keşfet", icon: Compass },
     { href: "/messages", label: "Mesajlar", icon: MessageSquare },
-    { href: "/notifications", label: "Bildirimler", icon: Bell },
     { href: "/history", label: "Geçmiş aramalar", icon: History },
     { href: "/cart", label: "Sepetim", icon: ShoppingCart },
   ];
@@ -141,7 +141,8 @@ export default function MainLayout({
                         <Settings className="mr-2 h-4 w-4" />
                         <span>Ayarlar</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => router.push('/activity')}>
+                        <Activity className="mr-2 h-4 w-4" />
                         <span>Hareketlerin</span>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
