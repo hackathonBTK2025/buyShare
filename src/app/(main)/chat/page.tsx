@@ -1,13 +1,12 @@
 "use client";
 
-import { useActionState, useState, useEffect, useRef } from "react";
+import { useActionState, useState, useEffect, useRef, Suspense } from "react";
+import { useSearchParams } from 'next/navigation';
 import { Loader2, User, Sparkles } from "lucide-react";
 import {
   aiPoweredProductSearch,
   AiPoweredProductSearchInput,
-  AiPoweredProductSearchOutput,
 } from "@/ai/flows/ai-powered-product-search";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/product-card";
 import { products as allProducts } from "@/lib/data";
@@ -58,9 +57,10 @@ const useChatHistory = () => {
   return { history, addChatToHistory };
 };
 
-
-export default function ChatPage() {
-  const [query, setQuery] = useState("");
+function ChatPageContent() {
+  const searchParams = useSearchParams();
+  const initialQuery = searchParams.get('q');
+  
   const { addChatToHistory } = useChatHistory();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
@@ -110,13 +110,15 @@ export default function ChatPage() {
     { messages: [], error: null }
   );
   
-  // Reset query input after submission
+  // Effect to run initial search if query param exists
   useEffect(() => {
-    if (!isPending) {
-      setQuery("");
+    if (initialQuery) {
+      const formData = new FormData();
+      formData.append('query', initialQuery);
+      formAction(formData);
     }
-  }, [isPending]);
-  
+  }, [initialQuery]);
+
   // Scroll to bottom when new messages are added
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -183,30 +185,16 @@ export default function ChatPage() {
         </ScrollArea>
        </div>
       <div className="mt-auto pt-4">
-        <form
-          action={formAction}
-          onSubmit={(e) => {
-             // Append the current query to the form data right before submission
-             const formData = new FormData(e.currentTarget);
-             formData.set('query', query);
-             formAction(formData);
-          }}
-          className="flex gap-2 max-w-2xl mx-auto"
-        >
-          <Input
-            name="query"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="e.g., blue, cool jeans to wear in summer"
-            className="text-base"
-            disabled={isPending}
-          />
-          <Button type="submit" disabled={isPending || !query}>
-            {isPending ? <Loader2 className="animate-spin" /> : "Send"}
-          </Button>
-        </form>
          {state.error && <p className="text-destructive text-center text-sm mt-2">{state.error}</p>}
       </div>
     </div>
   );
+}
+
+export default function ChatPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ChatPageContent />
+        </Suspense>
+    )
 }

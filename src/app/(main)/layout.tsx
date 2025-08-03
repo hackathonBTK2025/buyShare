@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import React from 'react';
 import {
   Bell,
   Home,
@@ -42,6 +43,16 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const query = formData.get('query') as string;
+    if (query) {
+      router.push(`/chat?q=${encodeURIComponent(query)}`);
+    }
+  };
 
   const navLinks = [
     { href: "/", label: "Ana sayfa", icon: Home },
@@ -170,14 +181,15 @@ export default function MainLayout({
 
         <footer className="fixed bottom-0 left-0 right-0 z-10 border-t bg-card/80 backdrop-blur-sm md:left-[220px] lg:left-[280px]">
           <div className="p-4">
-            <div className="relative max-w-2xl mx-auto">
+            <form onSubmit={handleSearch} className="relative max-w-2xl mx-auto">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
+                name="query"
                 type="search"
                 placeholder="Search products with AI..."
                 className="w-full appearance-none bg-background pl-8 shadow-none"
               />
-            </div>
+            </form>
           </div>
         </footer>
       </div>
