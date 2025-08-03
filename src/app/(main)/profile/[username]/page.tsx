@@ -35,21 +35,21 @@ export default function ProfilePage({ params }: { params: { username: string } }
           <h1 className="text-4xl font-bold">{user.username}</h1>
           <div className="flex justify-center md:justify-start gap-6 my-4 text-muted-foreground">
             <div>
-              <span className="font-bold text-foreground">{user.followerCount}</span> Followers
+              <span className="font-bold text-foreground">{user.followerCount}</span> Takipçi
             </div>
             <div>
-              <span className="font-bold text-foreground">{user.followingCount}</span> Following
+              <span className="font-bold text-foreground">{user.followingCount}</span> Takip
             </div>
              <div>
-              <span className="font-bold text-foreground">{likedProducts.length}</span> Likes
+              <span className="font-bold text-foreground">{likedProducts.length}</span> Beğeni
             </div>
           </div>
           {isOwnProfile ? (
             <Button variant="outline">
-              <Settings className="mr-2 h-4 w-4" /> Edit Profile
+              <Settings className="mr-2 h-4 w-4" /> Profili Düzenle
             </Button>
           ) : (
-            <Button>Follow</Button>
+            <Button>Takip Et</Button>
           )}
         </div>
       </div>
@@ -57,10 +57,10 @@ export default function ProfilePage({ params }: { params: { username: string } }
       <Tabs defaultValue="liked" className="w-full">
         <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
           <TabsTrigger value="liked">
-            <Heart className="mr-2 h-4 w-4" /> Liked
+            <Heart className="mr-2 h-4 w-4" /> Beğenilenler
           </TabsTrigger>
           <TabsTrigger value="saved">
-            <Save className="mr-2 h-4 w-4" /> Saved
+            <Save className="mr-2 h-4 w-4" /> Kaydedilenler
           </TabsTrigger>
         </TabsList>
         <TabsContent value="liked" className="mt-6">

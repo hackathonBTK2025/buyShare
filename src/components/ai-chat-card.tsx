@@ -25,7 +25,7 @@ export function AiChatCard({ chat }: AiChatCardProps) {
         </Avatar>
         <div>
           <p className="font-semibold">{chat.user.username}</p>
-          <p className="text-xs text-muted-foreground">shared a product</p>
+          <p className="text-xs text-muted-foreground">bir ürün paylaştı</p>
         </div>
       </CardHeader>
       <CardContent className="p-4 pt-0 flex-grow">
@@ -36,7 +36,7 @@ export function AiChatCard({ chat }: AiChatCardProps) {
       </CardContent>
       <CardFooter className="flex justify-start gap-2 p-4 pt-0">
         <Button variant="ghost" size="sm">
-          <Heart className="mr-2 h-4 w-4" /> {chat.likeCount} Likes
+          <Heart className="mr-2 h-4 w-4" /> {chat.likeCount} Beğeni
         </Button>
       </CardFooter>
     </Card>

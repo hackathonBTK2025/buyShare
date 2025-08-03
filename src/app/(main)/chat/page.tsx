@@ -67,7 +67,7 @@ function ChatPageContent() {
   const [state, formAction, isPending] = useActionState<ChatState, FormData>(
     async (prevState, formData) => {
       const currentQuery = formData.get("query") as string;
-      if (!currentQuery) return { ...prevState, error: "Please enter a message." };
+      if (!currentQuery) return { ...prevState, error: "Lütfen bir mesaj girin." };
 
       const userMessage: Message = { role: 'user', content: currentQuery };
       const newMessages: Message[] = [...prevState.messages, userMessage];
@@ -106,9 +106,9 @@ function ChatPageContent() {
       } catch (e: any) {
         const errorMessage: Message = {
             role: 'assistant',
-            content: e.message || "An unexpected error occurred."
+            content: e.message || "Beklenmedik bir hata oluştu."
         };
-        return { messages: [...newMessages, errorMessage], error: e.message || "An unexpected error occurred." };
+        return { messages: [...newMessages, errorMessage], error: e.message || "Beklenmedik bir hata oluştu." };
       }
     },
     { messages: [], error: null }
@@ -142,8 +142,8 @@ function ChatPageContent() {
             {state.messages.length === 0 && !isPending && (
                 <div className="text-center text-muted-foreground py-16">
                     <Sparkles className="mx-auto h-12 w-12 text-primary/50" />
-                    <h2 className="text-2xl font-semibold mt-4">Start a new chat</h2>
-                    <p className="mt-2">Ask me anything about our products!</p>
+                    <h2 className="text-2xl font-semibold mt-4">Yeni bir sohbet başlat</h2>
+                    <p className="mt-2">Ürünlerimiz hakkında her şeyi bana sor!</p>
                 </div>
             )}
             {state.messages.map((message, index) => (
@@ -180,7 +180,7 @@ function ChatPageContent() {
                     <Card className="max-w-2xl">
                         <CardContent className="p-4 flex items-center gap-2 text-muted-foreground">
                            <Loader2 className="animate-spin h-5 w-5" />
-                           Thinking...
+                           Düşünüyorum...
                         </CardContent>
                     </Card>
                 </div>
@@ -197,7 +197,7 @@ function ChatPageContent() {
 
 export default function ChatPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div>Yükleniyor...</div>}>
             <ChatPageContent />
         </Suspense>
     )

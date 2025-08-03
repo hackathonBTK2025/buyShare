@@ -14,18 +14,18 @@ const mockConversations = [
   {
     user: users[1],
     messages: [
-      { from: 'them', text: 'Hey, did you see the new jacket on the explore page?' },
-      { from: 'me', text: 'Oh yeah, the olive green one? Looks amazing!' },
-      { from: 'them', text: 'Totally! I think I\'m gonna get it.' },
-      { from: 'me', text: 'You should! It would look great on you.' },
+      { from: 'them', text: 'Selam, keşfet sayfasındaki yeni ceketi gördün mü?' },
+      { from: 'me', text: 'Evet, o zeytin yeşili olan mı? Harika görünüyor!' },
+      { from: 'them', text: 'Kesinlikle! Sanırım alacağım.' },
+      { from: 'me', text: 'Almalısın! Sana çok yakışır.' },
     ],
-    lastMessage: 'You should! It would look great on you.',
-    time: '10m',
+    lastMessage: 'Almalısın! Sana çok yakışır.',
+    time: '10d',
   },
   {
     user: { id: 'user3', username: 'ayse', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 300, followingCount: 200 },
-    lastMessage: 'Let\'s catch up tomorrow!',
-    time: '1h',
+    lastMessage: 'Yarın görüşelim!',
+    time: '1s',
     messages: [],
   },
 ];
@@ -38,10 +38,10 @@ export default function MessagesPage() {
       {/* Conversation List */}
       <div className="flex flex-col border-r h-full col-span-1">
         <div className="p-4 border-b">
-          <h1 className="text-2xl font-bold">Messages</h1>
+          <h1 className="text-2xl font-bold">Mesajlar</h1>
           <div className="relative mt-4">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search messages..." className="pl-8" />
+              <Input placeholder="Mesajlarda ara..." className="pl-8" />
           </div>
         </div>
         <ScrollArea className="flex-grow">
@@ -94,7 +94,7 @@ export default function MessagesPage() {
             </ScrollArea>
             <div className="p-4 border-t bg-background">
                 <div className="relative">
-                    <Input placeholder="Type a message..." className="pr-12 h-12" />
+                    <Input placeholder="Bir mesaj yaz..." className="pr-12 h-12" />
                     <Button size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9">
                         <Send className="h-5 w-5"/>
                     </Button>
@@ -105,8 +105,8 @@ export default function MessagesPage() {
           <div className="flex-grow flex items-center justify-center text-center">
             <div>
               <Send className="h-16 w-16 text-muted-foreground mx-auto" />
-              <h2 className="text-2xl font-bold mt-4">Your Messages</h2>
-              <p className="text-muted-foreground">Send private photos and messages to a friend.</p>
+              <h2 className="text-2xl font-bold mt-4">Mesajların</h2>
+              <p className="text-muted-foreground">Bir arkadaşına özel fotoğraf ve mesaj gönder.</p>
             </div>
           </div>
         )}

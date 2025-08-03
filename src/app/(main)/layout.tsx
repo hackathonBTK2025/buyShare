@@ -113,7 +113,7 @@ export default function MainLayout({
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="shrink-0">
                 <Home className="h-5 w-5" />
-                <span className="sr-only">Toggle navigation menu</span>
+                <span className="sr-only">Navigasyon menüsünü aç/kapa</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="flex flex-col">
@@ -161,16 +161,16 @@ export default function MainLayout({
                   />
                   <AvatarFallback>U</AvatarFallback>
                 </Avatar>
-                <span className="sr-only">Toggle user menu</span>
+                <span className="sr-only">Kullanıcı menüsünü aç/kapa</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>Hesabım</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuItem>Ayarlar</DropdownMenuItem>
+              <DropdownMenuItem>Destek</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem>Çıkış Yap</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
@@ -186,7 +186,7 @@ export default function MainLayout({
               <Input
                 name="query"
                 type="search"
-                placeholder="Search products with AI..."
+                placeholder="Yapay zeka ile ürün ara..."
                 className="w-full appearance-none bg-background pl-8 shadow-none"
               />
             </form>

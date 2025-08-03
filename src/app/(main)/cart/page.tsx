@@ -14,12 +14,12 @@ export default function CartPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold tracking-tight mb-8">Your Cart ({cartCount} items)</h1>
+      <h1 className="text-3xl font-bold tracking-tight mb-8">Sepetim ({cartCount} ürün)</h1>
       {items.length === 0 ? (
         <div className="text-center py-16 border-2 border-dashed rounded-lg">
-          <p className="text-xl text-muted-foreground">Your cart is empty.</p>
+          <p className="text-xl text-muted-foreground">Sepetiniz boş.</p>
           <Button asChild className="mt-4">
-            <Link href="/">Start Shopping</Link>
+            <Link href="/">Alışverişe Başla</Link>
           </Button>
         </div>
       ) : (
@@ -93,26 +93,26 @@ export default function CartPage() {
           <div>
             <Card className="sticky top-24">
               <CardHeader>
-                <CardTitle>Order Summary</CardTitle>
+                <CardTitle>Sipariş Özeti</CardTitle>
               </CardHeader>
               <CardContent className="grid gap-4">
                 <div className="flex justify-between">
-                  <span>Subtotal</span>
+                  <span>Ara Toplam</span>
                   <span>${totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Shipping</span>
-                  <span>Free</span>
+                  <span>Kargo</span>
+                  <span>Ücretsiz</span>
                 </div>
                 <Separator />
                 <div className="flex justify-between font-bold text-lg">
-                  <span>Total</span>
+                  <span>Toplam</span>
                   <span>${totalPrice.toFixed(2)}</span>
                 </div>
               </CardContent>
               <CardFooter>
                 <Button size="lg" className="w-full">
-                  Complete Order
+                  Siparişi Tamamla
                 </Button>
               </CardFooter>
             </Card>

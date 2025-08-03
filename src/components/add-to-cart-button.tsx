@@ -14,7 +14,7 @@ export function AddToCartButton({ product }: AddToCartButtonProps) {
     
     return (
         <Button size="lg" className="w-full sm:w-auto flex-grow" onClick={() => addToCart(product)}>
-            <ShoppingCart className="mr-2 h-5 w-5" /> Add to Cart
+            <ShoppingCart className="mr-2 h-5 w-5" /> Sepete Ekle
         </Button>
     )
 }

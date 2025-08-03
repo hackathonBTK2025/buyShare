@@ -20,14 +20,14 @@ export const users: User[] = [
 export const products: Product[] = [
   {
     id: 'prod1',
-    name: 'Classic Blue Jeans',
+    name: 'Klasik Mavi Kot Pantolon',
     description:
-      'Timeless and versatile, these classic blue jeans are a wardrobe staple. Made from high-quality denim, they offer both comfort and durability. Perfect for any season and occasion.',
+      'Zamansız ve çok yönlü bu klasik mavi kot pantolon, gardırobun temel bir parçasıdır. Yüksek kaliteli denimden üretilmiştir, hem konfor hem de dayanıklılık sunar. Her mevsim ve her durum için mükemmeldir.',
     price: 79.99,
     imageUrls: ['https://placehold.co/600x800', 'https://placehold.co/600x800'],
     properties: {
-      fabric: '98% Cotton, 2% Elastane',
-      color: 'Classic Blue',
+      fabric: '%98 Pamuk, %2 Elastan',
+      color: 'Klasik Mavi',
       size: 'W32/L32',
     },
     likeCount: 125,
@@ -35,14 +35,14 @@ export const products: Product[] = [
   },
   {
     id: 'prod2',
-    name: 'Summer Linen Trousers',
+    name: 'Yazlık Keten Pantolon',
     description:
-      'Stay cool and stylish with these lightweight linen trousers. Their breathable fabric makes them ideal for warm summer days, providing a relaxed yet sophisticated look.',
+      'Bu hafif keten pantolonlarla serin ve şık kalın. Nefes alabilen kumaşı, sıcak yaz günleri için idealdir ve rahat ama sofistike bir görünüm sağlar.',
     price: 64.5,
     imageUrls: ['https://placehold.co/600x800', 'https://placehold.co/600x800'],
     properties: {
-      fabric: '100% Linen',
-      color: 'Beige',
+      fabric: '%100 Keten',
+      color: 'Bej',
       size: 'Medium',
     },
     likeCount: 210,
@@ -50,14 +50,14 @@ export const products: Product[] = [
   },
   {
     id: 'prod3',
-    name: 'Urban Explorer Jacket',
+    name: 'Şehir Kaşifi Ceketi',
     description:
-      'A stylish and functional jacket designed for city life. Water-resistant and packed with pockets, it\'s the perfect companion for your urban adventures.',
+      'Şehir hayatı için tasarlanmış şık ve fonksiyonel bir ceket. Suya dayanıklı ve ceplerle dolu, şehir maceralarınız için mükemmel bir arkadaştır.',
     price: 129.0,
     imageUrls: ['https://placehold.co/600x800'],
     properties: {
-      fabric: 'Synthetic Blend',
-      color: 'Olive Green',
+      fabric: 'Sentetik Karışım',
+      color: 'Zeytin Yeşili',
       size: 'Large',
     },
     likeCount: 340,
@@ -65,14 +65,14 @@ export const products: Product[] = [
   },
   {
     id: 'prod4',
-    name: 'Silk Blend Scarf',
+    name: 'İpek Karışımlı Eşarp',
     description:
-      'Add a touch of elegance to any outfit with this beautiful silk blend scarf. Soft, luxurious, and versatile, it can be styled in numerous ways.',
+      'Bu güzel ipek karışımlı eşarpla her kıyafete zarafet katın. Yumuşak, lüks ve çok yönlü, sayısız şekilde şekillendirilebilir.',
     price: 45.0,
     imageUrls: ['https://placehold.co/600x800'],
     properties: {
-      fabric: '50% Silk, 50% Modal',
-      color: 'Floral Print',
+      fabric: '%50 İpek, %50 Modal',
+      color: 'Çiçek Desenli',
     },
     likeCount: 89,
     saveCount: 21,
@@ -83,14 +83,14 @@ export const aiChats: AiChat[] = [
   {
     id: 'chat1',
     user: users[0],
-    userComment: "Just got these jeans and they're amazing! Super comfortable and perfect for summer. AI helped me find the perfect fit.",
+    userComment: "Bu kot pantolonu yeni aldım ve harika! Süper rahat ve yaz için mükemmel. Yapay zeka mükemmel bedeni bulmama yardımcı oldu.",
     productSuggestions: [products[0]],
     likeCount: 15,
   },
   {
     id: 'chat2',
     user: users[1],
-    userComment: "Found this jacket through the AI search and it's exactly what I needed for my city trips. Stylish and practical!",
+    userComment: "Bu ceketi yapay zeka aramasıyla buldum ve şehir gezilerim için tam da ihtiyacım olan şeydi. Şık ve pratik!",
     productSuggestions: [products[2]],
     likeCount: 22,
   },

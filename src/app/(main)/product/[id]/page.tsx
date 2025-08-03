@@ -38,7 +38,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                   <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg shadow-lg">
                     <Image
                       src={url}
-                      alt={`${product.name} image ${index + 1}`}
+                      alt={`${product.name} resim ${index + 1}`}
                       fill
                       className="object-cover"
                       data-ai-hint="product lifestyle"
@@ -60,14 +60,14 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                         <Star key={i} className={`h-5 w-5 ${i < 4 ? 'text-amber-400 fill-amber-400' : 'text-gray-300'}`} />
                     ))}
                 </div>
-                <p className="text-sm text-muted-foreground">123 Reviews</p>
+                <p className="text-sm text-muted-foreground">123 Yorum</p>
             </div>
           </div>
           
           <div className="p-4 bg-card rounded-lg border">
             <h2 className="text-lg font-semibold mb-2 text-primary flex items-center gap-2">
                 <CheckCircle className="w-5 h-5"/>
-                AI-Powered Summary
+                Yapay Zeka Özeti
             </h2>
             <p className="text-muted-foreground">{summary}</p>
           </div>
@@ -79,21 +79,21 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
           <Separator />
           
           <div>
-            <h3 className="font-semibold mb-2">Details</h3>
+            <h3 className="font-semibold mb-2">Detaylar</h3>
             <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                {product.properties.fabric && <li>Fabric: {product.properties.fabric}</li>}
-                {product.properties.color && <li>Color: {product.properties.color}</li>}
-                {product.properties.size && <li>Size: {product.properties.size}</li>}
+                {product.properties.fabric && <li>Kumaş: {product.properties.fabric}</li>}
+                {product.properties.color && <li>Renk: {product.properties.color}</li>}
+                {product.properties.size && <li>Beden: {product.properties.size}</li>}
             </ul>
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4">
             <AddToCartButton product={product} />
             <Button variant="outline" className="w-full sm:w-auto">
-              <Heart className="mr-2 h-4 w-4" /> Like
+              <Heart className="mr-2 h-4 w-4" /> Beğen
             </Button>
             <Button variant="outline" className="w-full sm:w-auto">
-              <Save className="mr-2 h-4 w-4" /> Save
+              <Save className="mr-2 h-4 w-4" /> Kaydet
             </Button>
           </div>
         </div>

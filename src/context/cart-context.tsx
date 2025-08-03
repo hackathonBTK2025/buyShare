@@ -30,8 +30,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       return [...prevItems, { ...product, quantity: 1 }];
     });
     toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
+      title: "Sepete eklendi",
+      description: `${product.name} sepetinize eklendi.`,
     })
   };
 

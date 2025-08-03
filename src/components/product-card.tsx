@@ -39,7 +39,7 @@ export function ProductCard({ product }: ProductCardProps) {
                 <p className="text-lg font-bold text-primary">${product.price.toFixed(2)}</p>
                 <Button variant="ghost" size="icon" className="h-8 w-8">
                     <Heart className="h-4 w-4" />
-                    <span className="sr-only">Like</span>
+                    <span className="sr-only">Beğen</span>
                 </Button>
             </div>
         </div>
