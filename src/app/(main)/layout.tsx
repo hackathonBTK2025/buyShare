@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import Link from "next/link";
@@ -18,6 +19,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Settings,
+  Menu,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -114,26 +116,47 @@ export default function MainLayout({
               ))}
             </nav>
           </div>
-          <div className="mt-auto p-4">
-             <Tooltip delayDuration={0}>
-                <TooltipTrigger asChild>
-                    <Link
-                      href="/settings/profile"
-                      className={cn(
-                        "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                        pathname.startsWith("/settings") && "bg-muted text-primary"
-                      )}
-                    >
-                      <Settings className="h-5 w-5" />
-                       {isSidebarExpanded && <span>Ayarlar</span>}
-                    </Link>
-                </TooltipTrigger>
-                 {!isSidebarExpanded && (
-                    <TooltipContent side="right">
-                        Ayarlar
-                    </TooltipContent>
-                 )}
-            </Tooltip>
+          <div className="mt-auto p-4 space-y-2">
+             <DropdownMenu>
+                <Tooltip delayDuration={0}>
+                    <TooltipTrigger asChild>
+                         <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className={cn(
+                                "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary w-full justify-start",
+                                isSidebarExpanded ? "" : "justify-center"
+                            )}>
+                                <Menu className="h-5 w-5" />
+                                {isSidebarExpanded && <span>Daha fazla</span>}
+                            </Button>
+                        </DropdownMenuTrigger>
+                    </TooltipTrigger>
+                    {!isSidebarExpanded && (
+                        <TooltipContent side="right">
+                            Daha fazla
+                        </TooltipContent>
+                    )}
+                </Tooltip>
+                 <DropdownMenuContent side="right" align="end" className="w-56">
+                    <DropdownMenuItem onClick={() => router.push('/settings/profile')}>
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Ayarlar</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <span>Hareketlerin</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <span>Kaydedilenler</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <span>Görünümü değiştir</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                        <span>Çıkış Yap</span>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+             </DropdownMenu>
+
              <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
                     <Link
