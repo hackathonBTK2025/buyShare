@@ -1,8 +1,9 @@
+
 "use client";
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Bell,
   Home,
@@ -14,6 +15,8 @@ import {
   Compass,
   History,
   PlusSquare,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -36,6 +39,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+
 
 export default function MainLayout({
   children,
@@ -44,6 +49,7 @@ export default function MainLayout({
 }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -65,45 +71,68 @@ export default function MainLayout({
   ];
 
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+    <TooltipProvider>
+    <div className={cn(
+      "grid min-h-screen w-full transition-[grid-template-columns] duration-300",
+       isSidebarExpanded ? "md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]" : "md:grid-cols-[68px_1fr]"
+    )}>
       <div className="hidden border-r bg-card md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Flame className="h-6 w-6 text-primary" />
-              <span className="">TrendAI</span>
+              {isSidebarExpanded && <span className="">TrendAI</span>}
             </Link>
+             <Button variant="ghost" size="icon" className="ml-auto h-8 w-8" onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}>
+                {isSidebarExpanded ? <PanelLeftClose /> : <PanelLeftOpen />}
+                <span className="sr-only">Kenar çubuğunu daralt/genişlet</span>
+            </Button>
           </div>
           <div className="flex-1 overflow-auto py-2">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                    pathname === link.href && "bg-muted text-primary"
-                  )}
-                >
-                  <link.icon className="h-4 w-4" />
-                  {link.label}
-                </Link>
+                 <Tooltip key={link.href} delayDuration={0}>
+                    <TooltipTrigger asChild>
+                        <Link
+                          href={link.href}
+                          className={cn(
+                            "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                            pathname === link.href && "bg-muted text-primary"
+                          )}
+                        >
+                          <link.icon className="h-5 w-5" />
+                          {isSidebarExpanded && <span>{link.label}</span>}
+                        </Link>
+                    </TooltipTrigger>
+                    {!isSidebarExpanded && (
+                        <TooltipContent side="right">
+                            {link.label}
+                        </TooltipContent>
+                    )}
+                 </Tooltip>
               ))}
             </nav>
           </div>
           <div className="mt-auto p-4">
-            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <Link
-                href="/profile/me"
-                className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                  pathname === "/profile/me" && "bg-muted text-primary"
-                )}
-              >
-                <Users className="h-4 w-4" />
-                Profil
-              </Link>
-            </nav>
+             <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                    <Link
+                      href="/profile/me"
+                      className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                        pathname === "/profile/me" && "bg-muted text-primary"
+                      )}
+                    >
+                      <Users className="h-5 w-5" />
+                       {isSidebarExpanded && <span>Profil</span>}
+                    </Link>
+                </TooltipTrigger>
+                 {!isSidebarExpanded && (
+                    <TooltipContent side="right">
+                        Profil
+                    </TooltipContent>
+                 )}
+            </Tooltip>
           </div>
         </div>
       </div>
@@ -180,5 +209,6 @@ export default function MainLayout({
         </main>
       </div>
     </div>
+    </TooltipProvider>
   );
 }
