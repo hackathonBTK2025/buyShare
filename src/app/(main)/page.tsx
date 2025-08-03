@@ -8,7 +8,7 @@ export default function HomePage() {
   const currentUser = users.find(u => u.id === 'user1') as User;
   const followingIds = currentUser.followingIds || [];
 
-  const storiesUsers = users.filter(user => followingIds.includes(user.id) || user.id === currentUser.id);
+  const storiesUsers = users.filter(user => (followingIds.includes(user.id) || user.id === currentUser.id) && user.hasStory);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 container mx-auto py-8">

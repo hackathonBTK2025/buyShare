@@ -21,6 +21,7 @@ export interface User {
   followerCount: number;
   followingCount: number;
   followingIds?: string[];
+  hasStory?: boolean;
 }
 
 export interface AiChat {

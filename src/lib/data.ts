@@ -8,6 +8,7 @@ export const users: User[] = [
     followerCount: 120,
     followingCount: 75,
     followingIds: ['user0', 'user2'],
+    hasStory: true,
   },
   {
     id: 'user0',
@@ -15,6 +16,7 @@ export const users: User[] = [
     profilePictureUrl: 'https://placehold.co/100x100',
     followerCount: 180,
     followingCount: 90,
+    hasStory: true,
   },
   {
     id: 'user2',
@@ -22,10 +24,11 @@ export const users: User[] = [
     profilePictureUrl: 'https://placehold.co/100x100',
     followerCount: 250,
     followingCount: 150,
+    hasStory: true,
   },
-  { id: 'user3', username: 'ahmet', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 300, followingCount: 200 },
-  { id: 'user4', username: 'zeynep', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 400, followingCount: 250 },
-  { id: 'user5', username: 'mehmet', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 500, followingCount: 300 },
+  { id: 'user3', username: 'ahmet', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 300, followingCount: 200, hasStory: false },
+  { id: 'user4', username: 'zeynep', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 400, followingCount: 250, hasStory: false },
+  { id: 'user5', username: 'mehmet', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 500, followingCount: 300, hasStory: false },
 ];
 
 export const products: Product[] = [
