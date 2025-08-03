@@ -22,6 +22,9 @@ export const users: User[] = [
     followerCount: 250,
     followingCount: 150,
   },
+  { id: 'user3', username: 'ahmet', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 300, followingCount: 200 },
+  { id: 'user4', username: 'zeynep', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 400, followingCount: 250 },
+  { id: 'user5', username: 'mehmet', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 500, followingCount: 300 },
 ];
 
 export const products: Product[] = [
