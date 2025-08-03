@@ -1,5 +1,6 @@
 import { AiChatCard } from '@/components/ai-chat-card';
-import { aiChats } from '@/lib/data';
+import { StoryReel } from '@/components/story-reel';
+import { aiChats, users } from '@/lib/data';
 
 export default function HomePage() {
   return (
@@ -11,6 +12,10 @@ export default function HomePage() {
         <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">
           Takip ettiğin kişilerin ve topluluğun ürün keşiflerini gör.
         </p>
+      </div>
+
+      <div className="mb-8">
+        <StoryReel users={users} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
