@@ -3,7 +3,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -26,11 +26,22 @@ export default function SignupPage() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
+    const [emailError, setEmailError] = useState<string | null>(null);
 
     const validateEmail = (email: string): boolean => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(String(email).toLowerCase());
     }
+    
+    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const newEmail = e.target.value;
+        setEmail(newEmail);
+        if (!validateEmail(newEmail)) {
+            setEmailError('Lütfen geçerli bir e-posta adresi girin.');
+        } else {
+            setEmailError(null);
+        }
+    };
 
     const validatePassword = (password: string): string | null => {
         if (password.length < 4) {
@@ -51,9 +62,10 @@ export default function SignupPage() {
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
         setError(null);
+        setEmailError(null);
 
         if (!validateEmail(email)) {
-            setError('Lütfen geçerli bir e-posta adresi girin.');
+            setEmailError('Lütfen geçerli bir e-posta adresi girin.');
             return;
         }
 
@@ -129,7 +141,8 @@ export default function SignupPage() {
 
                 <div className="grid gap-2">
                     <Label htmlFor="email">E-posta</Label>
-                    <Input id="email" type="email" placeholder="E-posta" required value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <Input id="email" type="email" placeholder="E-posta" required value={email} onChange={handleEmailChange} />
+                    {emailError && <p className="text-destructive text-xs px-1">{emailError}</p>}
                 </div>
                  <div className="grid gap-2">
                     <Label htmlFor="fullname">Ad Soyad</Label>
