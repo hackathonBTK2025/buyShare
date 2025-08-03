@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { User } from '@/lib/types';
-import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 
@@ -24,12 +23,12 @@ const StoryCircle = ({ user }: { user: User }) => (
 
 export function StoryReel({ users }: { users: User[] }) {
     return (
-        <Card className="p-4">
+        <div className="p-4">
             <div className="flex items-center space-x-4 overflow-x-auto pb-2 -mb-2">
                 {users.map(user => (
                     <StoryCircle key={user.id} user={user} />
                 ))}
             </div>
-        </Card>
+        </div>
     );
 }
