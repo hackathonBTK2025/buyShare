@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -34,17 +35,17 @@ export default function LoginPage() {
             </Link>
           <CardTitle className="text-2xl">Giriş Yap</CardTitle>
           <CardDescription>
-            Hesabınıza giriş yapmak için e-postanızı girin
+            Hesabınıza giriş yapmak için bilgilerinizi girin
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
             <div className="grid gap-2">
-              <Label htmlFor="email">E-posta</Label>
+              <Label htmlFor="login">Telefon Numarası, Kullanıcı Adı veya E-posta</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
+                id="login"
+                type="text"
+                placeholder="Telefon Numarası, Kullanıcı Adı veya E-posta"
                 required
               />
             </div>
