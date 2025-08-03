@@ -53,7 +53,7 @@ export default function LoginPage() {
               <div className="flex items-center">
                 <Label htmlFor="password">Şifre</Label>
                 <Link
-                  href="#"
+                  href="/forgot-password"
                   className="ml-auto inline-block text-sm underline"
                 >
                   Şifrenizi mi unuttunuz?
@@ -71,7 +71,7 @@ export default function LoginPage() {
           </div>
           <div className="mt-4 text-center text-sm">
             Hesabınız yok mu?{' '}
-            <Link href="#" className="underline">
+            <Link href="/signup" className="underline">
               Kaydol
             </Link>
           </div>
