@@ -58,7 +58,7 @@ export function AiChatCard({ chat }: AiChatCardProps) {
             <div className="relative aspect-square">
                  <Image
                     src={product.imageUrls[0]}
-                    alt={product.name}
+                    alt="product image"
                     fill
                     className="object-cover w-full h-full rounded-md border"
                     data-ai-hint="product image"
