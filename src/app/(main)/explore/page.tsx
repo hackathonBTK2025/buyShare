@@ -10,7 +10,7 @@ export default function ExplorePage() {
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold tracking-tight">Keşfet</h1>
         <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">
-          Yeni trendleri ve popüler ürünleri keşfedin.
+          Yeni trendleri, popüler ürünleri ve sana özel önerileri keşfet.
         </p>
       </div>
 
