@@ -1,4 +1,4 @@
-import type { Product, User, AiChat } from './types';
+import type { Product, User, AiChat, Story } from './types';
 
 export const users: User[] = [
   {
@@ -16,6 +16,7 @@ export const users: User[] = [
     profilePictureUrl: 'https://placehold.co/100x100',
     followerCount: 180,
     followingCount: 90,
+    followingIds: ['user1'],
     hasStory: true,
   },
   {
@@ -24,6 +25,7 @@ export const users: User[] = [
     profilePictureUrl: 'https://placehold.co/100x100',
     followerCount: 250,
     followingCount: 150,
+    followingIds: ['user1'],
     hasStory: true,
   },
   { id: 'user3', username: 'ahmet', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 300, followingCount: 200, hasStory: false },
@@ -116,3 +118,12 @@ export const aiChats: AiChat[] = [
     likeCount: 41,
   },
 ];
+
+export const stories: Story[] = [
+    { id: 'story1', userId: 'user1', imageUrl: 'https://placehold.co/1080x1920' },
+    { id: 'story2', userId: 'user1', imageUrl: 'https://placehold.co/1080x1920' },
+    { id: 'story3', userId: 'user0', imageUrl: 'https://placehold.co/1080x1920' },
+    { id: 'story4', userId: 'user2', imageUrl: 'https://placehold.co/1080x1920' },
+    { id: 'story5', userId: 'user2', imageUrl: 'https://placehold.co/1080x1920' },
+    { id: 'story6', userId: 'user2', imageUrl: 'https://placehold.co/1080x1920' },
+]

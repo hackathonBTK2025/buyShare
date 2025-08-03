@@ -35,3 +35,10 @@ export interface AiChat {
 export interface CartItem extends Product {
   quantity: number;
 }
+
+export interface Story {
+  id: string;
+  userId: string;
+  imageUrl: string;
+  duration?: number;
+}
