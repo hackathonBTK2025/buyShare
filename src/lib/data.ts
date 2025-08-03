@@ -2,18 +2,18 @@ import type { Product, User, AiChat } from './types';
 
 export const users: User[] = [
   {
-    id: 'user0',
-    username: 'perisu',
-    profilePictureUrl: 'https://placehold.co/100x100',
-    followerCount: 180,
-    followingCount: 90,
-  },
-  {
     id: 'user1',
     username: 'maybeno1729',
     profilePictureUrl: 'https://firebasestorage.googleapis.com/v0/b/firebase-studio-demos.appspot.com/o/user-dalle.png?alt=media&token=ca334559-9ae6-4ca9-abb3-d3455a29b9b5',
     followerCount: 120,
     followingCount: 75,
+  },
+  {
+    id: 'user0',
+    username: 'perisu',
+    profilePictureUrl: 'https://placehold.co/100x100',
+    followerCount: 180,
+    followingCount: 90,
   },
   {
     id: 'user2',
@@ -89,7 +89,7 @@ export const products: Product[] = [
 export const aiChats: AiChat[] = [
   {
     id: 'chat1',
-    user: users[1], // maybeno1729
+    user: users[0], // maybeno1729
     userComment: "Bu kot pantolonu yeni aldım ve harika! Süper rahat ve yaz için mükemmel. Yapay zeka mükemmel bedeni bulmama yardımcı oldu.",
     productSuggestions: [products[0]],
     likeCount: 15,
@@ -103,7 +103,7 @@ export const aiChats: AiChat[] = [
   },
   {
     id: 'chat3',
-    user: users[0], // perisu
+    user: users[1], // perisu
     userComment: "Yapay zeka ile bu ipek eşarbı buldum, tam aradığım gibi!",
     productSuggestions: [products[3]],
     likeCount: 41,
