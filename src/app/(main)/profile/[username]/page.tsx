@@ -40,6 +40,9 @@ export default function ProfilePage({ params }: { params: { username: string } }
     .filter((chat) => chat.user.id === user.id)
     .flatMap((chat) => chat.productSuggestions);
     
+  // Mock saved posts for own profile
+  const savedPosts = isOwnProfile ? products.slice(1, 3) : [];
+    
   // Mock followers: find users who are following the current user.
   // In a real app, this would be a database query.
   const followers = users.filter(u => u.followingIds?.includes(user.id));
@@ -236,22 +239,46 @@ export default function ProfilePage({ params }: { params: { username: string } }
 
       <Separator />
 
-      <div className="mt-8">
-          <div className="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground mb-6">
-              <Grid3x3 className="h-4 w-4" />
-              <span>GÖNDERİLER</span>
+      <Tabs defaultValue="posts" className="mt-8">
+        <TabsList className="grid w-full grid-cols-2 bg-transparent border-b rounded-none p-0">
+          <TabsTrigger value="posts" className="flex items-center gap-2 text-sm font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none">
+            <Grid3x3 className="h-4 w-4" />
+            <span>GÖNDERİLER</span>
+          </TabsTrigger>
+          {isOwnProfile && (
+            <TabsTrigger value="saved" className="flex items-center gap-2 text-sm font-medium text-muted-foreground data-[state=active]:border-b-2 data-[state=active]:border-primary data-[state=active]:text-primary rounded-none">
+              <Save className="h-4 w-4" />
+              <span>KAYDEDİLENLER</span>
+            </TabsTrigger>
+          )}
+        </TabsList>
+        <TabsContent value="posts" className="mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {userPosts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
           </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {userPosts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-        {userPosts.length === 0 && (
-            <div className="text-center py-16 border-2 border-dashed rounded-lg">
-                <p className="text-xl text-muted-foreground">Henüz gönderi yok.</p>
+          {userPosts.length === 0 && (
+              <div className="text-center py-16 border-2 border-dashed rounded-lg">
+                  <p className="text-xl text-muted-foreground">Henüz gönderi yok.</p>
+              </div>
+          )}
+        </TabsContent>
+        {isOwnProfile && (
+          <TabsContent value="saved" className="mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {savedPosts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
             </div>
+            {savedPosts.length === 0 && (
+                <div className="text-center py-16 border-2 border-dashed rounded-lg">
+                    <p className="text-xl text-muted-foreground">Henüz kaydedilmiş gönderi yok.</p>
+                </div>
+            )}
+          </TabsContent>
         )}
-      </div>
+      </Tabs>
     </div>
   );
 }
