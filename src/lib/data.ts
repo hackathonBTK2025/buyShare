@@ -83,19 +83,15 @@ export const aiChats: AiChat[] = [
   {
     id: 'chat1',
     user: users[0],
-    queryText: 'Can you suggest some cool, blue jeans for the summer?',
-    llmResponseText:
-      "Of course! For summer, you'll want jeans made from a lighter denim or a cotton-linen blend to stay cool. Look for styles that are not too tight to allow for better air circulation. Here are a few options that fit your description.",
-    productSuggestions: [products[0], products[1]],
+    userComment: "Just got these jeans and they're amazing! Super comfortable and perfect for summer. AI helped me find the perfect fit.",
+    productSuggestions: [products[0]],
     likeCount: 15,
   },
   {
     id: 'chat2',
     user: users[1],
-    queryText: "What's a good outfit for a casual weekend brunch?",
-    llmResponseText:
-      "A great casual brunch outfit combines comfort and style. I'd recommend pairing some light-colored trousers, like our Summer Linen Trousers, with a simple t-shirt or a polo. You could top it off with the Urban Explorer Jacket if it's a bit chilly. This look is effortlessly chic!",
-    productSuggestions: [products[1], products[2]],
+    userComment: "Found this jacket through the AI search and it's exactly what I needed for my city trips. Stylish and practical!",
+    productSuggestions: [products[2]],
     likeCount: 22,
   },
 ];

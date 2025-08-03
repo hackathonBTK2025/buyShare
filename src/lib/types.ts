@@ -25,8 +25,7 @@ export interface User {
 export interface AiChat {
   id: string;
   user: User;
-  queryText: string;
-  llmResponseText: string;
+  userComment: string;
   productSuggestions: Product[];
   likeCount: number;
 }

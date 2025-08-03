@@ -4,12 +4,12 @@ import { aiChats, users } from '@/lib/data';
 
 export default function HomePage() {
   return (
-    <div className="container mx-auto">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold tracking-tight">
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-3xl font-bold tracking-tight mb-4">
           Sana Özel Akış
         </h1>
-        <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">
+        <p className="text-lg text-muted-foreground">
           Takip ettiğin kişilerin ve topluluğun ürün keşiflerini gör.
         </p>
       </div>
@@ -18,7 +18,7 @@ export default function HomePage() {
         <StoryReel users={users} />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {aiChats.map((chat) => (
           <AiChatCard key={chat.id} chat={chat} />
         ))}

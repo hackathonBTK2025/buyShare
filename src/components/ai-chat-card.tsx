@@ -1,19 +1,23 @@
 "use client";
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { Heart, MessageSquare } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import type { AiChat } from '@/lib/types';
+import { ProductCard } from './product-card';
 
 interface AiChatCardProps {
   chat: AiChat;
 }
 
 export function AiChatCard({ chat }: AiChatCardProps) {
+  const product = chat.productSuggestions[0]; // Assuming one product per post for now
+
   return (
-    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <Card className="shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
       <CardHeader className="flex flex-row items-center gap-3 p-4">
         <Avatar>
           <AvatarImage src={chat.user.profilePictureUrl} data-ai-hint="person face" />
@@ -21,21 +25,14 @@ export function AiChatCard({ chat }: AiChatCardProps) {
         </Avatar>
         <div>
           <p className="font-semibold">{chat.user.username}</p>
-          <p className="text-xs text-muted-foreground">asked ShopSocial AI</p>
+          <p className="text-xs text-muted-foreground">shared a product</p>
         </div>
       </CardHeader>
-      <CardContent className="p-4 pt-0">
-        <div className="space-y-4">
-          <div className="rounded-xl p-3 bg-muted">
-            <p className="font-medium">"{chat.queryText}"</p>
-          </div>
-          <div className="flex items-start gap-3">
-             <div className="rounded-full bg-primary p-2 text-primary-foreground mt-1">
-                <MessageSquare className="h-4 w-4" />
-             </div>
-            <p className="text-sm text-muted-foreground pt-1">{chat.llmResponseText}</p>
-          </div>
-        </div>
+      <CardContent className="p-4 pt-0 flex-grow">
+        <p className="italic mb-4">"{chat.userComment}"</p>
+        {product && (
+            <ProductCard product={product} />
+        )}
       </CardContent>
       <CardFooter className="flex justify-start gap-2 p-4 pt-0">
         <Button variant="ghost" size="sm">
