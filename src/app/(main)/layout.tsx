@@ -76,9 +76,9 @@ export default function MainLayout({
       "grid min-h-screen w-full transition-[grid-template-columns] duration-300",
        isSidebarExpanded ? "md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]" : "md:grid-cols-[68px_1fr]"
     )}>
-      <div className="hidden border-r bg-card md:block sticky top-0 h-screen">
+      <div className="hidden border-r bg-sidebar text-sidebar-foreground md:block sticky top-0 h-screen">
         <div className="flex h-full max-h-screen flex-col gap-2">
-          <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
+          <div className="flex h-14 items-center border-b border-sidebar-border px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Flame className="h-6 w-6 text-primary" />
               {isSidebarExpanded && <span className="">TrendAI</span>}
