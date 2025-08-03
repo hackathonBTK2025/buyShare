@@ -24,7 +24,7 @@ const StoryCircle = ({ user }: { user: User }) => (
 export function StoryReel({ users }: { users: User[] }) {
     return (
         <div className="p-4">
-            <div className="flex items-center justify-center space-x-4 overflow-x-auto pb-2 -mb-2">
+            <div className="flex items-center space-x-4 overflow-x-auto pb-2 -mb-2">
                 {users.map(user => (
                     <StoryCircle key={user.id} user={user} />
                 ))}
