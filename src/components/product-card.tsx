@@ -6,12 +6,20 @@ import { Heart } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Product } from '@/lib/types';
+import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 interface ProductCardProps {
   product: Product & { suitabilityExplanation?: string };
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const [isLiked, setIsLiked] = useState(false);
+
+  const toggleLike = () => {
+    setIsLiked(!isLiked);
+  }
+
   return (
     <Card className="group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
       <Link href={`/product/${product.id}`}>
@@ -37,8 +45,8 @@ export function ProductCard({ product }: ProductCardProps) {
             <h3 className="font-semibold text-sm truncate">{product.name}</h3>
             <div className="flex justify-between items-center mt-2">
                 <p className="text-lg font-bold text-primary">${product.price.toFixed(2)}</p>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <Heart className="h-4 w-4" />
+                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={toggleLike}>
+                    <Heart className={cn("h-4 w-4", isLiked && "text-red-500 fill-red-500")} />
                     <span className="sr-only">Beğen</span>
                 </Button>
             </div>
