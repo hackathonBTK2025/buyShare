@@ -1,13 +1,15 @@
 
+'use client';
 
 import Image from 'next/image';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { users } from '@/lib/data';
-import { UserPlus, Heart, MessageSquare } from 'lucide-react';
+import { UserPlus, Heart, MessageSquare, Camera } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
-const followRequests = [
+const allNotifications = [
     {
         id: 1,
         type: 'follow_request',
@@ -15,16 +17,6 @@ const followRequests = [
         text: 'sizi takip etmek istiyor.',
         time: '2s',
     },
-    {
-        id: 4,
-        type: 'follow_request',
-        user: { id: 'user4', username: 'zeynep', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0 },
-        text: 'sizi takip etmek istiyor.',
-        time: '3g',
-    },
-];
-
-const thisWeekNotifications = [
      {
         id: 2,
         type: 'like',
@@ -32,6 +24,21 @@ const thisWeekNotifications = [
         text: 'gönderini beğendi.',
         time: '5s',
         postPreview: 'https://placehold.co/600x800'
+    },
+    {
+        id: 3,
+        type: 'comment',
+        user: users[0], // perisu
+        text: 'gönderine yorum yaptı: "Harika görünüyor!"',
+        time: '1g',
+        postPreview: 'https://placehold.co/600x800'
+    },
+    {
+        id: 4,
+        type: 'follow_request',
+        user: { id: 'user4', username: 'zeynep', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0 },
+        text: 'sizi takip etmek istiyor.',
+        time: '3g',
     },
      {
         id: 5,
@@ -42,18 +49,6 @@ const thisWeekNotifications = [
         postPreview: 'https://placehold.co/600x800'
     },
 ];
-
-const thisMonthNotifications = [
-    {
-        id: 3,
-        type: 'comment',
-        user: users[0], // perisu
-        text: 'gönderine yorum yaptı: "Harika görünüyor!"',
-        time: '1g',
-        postPreview: 'https://placehold.co/600x800'
-    },
-]
-
 
 const NotificationIcon = ({ type }: { type: string }) => {
     const iconStyle = "h-6 w-6";
@@ -104,56 +99,96 @@ const NotificationItem = ({ notification }: { notification: any }) => (
 );
 
 
+const EmptyState = ({ title, description, icon: Icon }: { title: string, description: string, icon: React.ElementType }) => (
+    <div className="text-center py-16">
+        <div className="mx-auto h-20 w-20 rounded-full border-2 border-foreground flex items-center justify-center mb-4">
+            <Icon className="h-10 w-10 text-foreground" />
+        </div>
+        <h2 className="text-2xl font-bold">{title}</h2>
+        <p className="text-muted-foreground mt-2">{description}</p>
+    </div>
+);
+
+
 export default function ActivityPage() {
+    const likes = allNotifications.filter(n => n.type === 'like');
+    const comments = allNotifications.filter(n => n.type === 'comment');
+    const followRequests = allNotifications.filter(n => n.type === 'follow_request');
+
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold tracking-tight mb-8">Hareketlerin</h1>
-      <div className="space-y-8">
-        {followRequests.length > 0 && (
-            <div>
-                <h2 className="text-lg font-semibold px-4 mb-2">Takip İstekleri</h2>
-                <Card>
-                    <CardContent className="p-0">
+      
+      <Tabs defaultValue="likes" className="w-full">
+        <TabsList className="grid w-full grid-cols-3">
+          <TabsTrigger value="likes">
+            <Heart className="mr-2 h-4 w-4"/> Beğenmeler
+          </TabsTrigger>
+          <TabsTrigger value="comments">
+            <MessageSquare className="mr-2 h-4 w-4"/> Yorumlar
+          </TabsTrigger>
+           <TabsTrigger value="follows">
+            <UserPlus className="mr-2 h-4 w-4"/> Takipler
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="likes">
+            <Card>
+                <CardContent className="p-0">
+                    {likes.length > 0 ? (
                         <div className="divide-y">
-                           {followRequests.map((notification) => (
+                            {likes.map((notification) => (
                                 <NotificationItem key={notification.id} notification={notification} />
                             ))}
                         </div>
-                    </CardContent>
-                </Card>
-            </div>
-        )}
-
-        {thisWeekNotifications.length > 0 && (
-            <div>
-                <h2 className="text-lg font-semibold px-4 mb-2">Bu Hafta</h2>
-                <Card>
-                    <CardContent className="p-0">
+                    ) : (
+                        <EmptyState 
+                            title="Henüz beğeni yok"
+                            description="Gönderileri beğendiğinde, burada görünürler."
+                            icon={Heart}
+                        />
+                    )}
+                </CardContent>
+            </Card>
+        </TabsContent>
+        <TabsContent value="comments">
+           <Card>
+                <CardContent className="p-0">
+                    {comments.length > 0 ? (
                         <div className="divide-y">
-                           {thisWeekNotifications.map((notification) => (
+                            {comments.map((notification) => (
                                 <NotificationItem key={notification.id} notification={notification} />
                             ))}
                         </div>
-                    </CardContent>
-                </Card>
-            </div>
-        )}
-
-        {thisMonthNotifications.length > 0 && (
-            <div>
-                <h2 className="text-lg font-semibold px-4 mb-2">Bu Ay</h2>
-                <Card>
-                    <CardContent className="p-0">
+                    ) : (
+                         <EmptyState 
+                            title="Henüz yorum yok"
+                            description="Yorum yaptığın gönderiler burada görünür."
+                            icon={MessageSquare}
+                        />
+                    )}
+                </CardContent>
+            </Card>
+        </TabsContent>
+         <TabsContent value="follows">
+           <Card>
+                <CardContent className="p-0">
+                    {followRequests.length > 0 ? (
                         <div className="divide-y">
-                           {thisMonthNotifications.map((notification) => (
+                            {followRequests.map((notification) => (
                                 <NotificationItem key={notification.id} notification={notification} />
                             ))}
                         </div>
-                    </CardContent>
-                </Card>
-            </div>
-        )}
-      </div>
+                    ) : (
+                         <EmptyState 
+                            title="Henüz takip isteği yok"
+                            description="Yeni takip isteklerin burada görünür."
+                            icon={UserPlus}
+                        />
+                    )}
+                </CardContent>
+            </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
