@@ -3,14 +3,14 @@ import type { Product, User, AiChat } from './types';
 export const users: User[] = [
   {
     id: 'user1',
-    username: 'alex',
+    username: 'perisu',
     profilePictureUrl: 'https://placehold.co/100x100',
     followerCount: 120,
     followingCount: 75,
   },
   {
     id: 'user2',
-    username: 'casey',
+    username: 'henife',
     profilePictureUrl: 'https://placehold.co/100x100',
     followerCount: 250,
     followingCount: 150,
