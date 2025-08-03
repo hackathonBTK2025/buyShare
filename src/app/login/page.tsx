@@ -1,5 +1,9 @@
 
+"use client";
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState, FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,8 +15,41 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Flame } from 'lucide-react';
+import { users } from '@/lib/data';
+import { toast } from '@/hooks/use-toast';
+
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [loginIdentifier, setLoginIdentifier] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const handleLogin = (event: FormEvent) => {
+    event.preventDefault();
+    setError(null);
+
+    const user = users.find(
+      (u) =>
+        u.username.toLowerCase() === loginIdentifier.toLowerCase() ||
+        (u as any).email?.toLowerCase() === loginIdentifier.toLowerCase()
+        // In a real app, you'd also check for phone number
+    );
+
+    // Mock password check for demo purposes.
+    // Let's assume user 'maybeno' has the password 'password123!'
+    if (user && user.username === 'maybeno' && password === 'password123!') {
+        toast({
+            title: 'Giriş Başarılı!',
+            description: 'Ana sayfaya yönlendiriliyorsunuz.',
+        });
+      router.push('/');
+    } else {
+      setError('Kullanıcı adı veya şifre hatalı.');
+    }
+  };
+
+
   const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       role="img"
@@ -39,7 +76,7 @@ export default function LoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4">
+          <form onSubmit={handleLogin} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="login">Telefon Numarası, Kullanıcı Adı veya E-posta</Label>
               <Input
@@ -47,6 +84,8 @@ export default function LoginPage() {
                 type="text"
                 placeholder="Telefon Numarası, Kullanıcı Adı veya E-posta"
                 required
+                value={loginIdentifier}
+                onChange={(e) => setLoginIdentifier(e.target.value)}
               />
             </div>
             <div className="grid gap-2">
@@ -59,16 +98,25 @@ export default function LoginPage() {
                   Şifrenizi mi unuttunuz?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input 
+                id="password" 
+                type="password" 
+                required 
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
+
+            {error && <p className="text-destructive text-sm text-center">{error}</p>}
+
             <Button type="submit" className="w-full">
               Giriş Yap
             </Button>
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full" type="button">
               <GoogleIcon className="mr-2 h-4 w-4" />
               Google ile Giriş Yap
             </Button>
-          </div>
+          </form>
           <div className="mt-4 text-center text-sm">
             Hesabınız yok mu?{' '}
             <Link href="/signup" className="underline">
