@@ -3,7 +3,7 @@ import type { Product, User, AiChat } from './types';
 export const users: User[] = [
   {
     id: 'user1',
-    username: 'diğerHesap',
+    username: 'maybeno',
     profilePictureUrl: 'https://firebasestorage.googleapis.com/v0/b/firebase-studio-demos.appspot.com/o/user-dalle.png?alt=media&token=ca334559-9ae6-4ca9-abb3-d3455a29b9b5',
     followerCount: 120,
     followingCount: 75,
