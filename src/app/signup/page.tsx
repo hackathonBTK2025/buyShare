@@ -27,12 +27,34 @@ export default function SignupPage() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
 
+    const validatePassword = (password: string): string | null => {
+        if (password.length < 4) {
+            return "Şifre en az 4 karakter uzunluğunda olmalıdır.";
+        }
+        if (!/\d/.test(password)) {
+            return "Şifre en az bir sayı içermelidir.";
+        }
+        if (!/[a-zA-Z]/.test(password)) {
+            return "Şifre en az bir harf içermelidir.";
+        }
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+            return "Şifre en az bir özel karakter içermelidir.";
+        }
+        return null;
+    }
+
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
         setError(null);
 
         if (password !== confirmPassword) {
             setError('Şifreler eşleşmiyor.');
+            return;
+        }
+
+        const passwordError = validatePassword(password);
+        if (passwordError) {
+            setError(passwordError);
             return;
         }
 
