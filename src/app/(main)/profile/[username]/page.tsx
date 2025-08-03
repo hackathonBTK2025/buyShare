@@ -22,14 +22,16 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { FollowButton } from '@/components/follow-button';
 
 export default function ProfilePage({ params }: { params: { username: string } }) {
   const isOwnProfile = params.username === 'me' || params.username === 'maybeno';
+  const currentUser = users.find(u => u.id === 'user1');
   const user = isOwnProfile
-    ? users.find(u => u.id === 'user1')
+    ? currentUser
     : users.find((u) => u.username === params.username);
 
-  if (!user) {
+  if (!user || !currentUser) {
     notFound();
   }
 
@@ -55,7 +57,7 @@ export default function ProfilePage({ params }: { params: { username: string } }
         <div className="flex-grow text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-4">
             <h1 className="text-4xl font-bold">{user.username}</h1>
-            {!isOwnProfile && <Button>Takip Et</Button>}
+            {!isOwnProfile && <FollowButton user={user} currentUser={currentUser} />}
              {isOwnProfile && (
                 <Dialog>
                     <DialogTrigger asChild>
