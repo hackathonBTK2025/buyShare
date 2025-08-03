@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Bell,
   Home,
@@ -31,12 +34,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
+  const navLinks = [
+    { href: "/", label: "Ana sayfa", icon: Home },
+    { href: "/chat", label: "Yeni sohbet", icon: PlusSquare },
+    { href: "/explore", label: "Keşfet", icon: Compass },
+    { href: "/messages", label: "Mesajlar", icon: MessageSquare },
+    { href: "/notifications", label: "Bildirimler", icon: Bell },
+    { href: "/history", label: "Geçmiş aramalar", icon: History },
+    { href: "/cart", label: "Sepetim", icon: ShoppingCart },
+  ];
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-card md:block">
@@ -49,67 +65,34 @@ export default function MainLayout({
           </div>
           <div className="flex-1 overflow-auto py-2">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-              <Link
-                href="/"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <Home className="h-4 w-4" />
-                Ana sayfa
-              </Link>
-              <Link
-                href="/chat"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <PlusSquare className="h-4 w-4" />
-                Yeni sohbet
-              </Link>
-              <Link
-                href="/explore"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <Compass className="h-4 w-4" />
-                Keşfet
-              </Link>
-              <Link
-                href="/messages"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <MessageSquare className="h-4 w-4" />
-                Mesajlar
-              </Link>
+              {navLinks.map((link) => (
                 <Link
-                href="/notifications"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <Bell className="h-4 w-4" />
-                Bildirimler
-              </Link>
-              <Link
-                href="/history"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <History className="h-4 w-4" />
-                Geçmiş aramalar
-              </Link>
-              <Link
-                href="/cart"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <ShoppingCart className="h-4 w-4" />
-                Sepetim
-              </Link>
+                  key={link.href}
+                  href={link.href}
+                  className={cn(
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                    pathname === link.href && "bg-muted text-primary"
+                  )}
+                >
+                  <link.icon className="h-4 w-4" />
+                  {link.label}
+                </Link>
+              ))}
             </nav>
           </div>
           <div className="mt-auto p-4">
-             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                 <Link
-                    href="/profile/me"
-                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                  >
-                    <Users className="h-4 w-4" />
-                    Profil
-                  </Link>
-             </nav>
+            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+              <Link
+                href="/profile/me"
+                className={cn(
+                  "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                  pathname === "/profile/me" && "bg-muted text-primary"
+                )}
+              >
+                <Users className="h-4 w-4" />
+                Profil
+              </Link>
+            </nav>
           </div>
         </div>
       </div>
@@ -117,11 +100,7 @@ export default function MainLayout({
         <header className="flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6 md:hidden">
           <Sheet>
             <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="shrink-0"
-              >
+              <Button variant="outline" size="icon" className="shrink-0">
                 <Home className="h-5 w-5" />
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
@@ -130,63 +109,29 @@ export default function MainLayout({
               <nav className="grid gap-2 text-lg font-medium">
                 <Link
                   href="/"
-                  className="flex items-center gap-2 text-lg font-semibold"
+                  className="flex items-center gap-2 text-lg font-semibold mb-4"
                 >
                   <Flame className="h-6 w-6 text-primary" />
-                  <span className="sr-only">TrendAI</span>
+                  <span className="">TrendAI</span>
                 </Link>
-                <Link
-                  href="/"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Home className="h-5 w-5" />
-                  Ana sayfa
-                </Link>
-                 <Link
-                  href="/chat"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <PlusSquare className="h-5 w-5" />
-                  Yeni sohbet
-                </Link>
-                <Link
-                  href="/explore"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Compass className="h-5 w-5" />
-                  Keşfet
-                </Link>
-                <Link
-                  href="/messages"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <MessageSquare className="h-5 w-5" />
-                  Mesajlar
-                </Link>
-                 <Link
-                  href="/notifications"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Bell className="h-5 w-5" />
-                  Bildirimler
-                </Link>
-                <Link
-                  href="/history"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <History className="h-5 w-5" />
-                  Geçmiş aramalar
-                </Link>
-                <Link
-                  href="/cart"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                  Sepetim
-                </Link>
+                {navLinks.map((link) => (
+                   <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
+                       pathname === link.href && "bg-muted text-foreground"
+                    )}
+                  >
+                    <link.icon className="h-5 w-5" />
+                    {link.label}
+                  </Link>
+                ))}
                 <Link
                   href="/profile/me"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                  className={cn("mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
+                    pathname === "/profile/me" && "bg-muted text-foreground"
+                  )}
                 >
                   <Users className="h-5 w-5" />
                   Profil
@@ -199,7 +144,10 @@ export default function MainLayout({
             <DropdownMenuTrigger asChild>
               <Button variant="secondary" size="icon" className="rounded-full">
                 <Avatar>
-                  <AvatarImage src="https://placehold.co/100x100" alt="@shadcn" />
+                  <AvatarImage
+                    src="https://placehold.co/100x100"
+                    alt="@shadcn"
+                  />
                   <AvatarFallback>U</AvatarFallback>
                 </Avatar>
                 <span className="sr-only">Toggle user menu</span>
@@ -222,15 +170,15 @@ export default function MainLayout({
 
         <footer className="fixed bottom-0 left-0 right-0 z-10 border-t bg-card/80 backdrop-blur-sm md:left-[220px] lg:left-[280px]">
           <div className="p-4">
-              <div className="relative max-w-2xl mx-auto">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search products with AI..."
-                  className="w-full appearance-none bg-background pl-8 shadow-none"
-                />
-              </div>
-           </div>
+            <div className="relative max-w-2xl mx-auto">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input
+                type="search"
+                placeholder="Search products with AI..."
+                className="w-full appearance-none bg-background pl-8 shadow-none"
+              />
+            </div>
+          </div>
         </footer>
       </div>
     </div>
