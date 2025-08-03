@@ -44,12 +44,18 @@ const prompt = ai.definePrompt({
   input: {schema: AiPoweredProductSearchInputSchema},
   output: {schema: AiPoweredProductSearchOutputSchema},
   tools: [fetchProductsFromEcommerce],
-  prompt: `You are an e-commerce product search assistant. A user will provide a
-natural language query for products. First, use the available tools to search for products
-on e-commerce websites like Trendyol, Amazon, or Hepsiburada. Then, use the results from the tool
-to return a list of relevant products with a short description and an explanation of why they are suitable.
+  prompt: `You are an expert e-commerce product search assistant.
+A user will provide a natural language query for products. Your task is to:
+1.  Analyze the user's query to extract key product attributes like item type, color, material, and other features (e.g., "for summer", "warm").
+2.  Use the 'fetchProductsFromEcommerce' tool with these extracted attributes to search for products on e-commerce websites like Trendyol, Amazon, or Hepsiburada.
+3.  Based on the tool's results, return a list of the most relevant products.
+4.  For each product, provide a 'suitabilityExplanation' detailing why it's a good match for the user's specific query.
+5.  Provide a general 'explanation' summarizing the search results.
 
-Query: {{{query}}}
+Example Query: "mavi, yazın sıcak tutmayan bir gömlek arıyorum"
+- Extracted attributes for the tool: itemType: "gömlek", color: "mavi", attributes: ["yazlık", "sıcak tutmayan"]
+
+User Query: {{{query}}}
 `,
 });
 
