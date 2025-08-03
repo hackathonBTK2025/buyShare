@@ -6,6 +6,10 @@ import {
   Search,
   ShoppingCart,
   Users,
+  MessageSquare,
+  Compass,
+  History,
+  PlusSquare,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -47,37 +51,69 @@ export default function MainLayout({
               <span className="sr-only">Toggle notifications</span>
             </Button>
           </div>
-          <div className="flex-1">
+          <div className="flex-1 overflow-auto py-2">
             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
               <Link
                 href="/"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <Home className="h-4 w-4" />
-                Home
+                Ana sayfa
               </Link>
               <Link
-                href="/search"
+                href="/chat"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
-                <Search className="h-4 w-4" />
-                Search
+                <PlusSquare className="h-4 w-4" />
+                Yeni sohbet
+              </Link>
+              <Link
+                href="/explore"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <Compass className="h-4 w-4" />
+                Keşfet
+              </Link>
+              <Link
+                href="/messages"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <MessageSquare className="h-4 w-4" />
+                Mesajlar
+              </Link>
+                <Link
+                href="/notifications"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <Bell className="h-4 w-4" />
+                Bildirimler
+              </Link>
+              <Link
+                href="/history"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <History className="h-4 w-4" />
+                Geçmiş aramalar
               </Link>
               <Link
                 href="/cart"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <ShoppingCart className="h-4 w-4" />
-                Cart
-              </Link>
-              <Link
-                href="/profile/me"
-                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-              >
-                <Users className="h-4 w-4" />
-                Profile
+                Sepetim
               </Link>
             </nav>
+          </div>
+          <div className="mt-auto p-4">
+             <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+                 <Link
+                    href="/profile/me"
+                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                  >
+                    <Users className="h-4 w-4" />
+                    Profil
+                  </Link>
+             </nav>
           </div>
         </div>
       </div>
@@ -108,28 +144,56 @@ export default function MainLayout({
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                 >
                   <Home className="h-5 w-5" />
-                  Home
+                  Ana sayfa
                 </Link>
-                <Link
-                  href="/search"
+                 <Link
+                  href="/chat"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                 >
-                  <Search className="h-5 w-5" />
-                  Search
+                  <PlusSquare className="h-5 w-5" />
+                  Yeni sohbet
+                </Link>
+                <Link
+                  href="/explore"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                >
+                  <Compass className="h-5 w-5" />
+                  Keşfet
+                </Link>
+                <Link
+                  href="/messages"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                >
+                  <MessageSquare className="h-5 w-5" />
+                  Mesajlar
+                </Link>
+                 <Link
+                  href="/notifications"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                >
+                  <Bell className="h-5 w-5" />
+                  Bildirimler
+                </Link>
+                <Link
+                  href="/history"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                >
+                  <History className="h-5 w-5" />
+                  Geçmiş aramalar
                 </Link>
                 <Link
                   href="/cart"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                 >
                   <ShoppingCart className="h-5 w-5" />
-                  Cart
+                  Sepetim
                 </Link>
                 <Link
                   href="/profile/me"
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
                 >
                   <Users className="h-5 w-5" />
-                  Profile
+                  Profil
                 </Link>
               </nav>
             </SheetContent>
