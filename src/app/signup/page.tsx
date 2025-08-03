@@ -1,5 +1,9 @@
 
+"use client";
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState, FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,8 +15,43 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Flame } from 'lucide-react';
+import { users } from '@/lib/data';
+import { toast } from '@/hooks/use-toast';
 
 export default function SignupPage() {
+    const router = useRouter();
+    const [email, setEmail] = useState('');
+    const [fullname, setFullname] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState<string | null>(null);
+
+    const handleSubmit = (event: FormEvent) => {
+        event.preventDefault();
+        setError(null);
+
+        if (password !== confirmPassword) {
+            setError('Şifreler eşleşmiyor.');
+            return;
+        }
+
+        if (users.some(user => user.username.toLowerCase() === username.toLowerCase())) {
+            setError('Bu kullanıcı adı zaten alınmış.');
+            return;
+        }
+
+        // In a real app, you would handle the user creation here.
+        console.log('User created:', { email, fullname, username });
+
+        toast({
+            title: 'Hesap Oluşturuldu!',
+            description: 'Giriş sayfasına yönlendiriliyorsunuz.',
+        });
+
+        router.push('/login');
+    };
+
     const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       role="img"
@@ -39,7 +78,7 @@ export default function SignupPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-            <div className="grid gap-4">
+            <form onSubmit={handleSubmit} className="grid gap-4">
                 <Button variant="outline" className="w-full">
                 <GoogleIcon className="mr-2 h-4 w-4" />
                 Google ile Giriş Yap
@@ -58,20 +97,27 @@ export default function SignupPage() {
 
                 <div className="grid gap-2">
                     <Label htmlFor="email">E-posta</Label>
-                    <Input id="email" type="email" placeholder="E-posta" required />
+                    <Input id="email" type="email" placeholder="E-posta" required value={email} onChange={(e) => setEmail(e.target.value)} />
                 </div>
                  <div className="grid gap-2">
                     <Label htmlFor="fullname">Ad Soyad</Label>
-                    <Input id="fullname" type="text" placeholder="Ad Soyad" required />
+                    <Input id="fullname" type="text" placeholder="Ad Soyad" required value={fullname} onChange={(e) => setFullname(e.target.value)} />
                 </div>
                  <div className="grid gap-2">
                     <Label htmlFor="username">Kullanıcı Adı</Label>
-                    <Input id="username" type="text" placeholder="Kullanıcı Adı" required />
+                    <Input id="username" type="text" placeholder="Kullanıcı Adı" required value={username} onChange={(e) => setUsername(e.target.value)} />
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="password">Şifre</Label>
-                    <Input id="password" type="password" required />
+                    <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
+                 <div className="grid gap-2">
+                    <Label htmlFor="confirm-password">Şifreyi Onayla</Label>
+                    <Input id="confirm-password" type="password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                </div>
+                
+                {error && <p className="text-destructive text-sm text-center">{error}</p>}
+
                 <p className="px-2 text-center text-xs text-muted-foreground">
                     Hizmetimizi kullanan kişiler bilgilerini Instagram'a yüklemiş olabilir.
                     <Link href="#" className="underline underline-offset-2">Daha Fazla Bilgi Al</Link>
@@ -82,7 +128,7 @@ export default function SignupPage() {
                 <Button type="submit" className="w-full">
                 Kaydol
                 </Button>
-            </div>
+            </form>
             <div className="mt-4 text-center text-sm">
                 Hesabın var mı?{' '}
                 <Link href="/login" className="underline">
