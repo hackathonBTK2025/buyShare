@@ -33,7 +33,7 @@ export default function ProfilePage({ params }: { params: { username: string } }
   return (
     <div className="container mx-auto py-8">
       <div className="flex flex-col md:flex-row md:items-start gap-8 mb-8 relative">
-        <Avatar className="h-32 w-32 border-4 border-card">
+        <Avatar className="h-40 w-40 border-4 border-card">
           <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
           <AvatarFallback className="text-4xl">
             {user.username.charAt(0).toUpperCase()}
