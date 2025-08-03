@@ -4,7 +4,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Bell,
   Home,
@@ -22,6 +22,8 @@ import {
   Menu,
   Activity,
   Bookmark,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -55,6 +57,10 @@ export default function MainLayout({
   const pathname = usePathname();
   const router = useRouter();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+
+  const toggleTheme = () => {
+    document.documentElement.classList.toggle('dark');
+  };
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -150,7 +156,9 @@ export default function MainLayout({
                         <Bookmark className="mr-2 h-4 w-4" />
                         <span>Kaydedilenler</span>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={toggleTheme}>
+                        <Sun className="mr-2 h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                        <Moon className="absolute mr-2 h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                         <span>Görünümü değiştir</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
