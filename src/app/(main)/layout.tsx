@@ -175,23 +175,9 @@ export default function MainLayout({
           </DropdownMenu>
         </header>
 
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-background pb-24">
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-background">
           {children}
         </main>
-
-        <footer className="fixed bottom-0 left-0 right-0 z-10 border-t bg-card/80 backdrop-blur-sm md:left-[220px] lg:left-[280px]">
-          <div className="p-4">
-            <form onSubmit={handleSearch} className="relative max-w-2xl mx-auto">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                name="query"
-                type="search"
-                placeholder="Yapay zeka ile ürün ara..."
-                className="w-full appearance-none bg-background pl-8 shadow-none"
-              />
-            </form>
-          </div>
-        </footer>
       </div>
     </div>
   );

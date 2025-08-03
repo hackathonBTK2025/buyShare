@@ -2,12 +2,13 @@
 
 import { useActionState, useState, useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from 'next/navigation';
-import { Loader2, User, Sparkles } from "lucide-react";
+import { Loader2, User, Sparkles, Send } from "lucide-react";
 import {
   aiPoweredProductSearch,
   AiPoweredProductSearchInput,
 } from "@/ai/flows/ai-powered-product-search";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ProductCard } from "@/components/product-card";
 import { products as allProducts } from "@/lib/data";
 import { Product } from "@/lib/types";
@@ -63,11 +64,16 @@ function ChatPageContent() {
   
   const { addChatToHistory } = useChatHistory();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [state, formAction, isPending] = useActionState<ChatState, FormData>(
     async (prevState, formData) => {
       const currentQuery = formData.get("query") as string;
       if (!currentQuery) return { ...prevState, error: "Lütfen bir mesaj girin." };
+
+      if(inputRef.current) {
+        inputRef.current.value = "";
+      }
 
       const userMessage: Message = { role: 'user', content: currentQuery };
       const newMessages: Message[] = [...prevState.messages, userMessage];
@@ -116,9 +122,12 @@ function ChatPageContent() {
   
   // Effect to run initial search if query param exists
   useEffect(() => {
-    if (initialQuery) {
+    const query = initialQuery;
+    if (query) {
       const formData = new FormData();
-      formData.append('query', initialQuery);
+      formData.append('query', query);
+      // Clear the query param from URL after using it
+      window.history.replaceState({}, '', '/chat'); 
       formAction(formData);
     }
   }, [initialQuery]);
@@ -135,7 +144,7 @@ function ChatPageContent() {
 
 
   return (
-    <div className="flex flex-col h-full max-h-[calc(100vh-12rem)]">
+    <div className="flex flex-col h-full max-h-[calc(100vh-8rem)]">
        <div className="flex-grow overflow-hidden">
         <ScrollArea className="h-full" ref={scrollAreaRef}>
             <div className="container mx-auto py-4 space-y-6">
@@ -188,7 +197,19 @@ function ChatPageContent() {
             </div>
         </ScrollArea>
        </div>
-      <div className="mt-auto pt-4">
+      <div className="mt-auto pt-4 bg-background">
+        <form action={formAction} className="relative max-w-2xl mx-auto">
+            <Input
+                ref={inputRef}
+                name="query"
+                placeholder="Mesajınızı yazın..."
+                className="pr-12 h-12"
+                disabled={isPending}
+            />
+            <Button type="submit" size="icon" className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9" disabled={isPending}>
+                <Send className="h-5 w-5"/>
+            </Button>
+        </form>
          {state.error && <p className="text-destructive text-center text-sm mt-2">{state.error}</p>}
       </div>
     </div>
