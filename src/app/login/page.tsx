@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Package2 } from 'lucide-react';
+import { TrendingUp } from 'lucide-react';
 
 export default function LoginPage() {
   const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -29,7 +29,7 @@ export default function LoginPage() {
       <Card className="mx-auto max-w-sm w-full">
         <CardHeader className="text-center">
             <Link href="/" className="flex items-center gap-2 font-semibold justify-center mb-4">
-                <Package2 className="h-8 w-8 text-primary" />
+                <TrendingUp className="h-8 w-8 text-primary" />
                 <span className="text-2xl">TrendAI</span>
             </Link>
           <CardTitle className="text-2xl">Login</CardTitle>

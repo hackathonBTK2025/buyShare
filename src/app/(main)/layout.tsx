@@ -2,7 +2,7 @@ import Link from "next/link";
 import {
   Bell,
   Home,
-  Package2,
+  TrendingUp,
   Search,
   ShoppingCart,
   Users,
@@ -39,7 +39,7 @@ export default function MainLayout({
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
-              <Package2 className="h-6 w-6 text-primary" />
+              <TrendingUp className="h-6 w-6 text-primary" />
               <span className="">TrendAI</span>
             </Link>
             <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
@@ -100,7 +100,7 @@ export default function MainLayout({
                   href="/"
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
-                  <Package2 className="h-6 w-6 text-primary" />
+                  <TrendingUp className="h-6 w-6 text-primary" />
                   <span className="sr-only">TrendAI</span>
                 </Link>
                 <Link
