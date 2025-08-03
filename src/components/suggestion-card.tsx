@@ -27,9 +27,6 @@ export function SuggestionCard() {
                 </Link>
                 <p className="text-sm text-muted-foreground">My Account</p>
             </div>
-            <Button variant="link" size="sm" className="text-blue-500">
-                Geçiş yap
-            </Button>
         </div>
       )}
 
