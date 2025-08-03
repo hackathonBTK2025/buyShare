@@ -163,10 +163,6 @@ export default function SignupPage() {
                 
                 {error && <p className="text-destructive text-sm text-center">{error}</p>}
 
-                <p className="px-2 text-center text-xs text-muted-foreground">
-                    Hizmetimizi kullanan kişiler bilgilerini Instagram'a yüklemiş olabilir.
-                    <Link href="#" className="underline underline-offset-2">Daha Fazla Bilgi Al</Link>
-                </p>
                  <p className="px-2 text-center text-xs text-muted-foreground">
                     Kaydolarak, <Link href="#" className="underline underline-offset-2">Koşullarımızı</Link>, <Link href="#" className="underline underline-offset-2">Gizlilik İlkemizi</Link> ve <Link href="#" className="underline underline-offset-2">Çerezler İlkemizi</Link> kabul etmiş olursun.
                 </p>
