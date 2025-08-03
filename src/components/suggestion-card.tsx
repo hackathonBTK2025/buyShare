@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 
 export function SuggestionCard() {
-    // Exclude the main user (maybeno1729) and take some others
+    // Exclude the main user (diğerHesap) and take some others
     const suggestions = users.filter(u => u.id !== 'user1').slice(0, 5);
     const currentUser = users.find(u => u.id === 'user1');
 
