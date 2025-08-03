@@ -44,18 +44,18 @@ const prompt = ai.definePrompt({
   input: {schema: AiPoweredProductSearchInputSchema},
   output: {schema: AiPoweredProductSearchOutputSchema},
   tools: [fetchProductsFromEcommerce],
-  prompt: `You are an expert e-commerce product search assistant.
-A user will provide a natural language query for products. Your task is to:
-1.  Analyze the user's query to extract key product attributes like item type, color, material, and other features (e.g., "for summer", "warm").
-2.  Use the 'fetchProductsFromEcommerce' tool with these extracted attributes to search for products on e-commerce websites like Trendyol, Amazon, or Hepsiburada.
-3.  Based on the tool's results, return a list of the most relevant products.
-4.  For each product, provide a 'suitabilityExplanation' detailing why it's a good match for the user's specific query.
-5.  Provide a general 'explanation' summarizing the search results.
+  prompt: `Sen uzman bir e-ticaret ürün arama asistanısın.
+Bir kullanıcı ürünler için doğal dilde bir sorgu sağlayacaktır. Görevin:
+1.  Kullanıcının sorgusunu analiz ederek ürün tipi, renk, malzeme ve diğer özellikler ("yazlık", "sıcak tutmayan" gibi) gibi temel ürün niteliklerini çıkar.
+2.  Bu çıkarılan niteliklerle 'fetchProductsFromEcommerce' aracını kullanarak Trendyol, Amazon veya Hepsiburada gibi e-ticaret sitelerinden ürünleri ara.
+3.  Aracın sonuçlarına dayanarak, en alakalı ürünlerin bir listesini döndür.
+4.  Her ürün için, kullanıcının özel sorgusuna neden iyi bir eşleşme olduğuna dair bir 'uygunlukAçıklaması' sağla.
+5.  Arama sonuçlarını özetleyen genel bir 'açıklama' sağla.
 
-Example Query: "mavi, yazın sıcak tutmayan bir gömlek arıyorum"
-- Extracted attributes for the tool: itemType: "gömlek", color: "mavi", attributes: ["yazlık", "sıcak tutmayan"]
+Örnek Sorgu: "mavi, yazın sıcak tutmayan bir gömlek arıyorum"
+- Araç için çıkarılan nitelikler: itemType: "gömlek", color: "mavi", attributes: ["yazlık", "sıcak tutmayan"]
 
-User Query: {{{query}}}
+Kullanıcı Sorgusu: {{{query}}}
 `,
 });
 

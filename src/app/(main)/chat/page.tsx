@@ -109,7 +109,6 @@ function ChatPageContent() {
                 role: 'assistant',
                 content: "Üzgünüm, aramanızla eşleşen bir ürün bulamadım. Lütfen farklı anahtar kelimelerle tekrar deneyin.",
                 products: [],
-                explanation: "Aradığınız kriterlere uygun ürün bulunamadı."
             };
         }
         
@@ -235,5 +234,3 @@ export default function ChatPage() {
         </Suspense>
     )
 }
-
-    
