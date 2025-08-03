@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Grid3x3, Heart, Save, Settings, UserPlus, Bell, Lock, Star } from 'lucide-react';
@@ -60,82 +61,84 @@ export default function ProfilePage({ params }: { params: { username: string } }
                     <DialogTrigger asChild>
                         <Button variant="outline">Profili Düzenle</Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-3xl">
+                    <DialogContent className="sm:max-w-3xl h-[90vh]">
                         <DialogHeader>
                             <DialogTitle className="text-center text-xl">Profili Düzenle</DialogTitle>
                         </DialogHeader>
-                        <Card>
-                          <CardContent className="p-8">
-                              <div className="flex items-center gap-6 mb-8">
-                                  <Avatar className="h-16 w-16">
-                                      <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
-                                      <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
-                                  </Avatar>
-                                  <div>
-                                      <h2 className="text-xl font-semibold">{user.username}</h2>
-                                      <p className="text-sm text-muted-foreground">{user.bio}</p>
-                                  </div>
-                                  <Button variant="outline" className="ml-auto">Fotoğrafı Değiştir</Button>
-                              </div>
-
-                              <form className="space-y-8">
-                                  <div className="space-y-2">
-                                      <Label htmlFor="website">İnternet sitesi</Label>
-                                      <Input id="website" placeholder="İnternet sitesi" />
-                                      <p className="text-xs text-muted-foreground">
-                                          Bağlantılarını sadece mobil cihazlarda düzenleyebilirsin. Biyografindeki internet sitelerini değiştirmek için Instagram uygulamasını ziyaret et ve profilini düzenle.
-                                      </p>
-                                  </div>
-
-                                  <div className="space-y-2">
-                                      <Label htmlFor="bio">Biyografi</Label>
-                                      <Textarea id="bio" defaultValue={user.bio} maxLength={150} />
-                                      <p className="text-xs text-muted-foreground text-right">
-                                        {user.bio?.length || 0} / 150
-                                      </p>
-                                  </div>
-
-                                  <div className="space-y-2">
-                                      <Label htmlFor="gender">Cinsiyet</Label>
-                                      <Select>
-                                          <SelectTrigger>
-                                              <SelectValue placeholder="Söylememeyi tercih ederim" />
-                                          </SelectTrigger>
-                                          <SelectContent>
-                                              <SelectItem value="male">Erkek</SelectItem>
-                                              <SelectItem value="female">Kadın</SelectItem>
-                                              <SelectItem value="prefer-not-to-say">Söylememeyi tercih ederim</SelectItem>
-                                              <SelectItem value="custom">Özel</SelectItem>
-                                          </SelectContent>
-                                      </Select>
-                                      <p className="text-xs text-muted-foreground">
-                                        Bu, herkese açık profilinin parçası olmayacak.
-                                      </p>
-                                  </div>
-
-                                  <Separator />
-                                  
-                                  <div className="flex items-center justify-between p-4 rounded-lg border">
+                        <ScrollArea className="h-full w-full">
+                          <Card className="border-0 shadow-none">
+                            <CardContent className="p-8">
+                                <div className="flex items-center gap-6 mb-8">
+                                    <Avatar className="h-16 w-16">
+                                        <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
+                                        <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
+                                    </Avatar>
                                     <div>
-                                          <Label htmlFor="show-suggestions" className="font-semibold">Profillerde hesap önerilerini göster</Label>
-                                          <p className="text-xs text-muted-foreground mt-1">
-                                              İnsanların senin profilinde benzer hesap önerileri görüp göremeyeceğini seç.
-                                          </p>
+                                        <h2 className="text-xl font-semibold">{user.username}</h2>
+                                        <p className="text-sm text-muted-foreground">{user.bio}</p>
                                     </div>
-                                    <Switch id="show-suggestions" />
-                                  </div>
+                                    <Button variant="outline" className="ml-auto">Fotoğrafı Değiştir</Button>
+                                </div>
 
-                                  <DialogFooter>
-                                      <DialogClose asChild>
-                                        <div className="flex justify-end gap-2">
-                                            <Button type="button" variant="ghost">İptal</Button>
-                                            <Button type="submit">Kaydet</Button>
-                                        </div>
-                                      </DialogClose>
-                                  </DialogFooter>
-                              </form>
-                          </CardContent>
-                        </Card>
+                                <form className="space-y-8">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="website">İnternet sitesi</Label>
+                                        <Input id="website" placeholder="İnternet sitesi" />
+                                        <p className="text-xs text-muted-foreground">
+                                            Bağlantılarını sadece mobil cihazlarda düzenleyebilirsin. Biyografindeki internet sitelerini değiştirmek için Instagram uygulamasını ziyaret et ve profilini düzenle.
+                                        </p>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <Label htmlFor="bio">Biyografi</Label>
+                                        <Textarea id="bio" defaultValue={user.bio} maxLength={150} />
+                                        <p className="text-xs text-muted-foreground text-right">
+                                          {user.bio?.length || 0} / 150
+                                        </p>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <Label htmlFor="gender">Cinsiyet</Label>
+                                        <Select>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Söylememeyi tercih ederim" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="male">Erkek</SelectItem>
+                                                <SelectItem value="female">Kadın</SelectItem>
+                                                <SelectItem value="prefer-not-to-say">Söylememeyi tercih ederim</SelectItem>
+                                                <SelectItem value="custom">Özel</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <p className="text-xs text-muted-foreground">
+                                          Bu, herkese açık profilinin parçası olmayacak.
+                                        </p>
+                                    </div>
+
+                                    <Separator />
+                                    
+                                    <div className="flex items-center justify-between p-4 rounded-lg border">
+                                      <div>
+                                            <Label htmlFor="show-suggestions" className="font-semibold">Profillerde hesap önerilerini göster</Label>
+                                            <p className="text-xs text-muted-foreground mt-1">
+                                                İnsanların senin profilinde benzer hesap önerileri görüp göremeyeceğini seç.
+                                            </p>
+                                      </div>
+                                      <Switch id="show-suggestions" />
+                                    </div>
+
+                                    <DialogFooter>
+                                        <DialogClose asChild>
+                                          <div className="flex justify-end gap-2">
+                                              <Button type="button" variant="ghost">İptal</Button>
+                                              <Button type="submit">Kaydet</Button>
+                                          </div>
+                                        </DialogClose>
+                                    </DialogFooter>
+                                </form>
+                            </CardContent>
+                          </Card>
+                        </ScrollArea>
                     </DialogContent>
                 </Dialog>
              )}
