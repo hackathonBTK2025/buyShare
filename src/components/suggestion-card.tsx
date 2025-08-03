@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { users } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -12,6 +13,12 @@ export function SuggestionCard() {
     const followingIds = currentUser.followingIds || [];
 
     const suggestions = users.filter(u => u.id !== currentUser.id && !followingIds.includes(u.id)).slice(0, 5);
+
+    const [followedStatus, setFollowedStatus] = useState<Record<string, boolean>>({});
+
+    const handleFollow = (userId: string) => {
+        setFollowedStatus(prev => ({ ...prev, [userId]: true }));
+    };
 
   return (
     <div className="p-4 space-y-4 sticky top-8">
@@ -37,8 +44,14 @@ export function SuggestionCard() {
               </Link>
               <p className="text-xs text-muted-foreground">Sizin için öneriliyor</p>
             </div>
-            <Button variant="link" size="sm" className="text-blue-500">
-              Takip Et
+            <Button 
+                variant="link" 
+                size="sm" 
+                className={followedStatus[user.id] ? "text-muted-foreground font-semibold" : "text-blue-500"}
+                onClick={() => handleFollow(user.id)}
+                disabled={followedStatus[user.id]}
+            >
+              {followedStatus[user.id] ? "İstek gönderildi" : "Takip Et"}
             </Button>
           </div>
         ))}
@@ -54,9 +67,7 @@ export function SuggestionCard() {
             <Link href="#" className="hover:underline">Koşullar</Link>
             <Link href="#" className="hover:underline">Konumlar</Link>
             <Link href="#" className="hover:underline">Dil</Link>
-            <Link href="#" className="hover:underline">Meta Verified</Link>
         </div>
-        <p className="mt-4">&copy; 2024 TRENDAI FROM STUDIO</p>
       </footer>
     </div>
   );
