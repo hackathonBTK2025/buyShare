@@ -4,7 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { CartProvider } from '@/context/cart-context';
 
 export const metadata: Metadata = {
-  title: 'ShopSocial AI',
+  title: 'TrendAI',
   description: 'A next-generation e-commerce platform by Firebase Studio',
 };
 

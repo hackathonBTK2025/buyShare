@@ -30,7 +30,7 @@ export default function LoginPage() {
         <CardHeader className="text-center">
             <Link href="/" className="flex items-center gap-2 font-semibold justify-center mb-4">
                 <Package2 className="h-8 w-8 text-primary" />
-                <span className="text-2xl">ShopSocial AI</span>
+                <span className="text-2xl">TrendAI</span>
             </Link>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
