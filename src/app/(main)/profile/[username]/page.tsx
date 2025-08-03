@@ -14,11 +14,13 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 export default function ProfilePage({ params }: { params: { username: string } }) {
-  const isOwnProfile = params.username === 'me';
+  const isOwnProfile = params.username === 'me' || params.username === 'maybeno';
   const user = isOwnProfile
-    ? users[0]
+    ? users.find(u => u.id === 'user1')
     : users.find((u) => u.username === params.username);
 
   if (!user) {
@@ -29,6 +31,9 @@ export default function ProfilePage({ params }: { params: { username: string } }
   const userPosts = aiChats
     .filter((chat) => chat.user.id === user.id)
     .flatMap((chat) => chat.productSuggestions);
+    
+  const followers = users.filter(u => u.id !== user.id).slice(0, user.followerCount);
+  const following = users.filter(u => user.followingIds?.includes(u.id));
 
   return (
     <div className="container mx-auto py-8">
@@ -43,17 +48,76 @@ export default function ProfilePage({ params }: { params: { username: string } }
           <div className="flex items-center justify-center md:justify-start gap-4">
             <h1 className="text-4xl font-bold">{user.username}</h1>
             {!isOwnProfile && <Button>Takip Et</Button>}
+             {isOwnProfile && <Button variant="outline">Profili Düzenle</Button>}
           </div>
           <div className="flex justify-center md:justify-start gap-6 my-4 text-muted-foreground">
             <div>
               <span className="font-bold text-foreground">{userPosts.length}</span> gönderi
             </div>
-            <div>
-              <span className="font-bold text-foreground">{user.followerCount}</span> Takipçi
-            </div>
-            <div>
-              <span className="font-bold text-foreground">{user.followingCount}</span> Takip
-            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button className="hover:underline">
+                  <span className="font-bold text-foreground">{user.followerCount}</span> Takipçi
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Takipçiler</DialogTitle>
+                </DialogHeader>
+                <ScrollArea className="max-h-[60vh]">
+                  <div className="space-y-4 pr-4">
+                    {followers.map((u) => (
+                      <div key={u.id} className="flex items-center gap-4">
+                        <Link href={`/profile/${u.username}`}>
+                          <Avatar>
+                            <AvatarImage src={u.profilePictureUrl} data-ai-hint="person face" />
+                            <AvatarFallback>{u.username.charAt(0).toUpperCase()}</AvatarFallback>
+                          </Avatar>
+                        </Link>
+                        <div className="flex-grow">
+                          <Link href={`/profile/${u.username}`} className="font-semibold hover:underline">
+                            {u.username}
+                          </Link>
+                        </div>
+                        {isOwnProfile && <Button size="sm" variant="outline">Kaldır</Button>}
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </DialogContent>
+            </Dialog>
+            <Dialog>
+              <DialogTrigger asChild>
+                <button className="hover:underline">
+                  <span className="font-bold text-foreground">{user.followingCount}</span> Takip
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Takip Edilenler</DialogTitle>
+                </DialogHeader>
+                <ScrollArea className="max-h-[60vh]">
+                  <div className="space-y-4 pr-4">
+                    {following.map((u) => (
+                      <div key={u.id} className="flex items-center gap-4">
+                        <Link href={`/profile/${u.username}`}>
+                          <Avatar>
+                            <AvatarImage src={u.profilePictureUrl} data-ai-hint="person face" />
+                            <AvatarFallback>{u.username.charAt(0).toUpperCase()}</AvatarFallback>
+                          </Avatar>
+                        </Link>
+                        <div className="flex-grow">
+                          <Link href={`/profile/${u.username}`} className="font-semibold hover:underline">
+                            {u.username}
+                          </Link>
+                        </div>
+                        {isOwnProfile && <Button size="sm" variant="outline">Takibi Bırak</Button>}
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
         {isOwnProfile && (
