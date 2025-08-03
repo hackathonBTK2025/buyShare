@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useActionState, useState, useEffect, useRef, Suspense } from "react";
@@ -82,24 +83,35 @@ function ChatPageContent() {
         const input: AiPoweredProductSearchInput = { query: currentQuery };
         const result = await aiPoweredProductSearch(input);
         
-        // Match products from the AI result with the full product data
-        const suggestedProducts = result.products
-          .map(p => {
-            const fullProduct = allProducts.find(ap => ap.id === p.id);
-            if (!fullProduct) return null; // Or handle missing products
-            return {
-              ...fullProduct,
-              suitabilityExplanation: p.suitabilityExplanation || ""
-            };
-          })
-          .filter((p): p is EnrichedProduct => p !== null); // Filter out any nulls
+        let assistantMessage: Message;
 
-        const assistantMessage: Message = {
-            role: 'assistant',
-            content: result.explanation,
-            products: suggestedProducts,
-            explanation: result.explanation
-        };
+        if (result.products && result.products.length > 0) {
+            // Match products from the AI result with the full product data
+            const suggestedProducts = result.products
+              .map(p => {
+                const fullProduct = allProducts.find(ap => ap.id === p.id);
+                if (!fullProduct) return null; // Or handle missing products
+                return {
+                  ...fullProduct,
+                  suitabilityExplanation: p.suitabilityExplanation || ""
+                };
+              })
+              .filter((p): p is EnrichedProduct => p !== null); // Filter out any nulls
+
+            assistantMessage = {
+                role: 'assistant',
+                content: result.explanation,
+                products: suggestedProducts,
+                explanation: result.explanation
+            };
+        } else {
+             assistantMessage = {
+                role: 'assistant',
+                content: "Üzgünüm, aramanızla eşleşen bir ürün bulamadım. Lütfen farklı anahtar kelimelerle tekrar deneyin.",
+                products: [],
+                explanation: "Aradığınız kriterlere uygun ürün bulunamadı."
+            };
+        }
         
         const finalMessages = [...newMessages, assistantMessage];
         
@@ -223,3 +235,5 @@ export default function ChatPage() {
         </Suspense>
     )
 }
+
+    
