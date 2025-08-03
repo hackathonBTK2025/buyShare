@@ -20,6 +20,7 @@ export interface User {
   profilePictureUrl: string;
   followerCount: number;
   followingCount: number;
+  followingIds?: string[];
 }
 
 export interface AiChat {

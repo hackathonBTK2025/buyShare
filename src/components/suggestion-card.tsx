@@ -5,10 +5,13 @@ import Link from 'next/link';
 import { users } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import { User } from '@/lib/types';
 
 export function SuggestionCard() {
-    // Exclude the main user (diğerHesap) and take some others
-    const suggestions = users.filter(u => u.id !== 'user1').slice(0, 5);
+    const currentUser = users.find(u => u.id === 'user1') as User;
+    const followingIds = currentUser.followingIds || [];
+
+    const suggestions = users.filter(u => u.id !== currentUser.id && !followingIds.includes(u.id)).slice(0, 5);
 
   return (
     <div className="p-4 space-y-4 sticky top-8">
