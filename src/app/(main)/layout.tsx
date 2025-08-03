@@ -162,7 +162,7 @@ export default function MainLayout({
                         <span>Görünümü değiştir</span>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => router.push('/login')}>
                         <span>Çıkış Yap</span>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
