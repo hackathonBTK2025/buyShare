@@ -27,6 +27,11 @@ export default function SignupPage() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
 
+    const validateEmail = (email: string): boolean => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    }
+
     const validatePassword = (password: string): string | null => {
         if (password.length < 4) {
             return "Şifre en az 4 karakter uzunluğunda olmalıdır.";
@@ -46,6 +51,11 @@ export default function SignupPage() {
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
         setError(null);
+
+        if (!validateEmail(email)) {
+            setError('Lütfen geçerli bir e-posta adresi girin.');
+            return;
+        }
 
         if (password !== confirmPassword) {
             setError('Şifreler eşleşmiyor.');
