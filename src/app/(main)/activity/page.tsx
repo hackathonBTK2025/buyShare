@@ -113,22 +113,18 @@ const EmptyState = ({ title, description, icon: Icon }: { title: string, descrip
 export default function ActivityPage() {
     const likes = allNotifications.filter(n => n.type === 'like');
     const comments = allNotifications.filter(n => n.type === 'comment');
-    const followRequests = allNotifications.filter(n => n.type === 'follow_request');
 
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold tracking-tight mb-8">Hareketlerin</h1>
       
       <Tabs defaultValue="likes" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="likes">
             <Heart className="mr-2 h-4 w-4"/> Beğenmeler
           </TabsTrigger>
           <TabsTrigger value="comments">
             <MessageSquare className="mr-2 h-4 w-4"/> Yorumlar
-          </TabsTrigger>
-           <TabsTrigger value="follows">
-            <UserPlus className="mr-2 h-4 w-4"/> Takipler
           </TabsTrigger>
         </TabsList>
         <TabsContent value="likes">
@@ -164,25 +160,6 @@ export default function ActivityPage() {
                             title="Henüz yorum yok"
                             description="Yorum yaptığın gönderiler burada görünür."
                             icon={MessageSquare}
-                        />
-                    )}
-                </CardContent>
-            </Card>
-        </TabsContent>
-         <TabsContent value="follows">
-           <Card>
-                <CardContent className="p-0">
-                    {followRequests.length > 0 ? (
-                        <div className="divide-y">
-                            {followRequests.map((notification) => (
-                                <NotificationItem key={notification.id} notification={notification} />
-                            ))}
-                        </div>
-                    ) : (
-                         <EmptyState 
-                            title="Henüz takip isteği yok"
-                            description="Yeni takip isteklerin burada görünür."
-                            icon={UserPlus}
                         />
                     )}
                 </CardContent>
