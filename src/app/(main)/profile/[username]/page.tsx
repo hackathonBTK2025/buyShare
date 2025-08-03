@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { Heart, Save, Settings } from 'lucide-react';
-import { users, products } from '@/lib/data';
+import { Grid3x3, Heart, Save, Settings } from 'lucide-react';
+import { users, products, aiChats } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -13,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Link from 'next/link';
 
 export default function ProfilePage({ params }: { params: { username: string } }) {
   const isOwnProfile = params.username === 'me';
@@ -24,9 +25,10 @@ export default function ProfilePage({ params }: { params: { username: string } }
     notFound();
   }
 
-  // Mock liked and saved products
-  const likedProducts = [products[0], products[2]];
-  const savedProducts = [products[1], products[3]];
+  // Mock user's posts
+  const userPosts = aiChats
+    .filter((chat) => chat.user.id === user.id)
+    .flatMap((chat) => chat.productSuggestions);
 
   return (
     <div className="container mx-auto py-8">
@@ -44,7 +46,7 @@ export default function ProfilePage({ params }: { params: { username: string } }
           </div>
           <div className="flex justify-center md:justify-start gap-6 my-4 text-muted-foreground">
             <div>
-              <span className="font-bold text-foreground">{likedProducts.length}</span> gönderi
+              <span className="font-bold text-foreground">{userPosts.length}</span> gönderi
             </div>
             <div>
               <span className="font-bold text-foreground">{user.followerCount}</span> Takipçi
@@ -72,30 +74,27 @@ export default function ProfilePage({ params }: { params: { username: string } }
         )}
       </div>
 
-      <Tabs defaultValue="liked" className="w-full">
-        <TabsList className="grid w-full max-w-md mx-auto grid-cols-2">
-          <TabsTrigger value="liked">
-            <Heart className="mr-2 h-4 w-4" /> Beğenilenler
-          </TabsTrigger>
-          <TabsTrigger value="saved">
-            <Save className="mr-2 h-4 w-4" /> Kaydedilenler
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="liked" className="mt-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {likedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+      <Separator />
+
+      <div className="mt-8">
+          <div className="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground mb-6">
+              <Grid3x3 className="h-4 w-4" />
+              <span>GÖNDERİLER</span>
           </div>
-        </TabsContent>
-        <TabsContent value="saved" className="mt-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {savedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </TabsContent>
-      </Tabs>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {userPosts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+        {userPosts.length === 0 && (
+            <div className="text-center py-16 border-2 border-dashed rounded-lg">
+                <p className="text-xl text-muted-foreground">Henüz gönderi yok.</p>
+            </div>
+        )}
+      </div>
     </div>
   );
 }
+
+// Add separator to avoid duplicate import error
+import { Separator } from '@/components/ui/separator';
