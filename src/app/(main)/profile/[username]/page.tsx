@@ -30,7 +30,7 @@ export default function ProfilePage({ params }: { params: { username: string } }
 
   return (
     <div className="container mx-auto py-8">
-      <div className="flex flex-col md:flex-row md:items-start gap-8 mb-8">
+      <div className="flex flex-col md:flex-row md:items-start gap-8 mb-8 relative">
         <Avatar className="h-32 w-32 border-4 border-card">
           <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
           <AvatarFallback className="text-4xl">
@@ -40,22 +40,7 @@ export default function ProfilePage({ params }: { params: { username: string } }
         <div className="flex-grow text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-4">
             <h1 className="text-4xl font-bold">{user.username}</h1>
-            {isOwnProfile ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <Settings className="h-6 w-6" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem>Profili Düzenle</DropdownMenuItem>
-                  <DropdownMenuItem>Engellenenler</DropdownMenuItem>
-                  <DropdownMenuItem>Ayarlar</DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-              <Button>Takip Et</Button>
-            )}
+            {!isOwnProfile && <Button>Takip Et</Button>}
           </div>
           <div className="flex justify-center md:justify-start gap-6 my-4 text-muted-foreground">
             <div>
@@ -69,6 +54,22 @@ export default function ProfilePage({ params }: { params: { username: string } }
             </div>
           </div>
         </div>
+        {isOwnProfile && (
+            <div className="absolute top-0 right-0">
+                <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                    <Settings className="h-6 w-6" />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuItem>Profili Düzenle</DropdownMenuItem>
+                    <DropdownMenuItem>Engellenenler</DropdownMenuItem>
+                    <DropdownMenuItem>Ayarlar</DropdownMenuItem>
+                </DropdownMenuContent>
+                </DropdownMenu>
+            </div>
+        )}
       </div>
 
       <Tabs defaultValue="liked" className="w-full">
