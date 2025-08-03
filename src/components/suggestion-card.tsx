@@ -9,27 +9,9 @@ import { Button } from '@/components/ui/button';
 export function SuggestionCard() {
     // Exclude the main user (diğerHesap) and take some others
     const suggestions = users.filter(u => u.id !== 'user1').slice(0, 5);
-    const currentUser = users.find(u => u.id === 'user1');
 
   return (
     <div className="p-4 space-y-4 sticky top-8">
-      {currentUser && (
-        <div className="flex items-center gap-4">
-            <Link href={`/profile/${currentUser.username}`}>
-                <Avatar className="h-14 w-14">
-                    <AvatarImage src={currentUser.profilePictureUrl} data-ai-hint="person face" />
-                    <AvatarFallback>{currentUser.username.charAt(0).toUpperCase()}</AvatarFallback>
-                </Avatar>
-            </Link>
-            <div className="flex-grow">
-                <Link href={`/profile/${currentUser.username}`} className="font-semibold hover:underline">
-                    {currentUser.username}
-                </Link>
-                <p className="text-sm text-muted-foreground">My Account</p>
-            </div>
-        </div>
-      )}
-
       <div className="flex justify-between items-center">
         <h3 className="font-semibold text-muted-foreground">Senin için önerilenler</h3>
         <Button variant="link" size="sm" className="text-foreground">
