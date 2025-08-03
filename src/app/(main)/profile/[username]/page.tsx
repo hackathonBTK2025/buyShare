@@ -14,8 +14,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 
 export default function ProfilePage({ params }: { params: { username: string } }) {
   const isOwnProfile = params.username === 'me' || params.username === 'maybeno';
@@ -50,8 +53,39 @@ export default function ProfilePage({ params }: { params: { username: string } }
           <div className="flex items-center justify-center md:justify-start gap-4">
             <h1 className="text-4xl font-bold">{user.username}</h1>
             {!isOwnProfile && <Button>Takip Et</Button>}
-             {isOwnProfile && <Button variant="outline">Profili Düzenle</Button>}
+             {isOwnProfile && (
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="outline">Profili Düzenle</Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                            <DialogTitle>Profili Düzenle</DialogTitle>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="username" className="text-right">
+                                    Kullanıcı Adı
+                                </Label>
+                                <Input id="username" defaultValue={user.username} className="col-span-3" />
+                            </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="bio" className="text-right">
+                                    Biyografi
+                                </Label>
+                                <Textarea id="bio" defaultValue={user.bio} className="col-span-3" />
+                            </div>
+                        </div>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button type="submit">Değişiklikleri Kaydet</Button>
+                            </DialogClose>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+             )}
           </div>
+          {user.bio && <p className="mt-4 text-muted-foreground text-center md:text-left">{user.bio}</p>}
           <div className="flex justify-center md:justify-start gap-6 my-4 text-muted-foreground">
             <div>
               <span className="font-bold text-foreground">{userPosts.length}</span> gönderi

@@ -18,6 +18,7 @@ export interface User {
   id: string;
   username: string;
   profilePictureUrl: string;
+  bio?: string;
   followerCount: number;
   followingCount: number;
   followingIds?: string[];
@@ -28,6 +29,7 @@ export interface AiChat {
   id: string;
   user: User;
   userComment: string;
+
   productSuggestions: Product[];
   likeCount: number;
 }

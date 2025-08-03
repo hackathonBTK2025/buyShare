@@ -5,6 +5,7 @@ export const users: User[] = [
     id: 'user1',
     username: 'maybeno',
     profilePictureUrl: 'https://firebasestorage.googleapis.com/v0/b/firebase-studio-demos.appspot.com/o/user-dalle.png?alt=media&token=ca334559-9ae6-4ca9-abb3-d3455a29b9b5',
+    bio: 'AI ve modayı seviyorum. Trendleri keşfetmek için buradayım.',
     followerCount: 2,
     followingCount: 2,
     followingIds: ['user0', 'user2'],
@@ -31,6 +32,8 @@ export const users: User[] = [
   { id: 'user3', username: 'ahmet', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0, hasStory: false },
   { id: 'user4', username: 'zeynep', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0, hasStory: false },
   { id: 'user5', username: 'mehmet', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0, hasStory: false },
+  { id: 'user6', username: 'elif', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0, hasStory: false },
+  { id: 'user7', username: 'can', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0, hasStory: false },
 ];
 
 export const products: Product[] = [
