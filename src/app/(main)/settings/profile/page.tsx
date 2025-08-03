@@ -10,6 +10,9 @@ import {
   MessageCircle,
   BarChart,
   UserPlus,
+  MessageSquare,
+  AtSign,
+  Tag,
 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -29,11 +32,6 @@ const sidebarNavItems = [
       icon: Users,
       href: '/settings/profile',
     },
-    {
-      title: 'Bildirimler',
-      icon: Bell,
-      href: '/settings/notifications',
-    },
      {
       title: 'Hesap gizliliği',
       icon: Lock,
@@ -42,12 +40,22 @@ const sidebarNavItems = [
     {
       title: 'Yakın Arkadaşlar',
       icon: Star,
-      href: '/settings/close-friends',
+      href: '#', // Placeholder
     },
      {
       title: 'Engellenenler',
       icon: UserPlus,
-      href: '/settings/blocked',
+      href: '#', // Placeholder
+    },
+    {
+        title: 'Yorumlar',
+        icon: MessageSquare,
+        href: '#', // Placeholder
+    },
+    {
+        title: 'Etiketler ve Bahsetmeler',
+        icon: Tag,
+        href: '#', // Placeholder
     },
 ]
 
@@ -92,12 +100,25 @@ export default function SettingsProfilePage() {
                     </Link>
                 ))}
             </nav>
+            <Separator className="my-4" />
+             <Select>
+                <SelectTrigger>
+                    <SelectValue placeholder="Dil: Türkçe" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem value="tr">Türkçe</SelectItem>
+                    <SelectItem value="en">English</SelectItem>
+                </SelectContent>
+            </Select>
         </aside>
 
         {/* Right Content */}
         <main className="md:col-span-3">
           <Card>
-            <CardContent className="p-8">
+             <CardHeader>
+                <CardTitle>Profili düzenle</CardTitle>
+            </CardHeader>
+            <CardContent className="p-8 pt-0">
                 <div className="flex items-center gap-6 mb-8">
                     <Avatar className="h-16 w-16">
                         <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
