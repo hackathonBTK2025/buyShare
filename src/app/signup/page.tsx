@@ -20,11 +20,14 @@ import { toast } from '@/hooks/use-toast';
 
 export default function SignupPage() {
     const router = useRouter();
+    const [step, setStep] = useState(1);
     const [email, setEmail] = useState('');
     const [fullname, setFullname] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [verificationCode, setVerificationCode] = useState('');
+    
     const [error, setError] = useState<string | null>(null);
     const [emailError, setEmailError] = useState<string | null>(null);
 
@@ -59,14 +62,13 @@ export default function SignupPage() {
         return null;
     }
 
-    const handleSubmit = (event: FormEvent) => {
+    const handleInitialSubmit = (event: FormEvent) => {
         event.preventDefault();
         setError(null);
-        setEmailError(null);
-
-        if (!validateEmail(email)) {
-            setEmailError('Lütfen geçerli bir e-posta adresi girin.');
-            return;
+        
+        if (emailError) {
+             setError(emailError);
+             return;
         }
 
         if (password !== confirmPassword) {
@@ -85,7 +87,24 @@ export default function SignupPage() {
             return;
         }
 
-        // In a real app, you would handle the user creation here.
+        // In a real app, you would send the verification code here.
+        console.log('Verification code sent to:', email);
+        setStep(2);
+        setError(null);
+    };
+
+    const handleVerificationSubmit = (event: FormEvent) => {
+         event.preventDefault();
+         setError(null);
+
+         // In a real app, you would verify the code against the backend.
+         // For this prototype, we'll assume any 6-digit code is valid.
+         if (verificationCode.length !== 6) {
+            setError('Lütfen 6 haneli onay kodunu girin.');
+            return;
+         }
+
+        // In a real app, you would handle the user creation here after verification.
         console.log('User created:', { email, fullname, username });
 
         toast({
@@ -94,7 +113,7 @@ export default function SignupPage() {
         });
 
         router.push('/login');
-    };
+    }
 
     const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
@@ -111,72 +130,110 @@ export default function SignupPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="mx-auto max-w-sm w-full">
-        <CardHeader className="text-center">
-            <Link href="/" className="flex items-center gap-2 font-semibold justify-center mb-4">
-                <Flame className="h-8 w-8 text-primary" />
-                <span className="text-2xl">TrendAI</span>
-            </Link>
-          <CardTitle className="text-2xl">Kaydol</CardTitle>
-          <CardDescription>
-            Arkadaşlarının fotoğraflarını ve videolarını görmek için kaydol.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-            <form onSubmit={handleSubmit} className="grid gap-4">
-                <Button variant="outline" className="w-full">
-                <GoogleIcon className="mr-2 h-4 w-4" />
-                Google ile Giriş Yap
-                </Button>
+        {step === 1 && (
+            <>
+                <CardHeader className="text-center">
+                    <Link href="/" className="flex items-center gap-2 font-semibold justify-center mb-4">
+                        <Flame className="h-8 w-8 text-primary" />
+                        <span className="text-2xl">TrendAI</span>
+                    </Link>
+                <CardTitle className="text-2xl">Kaydol</CardTitle>
+                <CardDescription>
+                    Arkadaşlarının fotoğraflarını ve videolarını görmek için kaydol.
+                </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleInitialSubmit} className="grid gap-4">
+                        <Button variant="outline" className="w-full">
+                        <GoogleIcon className="mr-2 h-4 w-4" />
+                        Google ile Giriş Yap
+                        </Button>
 
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t" />
+                        <div className="relative">
+                            <div className="absolute inset-0 flex items-center">
+                                <span className="w-full border-t" />
+                            </div>
+                            <div className="relative flex justify-center text-xs uppercase">
+                                <span className="bg-background px-2 text-muted-foreground">
+                                VEYA
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="grid gap-2">
+                            <Label htmlFor="email">E-posta</Label>
+                            <Input id="email" type="email" placeholder="E-posta" required value={email} onChange={handleEmailChange} />
+                            {emailError && <p className="text-destructive text-xs px-1">{emailError}</p>}
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="fullname">Ad Soyad</Label>
+                            <Input id="fullname" type="text" placeholder="Ad Soyad" required value={fullname} onChange={(e) => setFullname(e.target.value)} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="username">Kullanıcı Adı</Label>
+                            <Input id="username" type="text" placeholder="Kullanıcı Adı" required value={username} onChange={(e) => setUsername(e.target.value)} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="password">Şifre</Label>
+                            <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="confirm-password">Şifreyi Onayla</Label>
+                            <Input id="confirm-password" type="password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                        </div>
+                        
+                        {error && <p className="text-destructive text-sm text-center">{error}</p>}
+
+                        <p className="px-2 text-center text-xs text-muted-foreground">
+                            Kaydolarak, <Link href="#" className="underline underline-offset-2">Koşullarımızı</Link>, <Link href="#" className="underline underline-offset-2">Gizlilik İlkemizi</Link> ve <Link href="#" className="underline underline-offset-2">Çerezler İlkemizi</Link> kabul etmiş olursun.
+                        </p>
+                        <Button type="submit" className="w-full">
+                        Kaydol
+                        </Button>
+                    </form>
+                    <div className="mt-4 text-center text-sm">
+                        Hesabın var mı?{' '}
+                        <Link href="/login" className="underline">
+                        Giriş yap
+                        </Link>
                     </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">
-                        VEYA
-                        </span>
-                    </div>
-                </div>
+                </CardContent>
+            </>
+        )}
 
-                <div className="grid gap-2">
-                    <Label htmlFor="email">E-posta</Label>
-                    <Input id="email" type="email" placeholder="E-posta" required value={email} onChange={handleEmailChange} />
-                    {emailError && <p className="text-destructive text-xs px-1">{emailError}</p>}
-                </div>
-                 <div className="grid gap-2">
-                    <Label htmlFor="fullname">Ad Soyad</Label>
-                    <Input id="fullname" type="text" placeholder="Ad Soyad" required value={fullname} onChange={(e) => setFullname(e.target.value)} />
-                </div>
-                 <div className="grid gap-2">
-                    <Label htmlFor="username">Kullanıcı Adı</Label>
-                    <Input id="username" type="text" placeholder="Kullanıcı Adı" required value={username} onChange={(e) => setUsername(e.target.value)} />
-                </div>
-                <div className="grid gap-2">
-                    <Label htmlFor="password">Şifre</Label>
-                    <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                 <div className="grid gap-2">
-                    <Label htmlFor="confirm-password">Şifreyi Onayla</Label>
-                    <Input id="confirm-password" type="password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                </div>
-                
-                {error && <p className="text-destructive text-sm text-center">{error}</p>}
-
-                 <p className="px-2 text-center text-xs text-muted-foreground">
-                    Kaydolarak, <Link href="#" className="underline underline-offset-2">Koşullarımızı</Link>, <Link href="#" className="underline underline-offset-2">Gizlilik İlkemizi</Link> ve <Link href="#" className="underline underline-offset-2">Çerezler İlkemizi</Link> kabul etmiş olursun.
-                </p>
-                <Button type="submit" className="w-full">
-                Kaydol
-                </Button>
-            </form>
-            <div className="mt-4 text-center text-sm">
-                Hesabın var mı?{' '}
-                <Link href="/login" className="underline">
-                Giriş yap
-                </Link>
-            </div>
-        </CardContent>
+        {step === 2 && (
+             <>
+                <CardHeader className="text-center">
+                    <CardTitle className="text-2xl">Onay Kodunu Gir</CardTitle>
+                    <CardDescription>
+                        {email} adresine gönderilen 6 haneli kodu gir.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleVerificationSubmit} className="grid gap-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="verificationCode">Onay Kodu</Label>
+                            <Input 
+                                id="verificationCode" 
+                                type="text" 
+                                placeholder="_ _ _ _ _ _" 
+                                required 
+                                value={verificationCode} 
+                                onChange={(e) => setVerificationCode(e.target.value)}
+                                maxLength={6}
+                             />
+                        </div>
+                         {error && <p className="text-destructive text-sm text-center">{error}</p>}
+                        <Button type="submit" className="w-full">
+                            Kaydı Tamamla
+                        </Button>
+                         <Button variant="link" onClick={() => setStep(1)}>
+                            Geri Dön
+                        </Button>
+                    </form>
+                </CardContent>
+             </>
+        )}
       </Card>
     </div>
   );
