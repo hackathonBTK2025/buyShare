@@ -32,7 +32,9 @@ export default function ProfilePage({ params }: { params: { username: string } }
     .filter((chat) => chat.user.id === user.id)
     .flatMap((chat) => chat.productSuggestions);
     
-  const followers = users.filter(u => u.id !== user.id).slice(0, user.followerCount);
+  // Mock followers: find users who are following the current user.
+  // In a real app, this would be a database query.
+  const followers = users.filter(u => u.followingIds?.includes(user.id));
   const following = users.filter(u => user.followingIds?.includes(u.id));
 
   return (
@@ -57,7 +59,7 @@ export default function ProfilePage({ params }: { params: { username: string } }
             <Dialog>
               <DialogTrigger asChild>
                 <button className="hover:underline">
-                  <span className="font-bold text-foreground">{user.followerCount}</span> Takipçi
+                  <span className="font-bold text-foreground">{followers.length}</span> Takipçi
                 </button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
@@ -89,7 +91,7 @@ export default function ProfilePage({ params }: { params: { username: string } }
             <Dialog>
               <DialogTrigger asChild>
                 <button className="hover:underline">
-                  <span className="font-bold text-foreground">{user.followingCount}</span> Takip
+                  <span className="font-bold text-foreground">{following.length}</span> Takip
                 </button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
