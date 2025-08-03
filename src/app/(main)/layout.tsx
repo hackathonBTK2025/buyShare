@@ -17,6 +17,7 @@ import {
   PlusSquare,
   PanelLeftClose,
   PanelLeftOpen,
+  Settings,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -117,6 +118,25 @@ export default function MainLayout({
              <Tooltip delayDuration={0}>
                 <TooltipTrigger asChild>
                     <Link
+                      href="/settings/profile"
+                      className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                        pathname.startsWith("/settings") && "bg-muted text-primary"
+                      )}
+                    >
+                      <Settings className="h-5 w-5" />
+                       {isSidebarExpanded && <span>Ayarlar</span>}
+                    </Link>
+                </TooltipTrigger>
+                 {!isSidebarExpanded && (
+                    <TooltipContent side="right">
+                        Ayarlar
+                    </TooltipContent>
+                 )}
+            </Tooltip>
+             <Tooltip delayDuration={0}>
+                <TooltipTrigger asChild>
+                    <Link
                       href="/profile/me"
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
@@ -167,6 +187,15 @@ export default function MainLayout({
                     {link.label}
                   </Link>
                 ))}
+                 <Link
+                  href="/settings/profile"
+                  className={cn("mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
+                    pathname.startsWith("/settings") && "bg-muted text-foreground"
+                  )}
+                >
+                  <Settings className="h-5 w-5" />
+                  Ayarlar
+                </Link>
                 <Link
                   href="/profile/me"
                   className={cn("mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground",
