@@ -31,7 +31,7 @@ export function AiChatCard({ chat }: AiChatCardProps) {
   const likers = users.slice(0, Math.min(users.length, chat.likeCount));
 
   return (
-    <Card className="shadow-none border-b rounded-none flex flex-col bg-transparent">
+    <Card className="shadow-none border-b rounded-none bg-transparent">
       <CardHeader className="flex flex-row items-center gap-3 p-4">
         <Link href={`/profile/${chat.user.username}`} className="flex items-center gap-3">
             <Avatar>
@@ -53,7 +53,7 @@ export function AiChatCard({ chat }: AiChatCardProps) {
             </DropdownMenuContent>
         </DropdownMenu>
       </CardHeader>
-      <CardContent className="p-0 flex-grow">
+      <CardContent className="p-0">
         {product && (
             <div className="relative aspect-square">
                  <Image
