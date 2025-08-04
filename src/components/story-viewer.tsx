@@ -9,7 +9,6 @@ import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Story, User } from '@/lib/types';
-import { DialogClose } from './ui/dialog';
 
 interface StoryViewerProps {
     stories: Story[];
@@ -124,11 +123,6 @@ export function StoryViewer({ stories: initialStories, initialUser, allStories, 
                             {currentUser.username}
                         </Link>
                     </div>
-                    <DialogClose asChild>
-                        <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 hover:text-white">
-                            <X />
-                        </Button>
-                    </DialogClose>
                 </div>
             </div>
 
