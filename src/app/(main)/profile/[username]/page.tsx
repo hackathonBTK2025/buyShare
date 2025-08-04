@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Grid3x3, Heart, Save, Settings, UserPlus, Bell, Lock, Star } from 'lucide-react';
-import { users, products, aiChats } from '@/lib/data';
+import { users, products, aiChats, stories, allUsers } from '@/lib/data';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
@@ -23,6 +23,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { FollowButton } from '@/components/follow-button';
+import { StoryViewer } from '@/components/story-viewer';
+import { cn } from '@/lib/utils';
 
 export default function ProfilePage({ params }: { params: { username: string } }) {
   const isOwnProfile = params.username === 'me' || params.username === 'maybeno';
@@ -47,16 +49,51 @@ export default function ProfilePage({ params }: { params: { username: string } }
   // In a real app, this would be a database query.
   const followers = users.filter(u => u.followingIds?.includes(user.id));
   const following = users.filter(u => user.followingIds?.includes(u.id));
+  
+  const userStories = stories.filter(s => s.userId === user.id);
+
+  const AvatarComponent = (
+    <div className={cn(
+        'relative h-40 w-40 rounded-full p-1.5',
+        user.hasStory && 'bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500'
+    )}>
+        <div className="p-1 bg-background rounded-full h-full w-full">
+            <Avatar className="h-full w-full">
+                <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
+                <AvatarFallback className="text-4xl">
+                    {user.username.charAt(0).toUpperCase()}
+                </AvatarFallback>
+            </Avatar>
+        </div>
+    </div>
+);
 
   return (
     <div className="container mx-auto py-8">
       <div className="flex flex-col md:flex-row md:items-start gap-8 mb-8 relative">
-        <Avatar className="h-40 w-40 border-4 border-card">
-          <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
-          <AvatarFallback className="text-4xl">
-            {user.username.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+        
+        {user.hasStory ? (
+             <Dialog>
+                <DialogTrigger asChild>
+                    <button>
+                        {AvatarComponent}
+                    </button>
+                </DialogTrigger>
+                <DialogContent className="p-0 m-0 bg-black border-0 max-w-full h-screen sm:h-[95vh] sm:max-w-md sm:rounded-lg overflow-hidden">
+                    <StoryViewer stories={userStories} initialUser={user} allStories={stories} allUsers={users} />
+                </DialogContent>
+            </Dialog>
+        ) : (
+             <div className="h-40 w-40">
+                <Avatar className="h-full w-full border-4 border-card">
+                  <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
+                  <AvatarFallback className="text-4xl">
+                    {user.username.charAt(0).toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+             </div>
+        )}
+       
         <div className="flex-grow text-center md:text-left">
           <div className="flex items-center justify-center md:justify-start gap-4">
             <h1 className="text-4xl font-bold">{user.username}</h1>

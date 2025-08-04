@@ -36,6 +36,8 @@ export const users: User[] = [
   { id: 'user7', username: 'can', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0, hasStory: false },
 ];
 
+export const allUsers = users;
+
 export const products: Product[] = [
   {
     id: 'prod1',
