@@ -95,16 +95,20 @@ const aiPoweredProductSearchFlow = ai.defineFlow(
     const {output} = await prompt(input);
     
     // Fallback mechanism if the AI model returns null
-    if (!output) {
-        console.log("AI model returned null. Implementing fallback search.");
-        const fallbackProducts = allProducts.filter(p => p.name.toLowerCase().includes(input.query.toLowerCase()) || p.description.toLowerCase().includes(input.query.toLowerCase()));
+    if (!output || !output.products || output.products.length === 0) {
+        console.log("AI model returned null or no products. Implementing fallback search.");
+        const fallbackQuery = input.query.toLowerCase();
+        const fallbackProducts = allProducts.filter(p => p.name.toLowerCase().includes(fallbackQuery) || p.description.toLowerCase().includes(fallbackQuery));
         
-        if (fallbackProducts.length > 0) {
+        const productsWithImages = fallbackProducts.map(p => ({
+            ...p,
+            imageUrls: p.imageUrls.length > 0 ? p.imageUrls : [`https://placehold.co/600x800?text=${encodeURIComponent(p.name)}`],
+            suitabilityExplanation: `Bu ürün, "${input.query}" aramanızla ilgili olabilecek genel bir eşleşmedir.`
+        }));
+
+        if (productsWithImages.length > 0) {
             return {
-                products: fallbackProducts.slice(0, 5).map(p => ({
-                    ...p,
-                    suitabilityExplanation: `Bu ürün, "${input.query}" aramanızla ilgili olabilecek genel bir eşleşmedir.`
-                })),
+                products: productsWithImages.slice(0, 5),
                 explanation: `İsteğiniz için en iyi sonuçları bulmakta zorlandım, ancak "${input.query}" ile ilgili olabilecek bazı ürünler aşağıda listelenmiştir.`
             };
         } else {

@@ -75,21 +75,22 @@ export const fetchProductsFromEcommerce = ai.defineTool(
 
     if (searchResults.length === 0) {
         console.log("No results from structured search, performing fallback search.");
-        searchResults = allProducts.filter(product => product.name.toLowerCase().includes(input.itemType.toLowerCase()));
+        const fallbackQuery = input.itemType.toLowerCase();
+        searchResults = allProducts.filter(product => product.name.toLowerCase().includes(fallbackQuery) || product.description.toLowerCase().includes(fallbackQuery));
     }
 
     // Generate random but realistic image URLs for the search results
-    const resultsWithRandomImages = searchResults.map(p => ({
+    const resultsWithImages = searchResults.map(p => ({
         ...p,
-        imageUrls: [`https://placehold.co/600x800?text=${encodeURIComponent(p.name)}`]
+        imageUrls: p.imageUrls.length > 0 ? p.imageUrls : [`https://placehold.co/600x800?text=${encodeURIComponent(p.name)}`]
     }))
 
 
-    console.log(`Found ${resultsWithRandomImages.length} mock products.`);
+    console.log(`Found ${resultsWithImages.length} mock products.`);
 
     // Return the full product object
     return {
-      products: resultsWithRandomImages.slice(0, 5)
+      products: resultsWithImages.slice(0, 5)
     };
   }
 );
