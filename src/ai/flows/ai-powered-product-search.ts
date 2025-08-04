@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview AI-powered product search flow.
@@ -13,6 +14,12 @@ import { fetchProductsFromEcommerce } from '../tools/product-search-tool';
 
 const AiPoweredProductSearchInputSchema = z.object({
   query: z.string().describe('The user query to search products.'),
+  photoDataUri: z
+    .string()
+    .optional()
+    .describe(
+      "An optional photo of a product, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
 });
 
 export type AiPoweredProductSearchInput = z.infer<typeof AiPoweredProductSearchInputSchema>;
@@ -46,7 +53,7 @@ const prompt = ai.definePrompt({
   tools: [fetchProductsFromEcommerce],
   prompt: `Sen uzman bir e-ticaret ürün arama asistanısın.
 Bir kullanıcı ürünler için doğal dilde bir sorgu sağlayacaktır. Görevin:
-1.  Kullanıcının sorgusunu analiz ederek ürün tipi, renk, malzeme ve diğer özellikler ("yazlık", "sıcak tutmayan" gibi) gibi temel ürün niteliklerini çıkar.
+1.  Kullanıcının sorgusunu ve/veya fotoğrafını analiz ederek ürün tipi, renk, malzeme ve diğer özellikler ("yazlık", "sıcak tutmayan" gibi) gibi temel ürün niteliklerini çıkar.
 2.  Bu çıkarılan niteliklerle 'fetchProductsFromEcommerce' aracını kullanarak Trendyol, Amazon veya Hepsiburada gibi e-ticaret sitelerinden ürünleri ara.
 3.  Aracın sonuçlarına dayanarak, en alakalı ürünlerin bir listesini döndür.
 4.  Her ürün için, kullanıcının özel sorgusuna neden iyi bir eşleşme olduğuna dair bir 'uygunlukAçıklaması' sağla.
@@ -56,6 +63,9 @@ Bir kullanıcı ürünler için doğal dilde bir sorgu sağlayacaktır. Görevin
 - Araç için çıkarılan nitelikler: itemType: "gömlek", color: "mavi", attributes: ["yazlık", "sıcak tutmayan"]
 
 Kullanıcı Sorgusu: {{{query}}}
+{{#if photoDataUri}}
+Kullanıcı Fotoğrafı: {{media url=photoDataUri}}
+{{/if}}
 `,
 });
 
@@ -70,3 +80,5 @@ const aiPoweredProductSearchFlow = ai.defineFlow(
     return output!;
   }
 );
+
+    
