@@ -2,7 +2,7 @@
 "use client";
 
 import { useActionState, useState, useEffect, useRef, Suspense } from "react";
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Loader2, User, Sparkles, Send, Mic, Paperclip, X } from "lucide-react";
 import {
@@ -32,41 +32,56 @@ type Message = {
 type ChatState = {
   messages: Message[];
   error: string | null;
+  historyIndex: number | null;
 };
 
 // Hook to manage chat history in localStorage
 const useChatHistory = () => {
-  const [history, setHistory] = useState<Message[][]>([]);
+    const getHistory = (): Message[][] => {
+        try {
+            const savedHistory = localStorage.getItem('chatHistory');
+            return savedHistory ? JSON.parse(savedHistory) : [];
+        } catch (error) {
+            console.error("Failed to load chat history from localStorage", error);
+            return [];
+        }
+    };
 
-  useEffect(() => {
-    try {
-      const savedHistory = localStorage.getItem('chatHistory');
-      if (savedHistory) {
-        setHistory(JSON.parse(savedHistory));
-      }
-    } catch (error) {
-      console.error("Failed to load chat history from localStorage", error);
+    const saveHistory = (history: Message[][]) => {
+        try {
+            localStorage.setItem('chatHistory', JSON.stringify(history));
+        } catch (error) {
+            console.error("Failed to save chat history to localStorage", error);
+        }
+    };
+
+    const addOrUpdateChat = (chat: Message[], index: number | null) => {
+        const history = getHistory();
+        if (index !== null && index >= 0 && index < history.length) {
+            history[index] = chat; // Update existing
+        } else {
+            history.push(chat); // Add new
+        }
+        saveHistory(history);
+        return history.length -1; // Return new index
+    };
+    
+    const getChatByIndex = (index: number): Message[] | null => {
+        const history = getHistory();
+        return history[index] || null;
     }
-  }, []);
 
-  const addChatToHistory = (chat: Message[]) => {
-    const newHistory = [...history, chat];
-    setHistory(newHistory);
-    try {
-      localStorage.setItem('chatHistory', JSON.stringify(newHistory));
-    } catch (error) {
-      console.error("Failed to save chat history to localStorage", error);
-    }
-  };
 
-  return { history, addChatToHistory };
+  return { getHistory, addOrUpdateChat, getChatByIndex };
 };
 
 function ChatPageContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get('q');
-  
-  const { addChatToHistory } = useChatHistory();
+  const historyIndexParam = searchParams.get('historyIndex');
+
+  const { addOrUpdateChat, getChatByIndex } = useChatHistory();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -74,6 +89,17 @@ function ChatPageContent() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageDataUri, setImageDataUri] = useState<string | null>(null);
   const [isListening, setIsListening] = useState(false);
+  
+  const getInitialState = (): ChatState => {
+    if (historyIndexParam) {
+        const index = parseInt(historyIndexParam, 10);
+        const chat = getChatByIndex(index);
+        if (chat) {
+            return { messages: chat, error: null, historyIndex: index };
+        }
+    }
+    return { messages: [], error: null, historyIndex: null };
+  }
 
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,6 +154,8 @@ function ChatPageContent() {
     async (prevState, formData) => {
       const currentQuery = formData.get("query") as string;
       if (!currentQuery && !imageDataUri) return { ...prevState, error: "Lütfen bir mesaj girin veya bir görsel seçin." };
+      
+      router.replace('/chat', undefined);
 
       const currentImagePreview = imagePreview;
       const currentImageDataUri = imageDataUri;
@@ -174,32 +202,31 @@ function ChatPageContent() {
         }
         
         const finalMessages = [...newMessages, assistantMessage];
-        
-        if (finalMessages.length > 0) {
-            addChatToHistory(finalMessages);
-        }
+        const newHistoryIndex = addOrUpdateChat(finalMessages, prevState.historyIndex);
 
-        return { messages: finalMessages, error: null };
+        return { messages: finalMessages, error: null, historyIndex: newHistoryIndex };
       } catch (e: any) {
         const errorMessage: Message = {
             role: 'assistant',
             content: e.message || "Beklenmedik bir hata oluştu."
         };
-        return { messages: [...newMessages, errorMessage], error: e.message || "Beklenmedik bir hata oluştu." };
+        const finalMessages = [...newMessages, errorMessage];
+        const newHistoryIndex = addOrUpdateChat(finalMessages, prevState.historyIndex);
+        return { messages: finalMessages, error: e.message || "Beklenmedik bir hata oluştu.", historyIndex: newHistoryIndex };
       }
     },
-    { messages: [], error: null }
+    getInitialState()
   );
   
   useEffect(() => {
     const query = initialQuery;
-    if (query) {
+    if (query && !historyIndexParam) {
       const formData = new FormData();
       formData.append('query', query);
-      window.history.replaceState({}, '', '/chat'); 
+      router.replace('/chat', undefined); 
       formAction(formData);
     }
-  }, [initialQuery, formAction]);
+  }, [initialQuery, historyIndexParam, formAction, router]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -328,5 +355,3 @@ export default function ChatPage() {
         </Suspense>
     )
 }
-
-    

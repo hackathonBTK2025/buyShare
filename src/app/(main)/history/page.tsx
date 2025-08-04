@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { MessageSquare, ChevronRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 // This should match the type in chat/page.tsx
 type Message = {
@@ -47,28 +48,34 @@ export default function HistoryPage() {
       </div>
     );
   }
+  
+  const reversedHistory = [...history].reverse();
 
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold tracking-tight mb-8">Geçmiş Aramalar</h1>
       <div className="space-y-4">
-        {history.map((chat, index) => {
+        {reversedHistory.map((chat, index) => {
+          const originalIndex = history.length - 1 - index;
           const userQuery = chat.find(m => m.role === 'user')?.content;
           return (
-            <Card key={index} className="hover:shadow-md transition-shadow">
-              <CardContent className="p-4 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                    <MessageSquare className="h-6 w-6 text-primary" />
-                    <p className="font-medium truncate">{userQuery || "Sohbet özeti bulunamadı"}</p>
-                </div>
-                 {/* This button could link to a detailed view of the chat in the future */}
-                <Button variant="ghost" size="icon" disabled>
-                    <ChevronRight className="h-5 w-5" />
-                </Button>
-              </CardContent>
-            </Card>
+            <Link key={originalIndex} href={`/chat?historyIndex=${originalIndex}`} passHref>
+                <Card className="hover:shadow-md transition-shadow cursor-pointer">
+                <CardContent className="p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-4 overflow-hidden">
+                        <MessageSquare className="h-6 w-6 text-primary flex-shrink-0" />
+                        <p className="font-medium truncate">{userQuery || "Sohbet özeti bulunamadı"}</p>
+                    </div>
+                    <Button variant="ghost" size="icon" asChild>
+                        <div>
+                         <ChevronRight className="h-5 w-5" />
+                        </div>
+                    </Button>
+                </CardContent>
+                </Card>
+            </Link>
           );
-        }).reverse()}
+        })}
       </div>
     </div>
   );
