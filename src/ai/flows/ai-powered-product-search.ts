@@ -12,6 +12,8 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { fetchProductsFromEcommerce } from '../tools/product-search-tool';
 import { products as allProducts } from '@/lib/data';
+import type { Product } from '@/lib/types';
+
 
 const AiPoweredProductSearchInputSchema = z.object({
   query: z.string().describe('The user query to search products.'),
@@ -25,12 +27,25 @@ const AiPoweredProductSearchInputSchema = z.object({
 
 export type AiPoweredProductSearchInput = z.infer<typeof AiPoweredProductSearchInputSchema>;
 
+const ProductSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  price: z.number(),
+  imageUrls: z.array(z.string()),
+  properties: z.object({
+    fabric: z.string().optional(),
+    color: z.string().optional(),
+    size: z.string().optional(),
+    material: z.string().optional(),
+  }),
+  likeCount: z.number(),
+  saveCount: z.number(),
+});
+
 const AiPoweredProductSearchOutputSchema = z.object({
   products: z.array(
-    z.object({
-      id: z.string().describe('The product ID.'),
-      name: z.string().describe('The name of the product.'),
-      description: z.string().describe('A short description of the product.'),
+    ProductSchema.extend({
       suitabilityExplanation: z
         .string()
         .describe('Explanation of why the product is suitable for the query.'),
@@ -57,8 +72,8 @@ Bir kullanıcı ürünler için doğal dilde bir sorgu sağlayacaktır. Görevin
 1.  Kullanıcının sorgusunu ve/veya fotoğrafını analiz ederek ürün tipi, renk, malzeme ve diğer özellikler ("yazlık", "sıcak tutmayan" gibi) gibi temel ürün niteliklerini çıkar.
 2.  Bu çıkarılan niteliklerle 'fetchProductsFromEcommerce' aracını kullanarak Trendyol, Amazon veya Hepsiburada gibi e-ticaret sitelerinden ürünleri ara.
 3.  Aracın sonuçlarına dayanarak, en alakalı ürünlerin bir listesini döndür.
-4.  Her ürün için, kullanıcının özel sorgusuna neden iyi bir eşleşme olduğuna dair bir 'uygunlukAçıklaması' sağla.
-5.  Arama sonuçlarını özetleyen genel bir 'açıklama' sağla.
+4.  Her ürün için, kullanıcının özel sorgusuna neden iyi bir eşleşme olduğuna dair bir 'uygunlukAçıklaması' (suitabilityExplanation) sağla.
+5.  Arama sonuçlarını özetleyen genel bir 'açıklama' (explanation) sağla.
 
 Örnek Sorgu: "mavi, yazın sıcak tutmayan bir gömlek arıyorum"
 - Araç için çıkarılan nitelikler: itemType: "gömlek", color: "mavi", attributes: ["yazlık", "sıcak tutmayan"]
@@ -76,7 +91,7 @@ const aiPoweredProductSearchFlow = ai.defineFlow(
     inputSchema: AiPoweredProductSearchInputSchema,
     outputSchema: AiPoweredProductSearchOutputSchema,
   },
-  async input => {
+  async (input) => {
     const {output} = await prompt(input);
     
     // Fallback mechanism if the AI model returns null
@@ -87,9 +102,7 @@ const aiPoweredProductSearchFlow = ai.defineFlow(
         if (fallbackProducts.length > 0) {
             return {
                 products: fallbackProducts.slice(0, 5).map(p => ({
-                    id: p.id,
-                    name: p.name,
-                    description: p.description,
+                    ...p,
                     suitabilityExplanation: `Bu ürün, "${input.query}" aramanızla ilgili olabilecek genel bir eşleşmedir.`
                 })),
                 explanation: `İsteğiniz için en iyi sonuçları bulmakta zorlandım, ancak "${input.query}" ile ilgili olabilecek bazı ürünler aşağıda listelenmiştir.`

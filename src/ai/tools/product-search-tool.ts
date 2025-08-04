@@ -7,6 +7,25 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { products as allProducts } from '@/lib/data';
+import type { Product } from '@/lib/types';
+
+// Define a Zod schema for the full product to ensure type safety
+const ProductSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string(),
+  price: z.number(),
+  imageUrls: z.array(z.string()),
+  properties: z.object({
+    fabric: z.string().optional(),
+    color: z.string().optional(),
+    size: z.string().optional(),
+    material: z.string().optional(),
+  }),
+  likeCount: z.number(),
+  saveCount: z.number(),
+});
+
 
 export const fetchProductsFromEcommerce = ai.defineTool(
   {
@@ -19,44 +38,29 @@ export const fetchProductsFromEcommerce = ai.defineTool(
       site: z.enum(['Trendyol', 'Amazon', 'Hepsiburada']).optional().describe('The e-commerce site to search on.'),
     }),
     outputSchema: z.object({
-      products: z.array(
-        z.object({
-          id: z.string(),
-          name: z.string(),
-          description: z.string(),
-          price: z.number(),
-        })
-      ),
+      products: z.array(ProductSchema),
     }),
   },
   async (input) => {
     console.log(`Structured search for "${JSON.stringify(input)}" on ${input.site || 'any site'}`);
     
-    // In a real application, you would implement logic to call the API of the specified site.
-    // For this prototype, we return mock data, filtering based on the structured input.
-    
-    let searchResults = allProducts.filter(product => {
+    let searchResults: Product[] = allProducts.filter(product => {
       const nameLower = product.name.toLowerCase();
       const descriptionLower = product.description.toLowerCase();
       const propertiesString = JSON.stringify(product.properties).toLowerCase();
 
-      // Check item type
       if (!nameLower.includes(input.itemType.toLowerCase())) {
           return false;
       }
 
-      // Check color
       if (input.color && !nameLower.includes(input.color.toLowerCase()) && !(product.properties.color?.toLowerCase().includes(input.color.toLowerCase()))){
          return false;
       }
       
-      // Check attributes
       if (input.attributes && input.attributes.length > 0) {
         for (const attr of input.attributes) {
             const attrLower = attr.toLowerCase();
-            // A simple check in name, description, and properties
             if (!nameLower.includes(attrLower) && !descriptionLower.includes(attrLower) && !propertiesString.includes(attrLower)) {
-                // More advanced logic could be here, e.g., "sıcak tutmayan" -> check for "keten", "yazlık" etc.
                 if((attrLower.includes("yaz") || attrLower.includes("serin") || attrLower.includes("sıcak tutmayan")) && product.properties.fabric?.toLowerCase().includes("keten")){
                     // it's a match
                 } else {
@@ -69,7 +73,6 @@ export const fetchProductsFromEcommerce = ai.defineTool(
       return true;
     });
 
-    // If no results, do a broader search with just the item type as a fallback
     if (searchResults.length === 0) {
         console.log("No results from structured search, performing fallback search.");
         searchResults = allProducts.filter(product => product.name.toLowerCase().includes(input.itemType.toLowerCase()));
@@ -78,13 +81,9 @@ export const fetchProductsFromEcommerce = ai.defineTool(
 
     console.log(`Found ${searchResults.length} mock products.`);
 
+    // Return the full product object
     return {
-      products: searchResults.slice(0, 5).map(p => ({ // Return a max of 5 results
-        id: p.id,
-        name: p.name,
-        description: p.description,
-        price: p.price,
-      })),
+      products: searchResults.slice(0, 5)
     };
   }
 );

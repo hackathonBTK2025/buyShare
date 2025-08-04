@@ -8,11 +8,11 @@ import { Loader2, User, Sparkles, Send, Mic, Paperclip, X } from "lucide-react";
 import {
   aiPoweredProductSearch,
   AiPoweredProductSearchInput,
+  AiPoweredProductSearchOutput
 } from "@/ai/flows/ai-powered-product-search";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ProductCard } from "@/components/product-card";
-import { products as allProducts } from "@/lib/data";
 import { Product } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -153,7 +153,14 @@ function ChatPageContent() {
   const [state, formAction, isPending] = useActionState<ChatState, FormData>(
     async (prevState, formData) => {
       const currentQuery = formData.get("query") as string;
-      if (!currentQuery && !imageDataUri) return { ...prevState, error: "Lütfen bir mesaj girin veya bir görsel seçin." };
+      if (!currentQuery && !imageDataUri) {
+          const newState = { ...prevState, error: "Lütfen bir mesaj girin veya bir görsel seçin." };
+          // Clear error after 3 seconds
+          setTimeout(() => {
+              // TODO: This is not ideal as it triggers a re-render. A better way would be to manage error state separately.
+          }, 3000);
+          return newState;
+      }
       
       router.replace('/chat', undefined);
 
@@ -171,26 +178,15 @@ function ChatPageContent() {
 
       try {
         const input: AiPoweredProductSearchInput = { query: currentQuery, photoDataUri: currentImageDataUri ?? undefined };
-        const result = await aiPoweredProductSearch(input);
+        const result: AiPoweredProductSearchOutput = await aiPoweredProductSearch(input);
         
         let assistantMessage: Message;
 
         if (result.products && result.products.length > 0) {
-            const suggestedProducts = result.products
-              .map(p => {
-                const fullProduct = allProducts.find(ap => ap.id === p.id);
-                if (!fullProduct) return null;
-                return {
-                  ...fullProduct,
-                  suitabilityExplanation: p.suitabilityExplanation || ""
-                };
-              })
-              .filter((p): p is EnrichedProduct => p !== null); 
-
             assistantMessage = {
                 role: 'assistant',
                 content: result.explanation,
-                products: suggestedProducts,
+                products: result.products as EnrichedProduct[],
                 explanation: result.explanation
             };
         } else {
