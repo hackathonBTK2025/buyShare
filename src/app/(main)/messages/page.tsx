@@ -52,7 +52,9 @@ export default function MessagesPage() {
   const [conversations, setConversations] = useState<Conversation[]>(initialConversations);
   const [selectedConversation, setSelectedConversation] = useState<Conversation | null>(conversations[0] || null);
   const [newMessage, setNewMessage] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [newConvoSearchTerm, setNewConvoSearchTerm] = useState('');
+  const [conversationSearchTerm, setConversationSearchTerm] = useState('');
+
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,7 +96,11 @@ export default function MessagesPage() {
     setSelectedConversation(newConvo);
   };
   
-  const filteredUsers = allUsers.filter(user => user.id !== 'user1' && user.username.toLowerCase().includes(searchTerm.toLowerCase()));
+  const filteredUsers = allUsers.filter(user => user.id !== 'user1' && user.username.toLowerCase().includes(newConvoSearchTerm.toLowerCase()));
+
+  const filteredConversations = conversations.filter(convo => 
+    convo.user.username.toLowerCase().includes(conversationSearchTerm.toLowerCase())
+  );
 
 
   return (
@@ -119,8 +125,8 @@ export default function MessagesPage() {
                         <Input 
                             placeholder="Kullanıcı ara..." 
                             className="pl-8" 
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            value={newConvoSearchTerm}
+                            onChange={(e) => setNewConvoSearchTerm(e.target.value)}
                         />
                     </div>
                     <ScrollArea className="max-h-[60vh]">
@@ -146,12 +152,17 @@ export default function MessagesPage() {
           </div>
           <div className="relative mt-4">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Mesajlarda ara..." className="pl-8" />
+              <Input 
+                placeholder="Mesajlarda ara..." 
+                className="pl-8" 
+                value={conversationSearchTerm}
+                onChange={(e) => setConversationSearchTerm(e.target.value)}
+              />
           </div>
         </div>
         <ScrollArea className="flex-grow">
           <div className="divide-y">
-            {conversations.map((convo) => (
+            {filteredConversations.map((convo) => (
               <div
                 key={convo.user.id}
                 className={`p-4 flex items-center gap-4 cursor-pointer transition-colors ${selectedConversation?.user.id === convo.user.id ? 'bg-muted' : 'hover:bg-muted/50'}`}
