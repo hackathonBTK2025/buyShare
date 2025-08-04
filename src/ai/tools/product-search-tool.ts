@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A tool for fetching product information from e-commerce websites.
@@ -15,7 +16,7 @@ export const fetchProductsFromEcommerce = ai.defineTool(
       itemType: z.string().describe('The type of clothing or item (e.g., "gömlek", "kot pantolon", "ceket").'),
       color: z.string().optional().describe('The desired color of the item.'),
       attributes: z.array(z.string()).optional().describe('Other defining features or attributes (e.g., "yazlık", "keten", "suya dayanıklı").'),
-      site: z.enum(['Trendyol', 'Amazon', 'Hepsiburada']).describe('The e-commerce site to search on.'),
+      site: z.enum(['Trendyol', 'Amazon', 'Hepsiburada']).optional().describe('The e-commerce site to search on.'),
     }),
     outputSchema: z.object({
       products: z.array(
@@ -29,7 +30,7 @@ export const fetchProductsFromEcommerce = ai.defineTool(
     }),
   },
   async (input) => {
-    console.log(`Structured search for "${JSON.stringify(input)}" on ${input.site}`);
+    console.log(`Structured search for "${JSON.stringify(input)}" on ${input.site || 'any site'}`);
     
     // In a real application, you would implement logic to call the API of the specified site.
     // For this prototype, we return mock data, filtering based on the structured input.
@@ -70,6 +71,7 @@ export const fetchProductsFromEcommerce = ai.defineTool(
 
     // If no results, do a broader search with just the item type as a fallback
     if (searchResults.length === 0) {
+        console.log("No results from structured search, performing fallback search.");
         searchResults = allProducts.filter(product => product.name.toLowerCase().includes(input.itemType.toLowerCase()));
     }
 

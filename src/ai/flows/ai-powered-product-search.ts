@@ -11,6 +11,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { fetchProductsFromEcommerce } from '../tools/product-search-tool';
+import { products as allProducts } from '@/lib/data';
 
 const AiPoweredProductSearchInputSchema = z.object({
   query: z.string().describe('The user query to search products.'),
@@ -77,8 +78,30 @@ const aiPoweredProductSearchFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await prompt(input);
-    return output!;
+    
+    // Fallback mechanism if the AI model returns null
+    if (!output) {
+        console.log("AI model returned null. Implementing fallback search.");
+        const fallbackProducts = allProducts.filter(p => p.name.toLowerCase().includes(input.query.toLowerCase()) || p.description.toLowerCase().includes(input.query.toLowerCase()));
+        
+        if (fallbackProducts.length > 0) {
+            return {
+                products: fallbackProducts.slice(0, 5).map(p => ({
+                    id: p.id,
+                    name: p.name,
+                    description: p.description,
+                    suitabilityExplanation: `Bu ürün, "${input.query}" aramanızla ilgili olabilecek genel bir eşleşmedir.`
+                })),
+                explanation: `İsteğiniz için en iyi sonuçları bulmakta zorlandım, ancak "${input.query}" ile ilgili olabilecek bazı ürünler aşağıda listelenmiştir.`
+            };
+        } else {
+             return {
+                products: [],
+                explanation: `Üzgünüm, "${input.query}" ile eşleşen bir ürün bulamadım. Lütfen farklı anahtar kelimelerle tekrar deneyin.`
+            };
+        }
+    }
+    
+    return output;
   }
 );
-
-    
