@@ -97,7 +97,23 @@ export const fetchProductsFromEcommerce = ai.defineTool(
 ai.defineTool(
     {
         name: 'getProductInfo',
-        description: 'Act as an AI shopping assistant. Given a product name, return detailed information including: product id, name, description, price, and a random but realistic product image URL from e-commerce sites like Trendyol, Amazon, or similar.',
+        description: `You are an AI shopping assistant. Given any product name, you must return a JSON object with the following fields:
+- id: unique product id
+- name: product name
+- description: a detailed product description (2-3 sentences)
+- price: a realistic price in Turkish Lira (e.g., "749 TL")
+- image: a random but realistic product image URL similar to images from Trendyol or Amazon.
+
+The image URL must look plausible, in the format "https://..." ending with .jpg or .png, and should match the product context. You must never return empty or null image fields.
+
+Example response:
+{
+  "id": "12345",
+  "name": "Ergonomic Office Chair",
+  "description": "Comfortable and stylish ergonomic office chair with adjustable height and lumbar support. Perfect for long hours of work or gaming.",
+  "price": "2.499 TL",
+  "image": "https://loremflickr.com/300/300/chair"
+}`,
         inputSchema: z.object({
             productName: z.string(),
         }),
