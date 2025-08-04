@@ -1,8 +1,9 @@
+
 "use client";
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Minus, Plus, Trash2, X } from 'lucide-react';
+import { Minus, Plus, Trash2, X, ShoppingCart } from 'lucide-react';
 import { useCart } from '@/context/cart-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,7 +15,10 @@ export default function CartPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold tracking-tight mb-8">Sepetim ({cartCount} ürün)</h1>
+      <div className="flex items-center gap-3 mb-8">
+        <ShoppingCart className="h-8 w-8 text-primary" />
+        <h1 className="text-3xl font-bold tracking-tight">Sepetim ({cartCount} ürün)</h1>
+      </div>
       {items.length === 0 ? (
         <div className="text-center py-16 border-2 border-dashed rounded-lg">
           <p className="text-xl text-muted-foreground">Sepetiniz boş.</p>
