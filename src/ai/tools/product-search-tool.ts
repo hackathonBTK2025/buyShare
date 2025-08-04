@@ -78,12 +78,49 @@ export const fetchProductsFromEcommerce = ai.defineTool(
         searchResults = allProducts.filter(product => product.name.toLowerCase().includes(input.itemType.toLowerCase()));
     }
 
+    // Generate random but realistic image URLs for the search results
+    const resultsWithRandomImages = searchResults.map(p => ({
+        ...p,
+        imageUrls: [`https://placehold.co/600x800?text=${encodeURIComponent(p.name)}`]
+    }))
 
-    console.log(`Found ${searchResults.length} mock products.`);
+
+    console.log(`Found ${resultsWithRandomImages.length} mock products.`);
 
     // Return the full product object
     return {
-      products: searchResults.slice(0, 5)
+      products: resultsWithRandomImages.slice(0, 5)
     };
   }
 );
+
+ai.defineTool(
+    {
+        name: 'getProductInfo',
+        description: 'Act as an AI shopping assistant. Given a product name, return detailed information including: product id, name, description, price, and a random but realistic product image URL from e-commerce sites like Trendyol, Amazon, or similar.',
+        inputSchema: z.object({
+            productName: z.string(),
+        }),
+        outputSchema: z.object({
+            id: z.string(),
+            name: z.string(),
+            description: z.string(),
+            price: z.string(),
+            image: z.string(),
+        }),
+    },
+    async (input) => {
+        // This is a mock implementation. In a real scenario, you might call an external API or a database.
+        // For now, we'll generate some plausible random data.
+        const randomId = Math.random().toString(36).substring(7);
+        const price = (Math.random() * 500 + 50).toFixed(2); // Random price between 50 and 550
+        
+        return {
+            id: randomId,
+            name: input.productName,
+            description: `This is a high-quality ${input.productName}. Perfect for various occasions and styles. Made with the finest materials.`,
+            price: `${price} TL`,
+            image: `https://placehold.co/600x800?text=${encodeURIComponent(input.productName)}`
+        }
+    }
+)
