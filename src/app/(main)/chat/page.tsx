@@ -91,6 +91,11 @@ function ChatPageContent() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageDataUri, setImageDataUri] = useState<string | null>(null);
   const [isListening, setIsListening] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
   
   const getInitialState = (): ChatState => {
     if (historyIndexParam) {
@@ -118,6 +123,7 @@ function ChatPageContent() {
   };
 
   const handleMicClick = () => {
+    if (typeof window === 'undefined') return;
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
     recognition.lang = 'tr-TR';
     recognition.interimResults = false;
@@ -349,9 +355,9 @@ function ChatPageContent() {
                 <Button type="button" size="icon" variant="ghost" onClick={() => fileInputRef.current?.click()} disabled={isPending}>
                     <Paperclip className="h-5 w-5"/>
                 </Button>
-                 <Button type="button" size="icon" variant={isListening ? 'destructive' : 'ghost'} onClick={handleMicClick} disabled={isPending}>
+                 {isClient && <Button type="button" size="icon" variant={isListening ? 'destructive' : 'ghost'} onClick={handleMicClick} disabled={isPending}>
                     <Mic className="h-5 w-5"/>
-                </Button>
+                </Button>}
                 <Button type="submit" size="icon" className="h-9 w-9" disabled={isPending}>
                     <Send className="h-5 w-5"/>
                 </Button>
