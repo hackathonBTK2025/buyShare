@@ -68,6 +68,7 @@ export default function CartPage() {
                           value={item.quantity}
                           onChange={(e) => updateQuantity(item.id, parseInt(e.target.value) || 0)}
                           className="w-14 h-8 text-center"
+                          readOnly
                         />
                         <Button
                           variant="outline"
