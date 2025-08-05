@@ -85,7 +85,7 @@ export const fetchProductsFromEcommerce = ai.defineTool(
     // Generate random but realistic image URLs for the search results
     const resultsWithImages = searchResults.map(p => ({
         ...p,
-        imageUrls: p.imageUrls.length > 0 ? p.imageUrls : [`https://placehold.co/600x800?text=${encodeURIComponent(p.name)}`]
+        imageUrls: p.imageUrls.length > 0 ? p.imageUrls : [`https://placehold.co/600x800.png`]
     }))
 
 
@@ -140,7 +140,7 @@ Example response:
             name: input.productName,
             description: `This is a high-quality ${input.productName}. Perfect for various occasions and styles. Made with the finest materials.`,
             price: `${price} TL`,
-            image: `https://placehold.co/600x800?text=${encodeURIComponent(input.productName)}`
+            image: `https://placehold.co/600x800.png`
         }
     }
 )

@@ -1,3 +1,4 @@
+
 import type { Product, User, AiChat, Story, Category } from './types';
 
 export const users: User[] = [
