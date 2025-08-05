@@ -202,6 +202,13 @@ export const aiChats: AiChat[] = [
     productSuggestions: [products[3]],
     likeCount: 41,
   },
+   {
+    id: 'chat4',
+    user: users[0], // perisu
+    userComment: "Bugünün rahat ama havalı kombini! 😎",
+    productSuggestions: [products[0], products[1], products[8]], // Jean, Shirt, Jacket
+    likeCount: 88,
+  },
 ];
 
 export const stories: Story[] = [
