@@ -11,8 +11,7 @@
 <img width="1525" height="718" alt="Ekran görüntüsü 2025-08-05 144511" src="https://github.com/user-attachments/assets/7d9695db-c47d-4a54-8ff8-9dd76375ddd3" />
 <img width="1520" height="716" alt="Ekran görüntüsü 2025-08-05 144538" src="https://github.com/user-attachments/assets/066b9736-e1a7-4f0b-8688-ffddc2746436" />
 
-***https://9000-firebase-studio-1753878648861.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev***
-
+Firabase Linki:***https://9000-firebase-studio-1753878648861.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev***
 Bu proje, e-ticaret, yapay zeka ve sosyal medya özelliklerini bir araya getirerek, kullanıcılara geleneksel alışveriş deneyimlerinin ötesinde, kişiselleştirilmiş, bilgilendirici ve sosyal bir platform sunmayı amaçlayan yenilikçi bir web uygulamasıdır. Proje, özellikle Firebase Studio platformunda geliştirilmek üzere tasarlanmıştır.
 Firebase Linki:
 
@@ -89,4 +88,11 @@ Yapay Zeka Yanıt Kontrolü: Gemini'nin yanlış, zararlı veya yanlı içerik �
 Veri Gizliliği: KVKK ve GDPR gibi ilgili düzenlemelere tam uyum sağlanarak kullanıcı verilerinin korunmasına öncelik verilir.
 
 Altyapı Ölçeklenebilirliği: Firebase'in sunucusuz mimarisi sayesinde, uygulamanın yüksek trafik dönemlerinde dahi performansını koruması ve otomatik olarak ölçeklenmesi sağlanır.
+
+## Projeyi Görüntüle
+[Canlı Demo]:https://9000-firebase-studio-1753878648861.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev
+
+## Repo Linki
+[GitHub Reposu](https://github.com/kullanici-adi/repo-adi)
+
 
