@@ -93,6 +93,6 @@ Altyapı Ölçeklenebilirliği: Firebase'in sunucusuz mimarisi sayesinde, uygula
 [Canlı Demo]:https://9000-firebase-studio-1753878648861.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev
 
 ## Repo Linki
-[GitHub Reposu](https://github.com/kullanici-adi/repo-adi)
+[GitHub Reposu]:https://github.com/hackathonBTK2025/buyShare.git
 
 
