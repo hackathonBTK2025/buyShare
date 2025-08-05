@@ -6,6 +6,8 @@
 <img width="1532" height="712" alt="Ekran görüntüsü 2025-08-05 144359" src="https://github.com/user-attachments/assets/4d551850-d073-4287-834a-9cc00c9c95de" />
 <img width="1497" height="717" alt="Ekran görüntüsü 2025-08-05 144441" src="https://github.com/user-attachments/assets/8e6d6f9a-7876-44d3-a453-3566e48d8822" />
 <img width="1525" height="718" alt="Ekran görüntüsü 2025-08-05 144511" src="https://github.com/user-attachments/assets/833ea8cb-7362-4ebd-a449-97966f779d57" />
+<img width="1452" height="710" alt="Ekran görüntüsü 2025-08-05 145126" src="https://github.com/user-attachments/assets/aa39d4c9-a755-4480-8e2a-55cf5da85525" />
+
 
 ***https://9000-firebase-studio-1753878648861.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev***
 
