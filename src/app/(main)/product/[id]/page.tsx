@@ -1,9 +1,8 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { CheckCircle, Heart, Save, ShoppingCart, Star } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import { products } from '@/lib/data';
 import { generateProductSummary } from '@/ai/flows/product-information-summary';
-import { Button } from '@/components/ui/button';
 import {
   Carousel,
   CarouselContent,
@@ -13,6 +12,8 @@ import {
 } from '@/components/ui/carousel';
 import { Separator } from '@/components/ui/separator';
 import { AddToCartButton } from '@/components/add-to-cart-button';
+import { ProductActionButtons } from '@/components/product-action-buttons';
+import { Star } from 'lucide-react';
 
 export default async function ProductDetailPage({ params }: { params: { id: string } }) {
   const product = products.find((p) => p.id === params.id);
@@ -89,17 +90,10 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
           
           <div className="flex flex-col sm:flex-row gap-4">
             <AddToCartButton product={product} />
-            <Button variant="outline" className="w-full sm:w-auto">
-              <Heart className="mr-2 h-4 w-4" /> Beğen
-            </Button>
-            <Button variant="outline" className="w-full sm:w-auto">
-              <Save className="mr-2 h-4 w-4" /> Kaydet
-            </Button>
+            <ProductActionButtons />
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-    
