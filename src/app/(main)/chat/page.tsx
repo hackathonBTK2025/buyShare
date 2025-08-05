@@ -20,12 +20,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "@/hooks/use-toast";
 
 type EnrichedProduct = Product & { suitabilityExplanation?: string };
+type UnsplashImage = { url: string; alt: string };
 
 type Message = {
   role: 'user' | 'assistant';
   content: string;
   imagePreview?: string;
   products?: EnrichedProduct[];
+  images?: UnsplashImage[];
   explanation?: string;
 };
 
@@ -181,19 +183,21 @@ function ChatPageContent() {
         const result: AiPoweredProductSearchOutput = await aiPoweredProductSearch(input);
         
         let assistantMessage: Message;
-
-        if (result.products && result.products.length > 0) {
+        
+        if ((result.products && result.products.length > 0) || (result.images && result.images.length > 0)) {
             assistantMessage = {
                 role: 'assistant',
                 content: result.explanation,
                 products: result.products as EnrichedProduct[],
+                images: result.images as UnsplashImage[],
                 explanation: result.explanation
             };
         } else {
              assistantMessage = {
                 role: 'assistant',
-                content: result.explanation || "Üzgünüm, aramanızla eşleşen bir ürün bulamadım. Lütfen farklı anahtar kelimelerle tekrar deneyin.",
+                content: result.explanation || "Üzgünüm, aramanızla eşleşen bir sonuç bulamadım. Lütfen farklı anahtar kelimelerle tekrar deneyin.",
                 products: [],
+                images: [],
             };
         }
         
@@ -265,6 +269,21 @@ function ChatPageContent() {
                                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     {message.products.map((product) => (
                                         <ProductCard key={product.id} product={product} />
+                                    ))}
+                                </div>
+                            )}
+                             {message.images && message.images.length > 0 && (
+                                <div className="mt-4 grid grid-cols-2 gap-2">
+                                    {message.images.map((image, idx) => (
+                                        <div key={idx} className="relative aspect-square">
+                                            <Image
+                                                src={image.url}
+                                                alt={image.alt}
+                                                fill
+                                                className="rounded-md object-cover"
+                                                data-ai-hint="fashion style"
+                                            />
+                                        </div>
                                     ))}
                                 </div>
                             )}

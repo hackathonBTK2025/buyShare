@@ -11,6 +11,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { fetchProductsFromEcommerce } from '../tools/product-search-tool';
+import { searchUnsplash } from '../tools/unsplash-search-tool';
 import { products as allProducts } from '@/lib/data';
 import type { Product } from '@/lib/types';
 
@@ -53,8 +54,14 @@ const AiPoweredProductSearchOutputSchema = z.object({
         .string()
         .describe('Explanation of why the product is suitable for the query.'),
     })
-  ).describe('Array of products relevant to the search query.'),
-  explanation: z.string().describe('Explanation of why the products are suitable for the query.'),
+  ).optional().describe('Array of products relevant to the search query.'),
+  images: z.array(
+    z.object({
+      url: z.string(),
+      alt: z.string(),
+    })
+  ).optional().describe('Array of inspirational images from Unsplash.'),
+  explanation: z.string().describe('Explanation of why the products or images are suitable for the query.'),
 });
 
 export type AiPoweredProductSearchOutput = z.infer<typeof AiPoweredProductSearchOutputSchema>;
@@ -69,17 +76,15 @@ const prompt = ai.definePrompt({
   name: 'aiPoweredProductSearchPrompt',
   input: {schema: AiPoweredProductSearchInputSchema},
   output: {schema: AiPoweredProductSearchOutputSchema},
-  tools: [fetchProductsFromEcommerce],
-  prompt: `You are an expert e-commerce product search assistant.
-A user will provide a natural language query for products. Your task is to:
-1.  Analyze the user's query and/or photo to extract key product attributes like item type, color, material, and other qualities (e.g., "for summer", "doesn't get hot").
-2.  Use the 'fetchProductsFromEcommerce' tool with these extracted attributes to search for products from e-commerce sites like Trendyol, Amazon, or Hepsiburada.
-3.  Based on the tool's results, return a list of the most relevant products.
-4.  For each product, provide a 'suitabilityExplanation' of why it's a good match for the user's specific query.
-5.  Provide an overall 'explanation' that summarizes the search results.
+  tools: [fetchProductsFromEcommerce, searchUnsplash],
+  prompt: `You are an expert e-commerce product search assistant named Gemini. Your goal is to help users find products or inspiration.
 
-Example Query: "I'm looking for a blue shirt that won't be too hot for summer"
-- Extracted attributes for tool: itemType: "shirt", color: "blue", attributes: ["summer", "cool"]
+Analyze the user's query and/or photo.
+- If the user is asking for specific products to buy (e.g., "find me a...", "I want to buy...", "price of..."), use the 'fetchProductsFromEcommerce' tool. Extract key attributes like item type, color, material, and other qualities (e.g., "for summer", "doesn't get hot") to use with the tool. For each product found, provide a 'suitabilityExplanation'.
+- If the user is looking for ideas or inspiration (e.g., "show me...", "ideas for...", "images of..."), use the 'searchUnsplash' tool to find relevant, high-quality photos.
+- If no specific products or images are found, provide a helpful and friendly message to the user.
+
+Always provide an overall 'explanation' that summarizes the search results.
 
 User Query: {{{query}}}
 {{#if photoDataUri}}
@@ -98,14 +103,13 @@ const aiPoweredProductSearchFlow = ai.defineFlow(
     const {output} = await prompt(input);
     
     // Fallback mechanism if the AI model returns null
-    if (!output || !output.products || output.products.length === 0) {
-        console.log("AI model returned null or no products. Implementing fallback search.");
+    if (!output || (!output.products && !output.images) || (output.products?.length === 0 && output.images?.length === 0)) {
+        console.log("AI model returned null or no results. Implementing fallback search.");
         const fallbackQuery = input.query.toLowerCase();
         const fallbackProducts = allProducts.filter(p => p.name.toLowerCase().includes(fallbackQuery) || p.description.toLowerCase().includes(fallbackQuery));
         
         const productsWithImages = fallbackProducts.map(p => ({
             ...p,
-            imageUrls: p.imageUrls.length > 0 ? p.imageUrls : [`https://placehold.co/600x800?text=${encodeURIComponent(p.name)}`],
             suitabilityExplanation: `This product is a general match that might be relevant to your search for "${input.query}".`
         }));
 
@@ -117,7 +121,7 @@ const aiPoweredProductSearchFlow = ai.defineFlow(
         } else {
              return {
                 products: [],
-                explanation: `Sorry, I couldn't find any products matching "${input.query}". Please try again with different keywords.`
+                explanation: `Sorry, I couldn't find any products or images matching "${input.query}". Please try again with different keywords.`
             };
         }
     }
