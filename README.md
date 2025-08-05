@@ -1,6 +1,12 @@
 ![WhatsApp Görsel 2025-08-05 saat 14 16 38_05ff99f5](https://github.com/user-attachments/assets/41e81eda-72dc-410f-b5c3-355687fcd511)
 ![WhatsApp Görsel 2025-08-05 saat 14 16 56_deb5f197](https://github.com/user-attachments/assets/e7ea2fc7-117c-45af-83ae-0b797a50a758)
-![WhatsApp Görsel 2025-08-05 saat 14 18 19_b40d9976](https://github.com/user-attachments/assets/9d828ac9-cc61-402f-86ef-7a412929a52c)
+![WhatsApp Görsel 2025-08-05 saat 14 18 19_b40d9976](https://github.com/user-attachments/assets/9d828ac9-cc61-402f-86ef-7a412929a52c)<img width="1515" height="717" alt="Ekran görüntüsü 2025-08-05 144220" src="https://github.com/user-attachments/assets/a51c0f86-a835-4be6-a44f-747c4f712410" />
+<img width="1523" height="757" alt="Ekran görüntüsü 2025-08-05 144248" src="https://github.com/user-attachments/assets/ca3c9e11-4b98-40e1-bacb-e79095c03cf4" />
+<img width="1515" height="726" alt="Ekran görüntüsü 2025-08-05 144315" src="https://github.com/user-attachments/assets/7a3a4482-a1e1-43ef-ae5c-4d4ed635a345" />
+<img width="1532" height="712" alt="Ekran görüntüsü 2025-08-05 144359" src="https://github.com/user-attachments/assets/4d551850-d073-4287-834a-9cc00c9c95de" />
+<img width="1497" height="717" alt="Ekran görüntüsü 2025-08-05 144441" src="https://github.com/user-attachments/assets/8e6d6f9a-7876-44d3-a453-3566e48d8822" />
+<img width="1525" height="718" alt="Ekran görüntüsü 2025-08-05 144511" src="https://github.com/user-attachments/assets/833ea8cb-7362-4ebd-a449-97966f779d57" />
+
 ***https://9000-firebase-studio-1753878648861.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev***
 
 Bu proje, e-ticaret, yapay zeka ve sosyal medya özelliklerini bir araya getirerek, kullanıcılara geleneksel alışveriş deneyimlerinin ötesinde, kişiselleştirilmiş, bilgilendirici ve sosyal bir platform sunmayı amaçlayan yenilikçi bir web uygulamasıdır. Proje, özellikle Firebase Studio platformunda geliştirilmek üzere tasarlanmıştır.
