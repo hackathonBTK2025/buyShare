@@ -115,8 +115,8 @@ export default function CartPage() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button size="lg" className="w-full">
-                  Siparişi Tamamla
+                <Button size="lg" className="w-full" asChild>
+                  <Link href="/checkout/address">Siparişi Tamamla</Link>
                 </Button>
               </CardFooter>
             </Card>
