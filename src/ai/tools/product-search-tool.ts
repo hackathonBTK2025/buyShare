@@ -23,7 +23,10 @@ const ProductSchema = z.object({
     material: z.string().optional(),
   }),
   likeCount: z.number(),
-  saveCount: z.number(),
+  categoryId: z.string(),
+  stockQuantity: z.number(),
+  aiSummary: z.string().optional(),
+  createdAt: z.string(),
 });
 
 
@@ -113,7 +116,7 @@ Example response:
   "name": "Ergonomic Office Chair",
   "description": "Comfortable and stylish ergonomic office chair with adjustable height and lumbar support. Perfect for long hours of work or gaming.",
   "price": "2.499 TL",
-  "image": "https://loremflickr.com/300/300/chair"
+  "image": "https://placehold.co/600x800.png"
 }`,
         inputSchema: z.object({
             productName: z.string(),

@@ -37,6 +37,11 @@ export function ProductCard({ product }: ProductCardProps) {
                 <p>{product.suitabilityExplanation}</p>
               </div>
             )}
+             {product.aiSummary && !product.suitabilityExplanation && (
+              <div className="absolute bottom-0 w-full p-2 bg-black/50 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p>{product.aiSummary}</p>
+              </div>
+            )}
           </div>
         </CardContent>
       </Link>

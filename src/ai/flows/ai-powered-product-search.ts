@@ -40,7 +40,10 @@ const ProductSchema = z.object({
     material: z.string().optional(),
   }),
   likeCount: z.number(),
-  saveCount: z.number(),
+  categoryId: z.string(),
+  stockQuantity: z.number(),
+  aiSummary: z.string().optional(),
+  createdAt: z.string(),
 });
 
 const AiPoweredProductSearchOutputSchema = z.object({
@@ -67,20 +70,20 @@ const prompt = ai.definePrompt({
   input: {schema: AiPoweredProductSearchInputSchema},
   output: {schema: AiPoweredProductSearchOutputSchema},
   tools: [fetchProductsFromEcommerce],
-  prompt: `Sen uzman bir e-ticaret ürün arama asistanısın.
-Bir kullanıcı ürünler için doğal dilde bir sorgu sağlayacaktır. Görevin:
-1.  Kullanıcının sorgusunu ve/veya fotoğrafını analiz ederek ürün tipi, renk, malzeme ve diğer özellikler ("yazlık", "sıcak tutmayan" gibi) gibi temel ürün niteliklerini çıkar.
-2.  Bu çıkarılan niteliklerle 'fetchProductsFromEcommerce' aracını kullanarak Trendyol, Amazon veya Hepsiburada gibi e-ticaret sitelerinden ürünleri ara.
-3.  Aracın sonuçlarına dayanarak, en alakalı ürünlerin bir listesini döndür.
-4.  Her ürün için, kullanıcının özel sorgusuna neden iyi bir eşleşme olduğuna dair bir 'uygunlukAçıklaması' (suitabilityExplanation) sağla.
-5.  Arama sonuçlarını özetleyen genel bir 'açıklama' (explanation) sağla.
+  prompt: `You are an expert e-commerce product search assistant.
+A user will provide a natural language query for products. Your task is to:
+1.  Analyze the user's query and/or photo to extract key product attributes like item type, color, material, and other qualities (e.g., "for summer", "doesn't get hot").
+2.  Use the 'fetchProductsFromEcommerce' tool with these extracted attributes to search for products from e-commerce sites like Trendyol, Amazon, or Hepsiburada.
+3.  Based on the tool's results, return a list of the most relevant products.
+4.  For each product, provide a 'suitabilityExplanation' of why it's a good match for the user's specific query.
+5.  Provide an overall 'explanation' that summarizes the search results.
 
-Örnek Sorgu: "mavi, yazın sıcak tutmayan bir gömlek arıyorum"
-- Araç için çıkarılan nitelikler: itemType: "gömlek", color: "mavi", attributes: ["yazlık", "sıcak tutmayan"]
+Example Query: "I'm looking for a blue shirt that won't be too hot for summer"
+- Extracted attributes for tool: itemType: "shirt", color: "blue", attributes: ["summer", "cool"]
 
-Kullanıcı Sorgusu: {{{query}}}
+User Query: {{{query}}}
 {{#if photoDataUri}}
-Kullanıcı Fotoğrafı: {{media url=photoDataUri}}
+User Photo: {{media url=photoDataUri}}
 {{/if}}
 `,
 });
@@ -103,18 +106,18 @@ const aiPoweredProductSearchFlow = ai.defineFlow(
         const productsWithImages = fallbackProducts.map(p => ({
             ...p,
             imageUrls: p.imageUrls.length > 0 ? p.imageUrls : [`https://placehold.co/600x800?text=${encodeURIComponent(p.name)}`],
-            suitabilityExplanation: `Bu ürün, "${input.query}" aramanızla ilgili olabilecek genel bir eşleşmedir.`
+            suitabilityExplanation: `This product is a general match that might be relevant to your search for "${input.query}".`
         }));
 
         if (productsWithImages.length > 0) {
             return {
                 products: productsWithImages.slice(0, 5),
-                explanation: `İsteğiniz için en iyi sonuçları bulmakta zorlandım, ancak "${input.query}" ile ilgili olabilecek bazı ürünler aşağıda listelenmiştir.`
+                explanation: `I had trouble finding the best results for your request, but here are some products that might be related to "${input.query}".`
             };
         } else {
              return {
                 products: [],
-                explanation: `Üzgünüm, "${input.query}" ile eşleşen bir ürün bulamadım. Lütfen farklı anahtar kelimelerle tekrar deneyin.`
+                explanation: `Sorry, I couldn't find any products matching "${input.query}". Please try again with different keywords.`
             };
         }
     }

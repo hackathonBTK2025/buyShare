@@ -11,7 +11,10 @@ export interface Product {
     material?: string;
   };
   likeCount: number;
-  saveCount: number;
+  categoryId: string;
+  stockQuantity: number;
+  aiSummary?: string;
+  createdAt: string; 
 }
 
 export interface User {
@@ -43,4 +46,9 @@ export interface Story {
   userId: string;
   imageUrl: string;
   duration?: number;
+}
+
+export interface Category {
+  id: string;
+  name: string;
 }

@@ -69,7 +69,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                 <CheckCircle className="w-5 h-5"/>
                 Yapay Zeka Özeti
             </h2>
-            <p className="text-muted-foreground">{summary}</p>
+            <p className="text-muted-foreground">{product.aiSummary || summary}</p>
           </div>
 
           <div>

@@ -1,4 +1,4 @@
-import type { Product, User, AiChat, Story } from './types';
+import type { Product, User, AiChat, Story, Category } from './types';
 
 export const users: User[] = [
   {
@@ -14,7 +14,7 @@ export const users: User[] = [
   {
     id: 'user0',
     username: 'perisu',
-    profilePictureUrl: 'https://placehold.co/100x100',
+    profilePictureUrl: 'https://placehold.co/100x100.png',
     followerCount: 1,
     followingCount: 1,
     followingIds: ['user1'],
@@ -23,81 +23,133 @@ export const users: User[] = [
   {
     id: 'user2',
     username: 'henife',
-    profilePictureUrl: 'https://placehold.co/100x100',
+    profilePictureUrl: 'https://placehold.co/100x100.png',
     followerCount: 1,
     followingCount: 1,
     followingIds: ['user1'],
     hasStory: true,
   },
-  { id: 'user3', username: 'ahmet', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0, hasStory: false },
-  { id: 'user4', username: 'zeynep', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0, hasStory: false },
-  { id: 'user5', username: 'mehmet', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0, hasStory: false },
-  { id: 'user6', username: 'elif', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0, hasStory: false },
-  { id: 'user7', username: 'can', profilePictureUrl: 'https://placehold.co/100x100', followerCount: 0, followingCount: 0, hasStory: false },
+  { id: 'user3', username: 'ahmet', profilePictureUrl: 'https://placehold.co/100x100.png', followerCount: 0, followingCount: 0, hasStory: false },
+  { id: 'user4', username: 'zeynep', profilePictureUrl: 'https://placehold.co/100x100.png', followerCount: 0, followingCount: 0, hasStory: false },
+  { id: 'user5', username: 'mehmet', profilePictureUrl: 'https://placehold.co/100x100.png', followerCount: 0, followingCount: 0, hasStory: false },
+  { id: 'user6', username: 'elif', profilePictureUrl: 'https://placehold.co/100x100.png', followerCount: 0, followingCount: 0, hasStory: false },
+  { id: 'user7', username: 'can', profilePictureUrl: 'https://placehold.co/100x100.png', followerCount: 0, followingCount: 0, hasStory: false },
 ];
 
 export const allUsers = users;
+
+export const categories: Category[] = [
+  { id: 'cat1', name: 'Giyim' },
+  { id: 'cat2', name: 'Elektronik' },
+  { id: 'cat3', name: 'Ev Dekorasyonu' },
+  { id: 'cat4', name: 'Aksesuar' },
+];
 
 export const products: Product[] = [
   {
     id: 'prod1',
     name: 'Klasik Mavi Kot Pantolon',
-    description:
-      'Zamansız ve çok yönlü bu klasik mavi kot pantolon, gardırobun temel bir parçasıdır. Yüksek kaliteli denimden üretilmiştir, hem konfor hem de dayanıklılık sunar. Her mevsim ve her durum için mükemmeldir.',
+    description: 'Zamansız ve çok yönlü bu klasik mavi kot pantolon, gardırobun temel bir parçasıdır. Yüksek kaliteli denimden üretilmiştir, hem konfor hem de dayanıklılık sunar. Her mevsim ve her durum için mükemmeldir.',
     price: 79.99,
-    imageUrls: ['https://placehold.co/600x800', 'https://placehold.co/600x800'],
-    properties: {
-      fabric: '%98 Pamuk, %2 Elastan',
-      color: 'Klasik Mavi',
-      size: 'W32/L32',
-    },
+    imageUrls: ['https://placehold.co/600x800.png', 'https://placehold.co/600x800.png', 'https://placehold.co/600x800.png'],
+    properties: { fabric: '%98 Pamuk, %2 Elastan', color: 'Klasik Mavi', size: 'W32/L32' },
     likeCount: 125,
-    saveCount: 42,
+    categoryId: 'cat1',
+    stockQuantity: 58,
+    aiSummary: 'Bu ürün, esnek kumaşı sayesinde gün boyu rahatlık sunar ve klasik kesimiyle her tarza uyum sağlar.',
+    createdAt: new Date('2023-10-01T10:00:00Z').toISOString(),
   },
   {
     id: 'prod2',
-    name: 'Yazlık Keten Pantolon',
-    description:
-      'Bu hafif keten pantolonlarla serin ve şık kalın. Nefes alabilen kumaşı, sıcak yaz günleri için idealdir ve rahat ama sofistike bir görünüm sağlar.',
-    price: 64.5,
-    imageUrls: ['https://placehold.co/600x800', 'https://placehold.co/600x800'],
-    properties: {
-      fabric: '%100 Keten',
-      color: 'Bej',
-      size: 'Medium',
-    },
+    name: 'Yazlık Keten Gömlek',
+    description: 'Bu hafif keten gömlek ile serin ve şık kalın. Nefes alabilen kumaşı, sıcak yaz günleri için idealdir ve rahat ama sofistike bir görünüm sağlar.',
+    price: 64.50,
+    imageUrls: ['https://placehold.co/600x800.png', 'https://placehold.co/600x800.png', 'https://placehold.co/600x800.png'],
+    properties: { fabric: '%100 Keten', color: 'Bej', size: 'Medium' },
     likeCount: 210,
-    saveCount: 88,
+    categoryId: 'cat1',
+    stockQuantity: 75,
+    aiSummary: 'Nefes alan keten kumaşı sayesinde bu gömlek, sıcak havalarda konforlu bir kullanım sunar ve ferah bir his verir.',
+    createdAt: new Date('2023-11-15T12:30:00Z').toISOString(),
   },
   {
     id: 'prod3',
-    name: 'Şehir Kaşifi Ceketi',
-    description:
-      'Şehir hayatı için tasarlanmış şık ve fonksiyonel bir ceket. Suya dayanıklı ve ceplerle dolu, şehir maceralarınız için mükemmel bir arkadaştır.',
-    price: 129.0,
-    imageUrls: ['https://placehold.co/600x800'],
-    properties: {
-      fabric: 'Sentetik Karışım',
-      color: 'Zeytin Yeşili',
-      size: 'Large',
-    },
+    name: 'Şehir Kaşifi Su Geçirmez Ceket',
+    description: 'Şehir hayatı için tasarlanmış şık ve fonksiyonel bir ceket. Suya dayanıklı ve ceplerle dolu, şehir maceralarınız için mükemmel bir arkadaştır.',
+    price: 129.00,
+    imageUrls: ['https://placehold.co/600x800.png', 'https://placehold.co/600x800.png', 'https://placehold.co/600x800.png'],
+    properties: { material: 'Sentetik Karışım', color: 'Zeytin Yeşili', size: 'Large' },
     likeCount: 340,
-    saveCount: 112,
+    categoryId: 'cat1',
+    stockQuantity: 33,
+    aiSummary: 'Bu ceket, suya dayanıklı yapısıyla beklenmedik hava koşullarına karşı koruma sağlar.',
+    createdAt: new Date('2024-01-05T09:00:00Z').toISOString(),
   },
   {
     id: 'prod4',
-    name: 'İpek Karışımlı Eşarp',
-    description:
-      'Bu güzel ipek karışımlı eşarpla her kıyafete zarafet katın. Yumuşak, lüks ve çok yönlü, sayısız şekilde şekillendirilebilir.',
-    price: 45.0,
-    imageUrls: ['https://placehold.co/600x800'],
-    properties: {
-      fabric: '%50 İpek, %50 Modal',
-      color: 'Çiçek Desenli',
-    },
+    name: 'İpek Karışımlı Desenli Eşarp',
+    description: 'Bu güzel ipek karışımlı eşarpla her kıyafete zarafet katın. Yumuşak, lüks ve çok yönlü, sayısız şekilde şekillendirilebilir.',
+    price: 45.00,
+    imageUrls: ['https://placehold.co/600x800.png', 'https://placehold.co/600x800.png', 'https://placehold.co/600x800.png'],
+    properties: { fabric: '%50 İpek, %50 Modal', color: 'Çiçek Desenli' },
     likeCount: 89,
-    saveCount: 21,
+    categoryId: 'cat4',
+    stockQuantity: 90,
+    aiSummary: 'Yumuşak dokusu ve zarif deseniyle bu ipek karışımlı eşarp, her türlü kombine sofistike bir dokunuş katar.',
+    createdAt: new Date('2024-02-20T18:45:00Z').toISOString(),
   },
+  {
+    id: 'prod5',
+    name: 'Kablosuz Gürültü Engelleyici Kulaklık',
+    description: 'Müziğinize odaklanın. Gelişmiş gürültü engelleme teknolojisi ve üstün ses kalitesi ile bu kulaklıklar, sürükleyici bir dinleme deneyimi sunar.',
+    price: 349.99,
+    imageUrls: ['https://placehold.co/600x800.png', 'https://placehold.co/600x800.png', 'https://placehold.co/600x800.png'],
+    properties: { color: 'Siyah' },
+    likeCount: 450,
+    categoryId: 'cat2',
+    stockQuantity: 42,
+    aiSummary: 'Gelişmiş gürültü engelleme özelliği, dış dünyadan soyutlanarak tamamen müziğinize odaklanmanızı sağlar.',
+    createdAt: new Date('2024-03-10T11:20:00Z').toISOString(),
+  },
+  {
+    id: 'prod6',
+    name: 'Minimalist Seramik Vazo',
+    description: 'Modern eviniz için zarif bir dokunuş. Bu el yapımı seramik vazo, sade ve şık tasarımıyla her dekora uyum sağlar.',
+    price: 89.90,
+    imageUrls: ['https://placehold.co/600x800.png', 'https://placehold.co/600x800.png', 'https://placehold.co/600x800.png'],
+    properties: { material: 'Seramik', color: 'Mat Beyaz' },
+    likeCount: 150,
+    categoryId: 'cat3',
+    stockQuantity: 65,
+    aiSummary: 'Sade ve modern tasarımıyla bu vazo, evinize minimalist bir estetik katmak için idealdir.',
+    createdAt: new Date('2024-04-12T14:00:00Z').toISOString(),
+  },
+  {
+    id: 'prod7',
+    name: 'Yüksek Belli Skinny Jean',
+    description: 'Vücudu saran kesimi ve yüksek belli tasarımı ile bu jean, modern ve şık bir siluet sunar. Esnek kumaşı gün boyu konfor sağlar.',
+    price: 249.99,
+    imageUrls: ['https://placehold.co/600x800.png', 'https://placehold.co/600x800.png', 'https://placehold.co/600x800.png'],
+    properties: { fabric: 'Denim', color: 'Siyah' },
+    likeCount: 312,
+    categoryId: 'cat1',
+    stockQuantity: 80,
+    aiSummary: 'Yüksek belli kesimi, vücut hatlarını belirginleştirir ve modern bir görünüm sunar.',
+    createdAt: new Date('2024-05-01T09:30:00Z').toISOString(),
+  },
+  {
+    id: 'prod8',
+    name: 'Çift Katmanlı Kışlık Parka',
+    description: 'Soğuk kış günleri için ideal olan bu parka, çift katmanlı yapısı ve yalıtımlı iç astarıyla sizi sıcak tutar. Fonksiyonel cepleri ve ayarlanabilir kapüşonu bulunur.',
+    price: 899.00,
+    imageUrls: ['https://placehold.co/600x800.png', 'https://placehold.co/600x800.png', 'https://placehold.co/600x800.png'],
+    properties: { material: 'Polyester', color: 'Haki' },
+    likeCount: 520,
+    categoryId: 'cat1',
+    stockQuantity: 25,
+    aiSummary: 'Çift katmanlı yalıtımı sayesinde bu parka, en soğuk hava koşullarında bile üstün koruma ve sıcaklık sağlar.',
+    createdAt: new Date('2024-05-15T16:00:00Z').toISOString(),
+  }
 ];
 
 export const aiChats: AiChat[] = [
@@ -125,10 +177,10 @@ export const aiChats: AiChat[] = [
 ];
 
 export const stories: Story[] = [
-    { id: 'story1', userId: 'user1', imageUrl: 'https://placehold.co/1080x1920' },
-    { id: 'story2', userId: 'user1', imageUrl: 'https://placehold.co/1080x1920' },
-    { id: 'story3', userId: 'user0', imageUrl: 'https://placehold.co/1080x1920' },
-    { id: 'story4', userId: 'user2', imageUrl: 'https://placehold.co/1080x1920' },
-    { id: 'story5', userId: 'user2', imageUrl: 'https://placehold.co/1080x1920' },
-    { id: 'story6', userId: 'user2', imageUrl: 'https://placehold.co/1080x1920' },
+    { id: 'story1', userId: 'user1', imageUrl: 'https://placehold.co/1080x1920.png' },
+    { id: 'story2', userId: 'user1', imageUrl: 'https://placehold.co/1080x1920.png' },
+    { id: 'story3', userId: 'user0', imageUrl: 'https://placehold.co/1080x1920.png' },
+    { id: 'story4', userId: 'user2', imageUrl: 'https://placehold.co/1080x1920.png' },
+    { id: 'story5', userId: 'user2', imageUrl: 'https://placehold.co/1080x1920.png' },
+    { id: 'story6', userId: 'user2', imageUrl: 'https://placehold.co/1080x1920.png' },
 ]
