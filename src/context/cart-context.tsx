@@ -67,7 +67,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     updateQuantity,
     cartCount,
     totalPrice,
-  }), [items]);
+  }), [items, addToCart, removeFromCart, updateQuantity, cartCount, totalPrice]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
