@@ -1,7 +1,4 @@
 <img width="1488" height="727" alt="Ekran görüntüsü 2025-08-05 145050" src="https://github.com/user-attachments/assets/00c1fe3d-c59b-4bd6-a441-36be1ac57ce3" />
-![WhatsApp Görsel 2025-08-05 saat 14 16 38_05ff99f5](https://github.com/user-attachments/assets/41e81eda-72dc-410f-b5c3-355687fcd511)
-![WhatsApp Görsel 2025-08-05 saat 14 16 56_deb5f197](https://github.com/user-attachments/assets/e7ea2fc7-117c-45af-83ae-0b797a50a758)
-![WhatsApp Görsel 2025-08-05 saat 14 18 19_b40d9976](https://github.com/user-attachments/assets/9d828ac9-cc61-402f-86ef-7a412929a52c)<img width="1515" height="717" alt="Ekran görüntüsü 2025-08-05 144220" src="https://github.com/user-attachments/assets/a51c0f86-a835-4be6-a44f-747c4f712410" />
 <img width="1523" height="757" alt="Ekran görüntüsü 2025-08-05 144248" src="https://github.com/user-attachments/assets/ca3c9e11-4b98-40e1-bacb-e79095c03cf4" />
 <img width="1515" height="726" alt="Ekran görüntüsü 2025-08-05 144315" src="https://github.com/user-attachments/assets/7a3a4482-a1e1-43ef-ae5c-4d4ed635a345" />
 <img width="1532" height="712" alt="Ekran görüntüsü 2025-08-05 144359" src="https://github.com/user-attachments/assets/4d551850-d073-4287-834a-9cc00c9c95de" />
