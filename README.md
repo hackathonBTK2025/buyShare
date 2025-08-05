@@ -12,7 +12,7 @@
 <img width="1520" height="716" alt="Ekran görüntüsü 2025-08-05 144538" src="https://github.com/user-attachments/assets/066b9736-e1a7-4f0b-8688-ffddc2746436" />
 
 #Firabase Linki:
-[Firebase linki] (https://9000-firebase-studio-1753878648861.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev)
+[Proje Canlı Demo](https://9000-firebase-studio-1753878648861.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev)
 Bu proje, e-ticaret, yapay zeka ve sosyal medya özelliklerini bir araya getirerek, kullanıcılara geleneksel alışveriş deneyimlerinin ötesinde, kişiselleştirilmiş, bilgilendirici ve sosyal bir platform sunmayı amaçlayan yenilikçi bir web uygulamasıdır. Proje, özellikle Firebase Studio platformunda geliştirilmek üzere tasarlanmıştır.
 Firebase Linki:
 
