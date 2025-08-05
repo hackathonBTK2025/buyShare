@@ -100,32 +100,40 @@ const aiPoweredProductSearchFlow = ai.defineFlow(
     outputSchema: AiPoweredProductSearchOutputSchema,
   },
   async (input) => {
-    const {output} = await prompt(input);
-    
-    // Fallback mechanism if the AI model returns null
+    const llmResponse = await prompt(input);
+    const output = llmResponse.output;
+
+    // Fallback mechanism only if the AI model returns null or no results.
     if (!output || (!output.products && !output.images) || (output.products?.length === 0 && output.images?.length === 0)) {
-        console.log("AI model returned null or no results. Implementing fallback search.");
+        console.log("AI model returned no valid results. Implementing fallback search.");
         const fallbackQuery = input.query.toLowerCase();
-        const fallbackProducts = allProducts.filter(p => p.name.toLowerCase().includes(fallbackQuery) || p.description.toLowerCase().includes(fallbackQuery));
+        const fallbackProducts = allProducts.filter(p => 
+            p.name.toLowerCase().includes(fallbackQuery) || 
+            p.description.toLowerCase().includes(fallbackQuery) ||
+            p.properties.color?.toLowerCase().includes(fallbackQuery) ||
+            p.properties.fabric?.toLowerCase().includes(fallbackQuery)
+        );
         
-        const productsWithImages = fallbackProducts.map(p => ({
+        const productsWithExplanation = fallbackProducts.map(p => ({
             ...p,
-            suitabilityExplanation: `This product is a general match that might be relevant to your search for "${input.query}".`
+            suitabilityExplanation: `Bu ürün, "${input.query}" aramanızla ilgili olabilecek genel bir eşleşmedir.`
         }));
 
-        if (productsWithImages.length > 0) {
+        if (productsWithExplanation.length > 0) {
             return {
-                products: productsWithImages.slice(0, 5),
-                explanation: `I had trouble finding the best results for your request, but here are some products that might be related to "${input.query}".`
+                products: productsWithExplanation.slice(0, 5),
+                explanation: `İsteğiniz için en iyi sonuçları bulmakta zorlandım, ancak "${input.query}" ile ilgili olabilecek bazı ürünler şunlardır.`
             };
         } else {
              return {
                 products: [],
-                explanation: `Sorry, I couldn't find any products or images matching "${input.query}". Please try again with different keywords.`
+                images: [],
+                explanation: `Üzgünüm, "${input.query}" ile eşleşen herhangi bir ürün veya görsel bulamadım. Lütfen farklı anahtar kelimelerle tekrar deneyin.`
             };
         }
     }
     
+    // If the output is valid, return it directly.
     return output;
   }
 );
