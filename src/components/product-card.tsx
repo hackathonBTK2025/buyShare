@@ -3,7 +3,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart } from 'lucide-react';
+import { Heart, X } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Product } from '@/lib/types';
@@ -12,17 +12,36 @@ import { cn } from '@/lib/utils';
 
 interface ProductCardProps {
   product: Product & { suitabilityExplanation?: string };
+  onRemove?: (productId: string) => void;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, onRemove }: ProductCardProps) {
   const [isLiked, setIsLiked] = useState(false);
 
-  const toggleLike = () => {
+  const toggleLike = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card link navigation
     setIsLiked(!isLiked);
   }
 
+  const handleRemove = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent card link navigation
+    if (onRemove) {
+      onRemove(product.id);
+    }
+  };
+
   return (
-    <Card className="group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300">
+    <Card className="group overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 relative">
+      {onRemove && (
+         <Button
+          variant="destructive"
+          size="icon"
+          className="absolute top-2 right-2 z-10 h-7 w-7 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={handleRemove}
+        >
+          <X className="h-4 w-4" />
+        </Button>
+      )}
       <Link href={`/product/${product.id}`}>
         <CardContent className="p-0">
           <div className="relative aspect-[4/5] overflow-hidden">
@@ -61,5 +80,3 @@ export function ProductCard({ product }: ProductCardProps) {
     </Card>
   );
 }
-
-    
