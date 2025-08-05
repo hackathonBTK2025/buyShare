@@ -1,3 +1,4 @@
+
 "use client"
 
 import Image from 'next/image';
@@ -30,7 +31,7 @@ export function ProductCard({ product }: ProductCardProps) {
               alt={product.name}
               fill
               className="object-cover w-full h-full transition-transform duration-300 ease-in-out group-hover:scale-105"
-              data-ai-hint="product image"
+              data-ai-hint="product"
             />
              {product.suitabilityExplanation && (
               <div className="absolute bottom-0 w-full p-2 bg-black/50 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -60,3 +61,5 @@ export function ProductCard({ product }: ProductCardProps) {
     </Card>
   );
 }
+
+    

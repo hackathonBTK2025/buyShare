@@ -115,7 +115,7 @@ export function StoryViewer({ stories: initialStories, initialUser, allStories, 
                      <div className="flex items-center gap-2">
                         <Link href={`/profile/${currentUser.username}`}>
                             <Avatar className="h-9 w-9">
-                                <AvatarImage src={currentUser.profilePictureUrl} />
+                                <AvatarImage src={currentUser.profilePictureUrl} data-ai-hint="person" />
                                 <AvatarFallback>{currentUser.username.charAt(0)}</AvatarFallback>
                             </Avatar>
                         </Link>
@@ -150,3 +150,5 @@ export function StoryViewer({ stories: initialStories, initialUser, allStories, 
         </div>
     );
 }
+
+    

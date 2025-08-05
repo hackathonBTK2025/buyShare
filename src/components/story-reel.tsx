@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -17,7 +18,7 @@ const StoryCircle = ({ user, stories, allUsers }: { user: User; stories: Story[]
                     <div className="relative h-20 w-20 rounded-full p-1 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-500">
                         <div className="p-0.5 bg-background rounded-full h-full w-full">
                             <Avatar className="h-full w-full">
-                                <AvatarImage src={user.profilePictureUrl} alt={user.username} data-ai-hint="person face" />
+                                <AvatarImage src={user.profilePictureUrl} alt={user.username} data-ai-hint="person" />
                                 <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
                             </Avatar>
                         </div>
@@ -43,3 +44,5 @@ export function StoryReel({ users, stories, allUsers }: { users: User[]; stories
         </div>
     );
 }
+
+    

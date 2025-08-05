@@ -39,7 +39,7 @@ export function AiChatCard({ chat }: AiChatCardProps) {
       <CardHeader className="flex flex-row items-center gap-3 p-4">
         <Link href={`/profile/${chat.user.username}`} className="flex items-center gap-3">
             <Avatar>
-              <AvatarImage src={chat.user.profilePictureUrl} data-ai-hint="person face" />
+              <AvatarImage src={chat.user.profilePictureUrl} data-ai-hint="person" />
               <AvatarFallback>{chat.user.username.charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
             <p className="font-semibold">{chat.user.username}</p>
@@ -65,7 +65,7 @@ export function AiChatCard({ chat }: AiChatCardProps) {
                     alt="product image"
                     fill
                     className="object-cover w-full h-full rounded-md border"
-                    data-ai-hint="product image"
+                    data-ai-hint="fashion"
                 />
             </div>
         )}
@@ -89,7 +89,7 @@ export function AiChatCard({ chat }: AiChatCardProps) {
                             <div key={user.id} className="flex items-center gap-4">
                                 <Link href={`/profile/${user.username}`}>
                                     <Avatar>
-                                        <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
+                                        <AvatarImage src={user.profilePictureUrl} data-ai-hint="person" />
                                         <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
                                     </Avatar>
                                 </Link>
@@ -132,7 +132,7 @@ export function AiChatCard({ chat }: AiChatCardProps) {
                     <div key={user.id} className="flex items-center gap-4">
                         <Link href={`/profile/${user.username}`}>
                             <Avatar>
-                                <AvatarImage src={user.profilePictureUrl} data-ai-hint="person face" />
+                                <AvatarImage src={user.profilePictureUrl} data-ai-hint="person" />
                                 <AvatarFallback>{user.username.charAt(0).toUpperCase()}</AvatarFallback>
                             </Avatar>
                         </Link>
@@ -166,3 +166,5 @@ export function AiChatCard({ chat }: AiChatCardProps) {
     </Card>
   );
 }
+
+    

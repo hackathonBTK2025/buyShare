@@ -41,7 +41,7 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
                       alt={`${product.name} resim ${index + 1}`}
                       fill
                       className="object-cover"
-                      data-ai-hint="product lifestyle"
+                      data-ai-hint="lifestyle"
                     />
                   </div>
                 </CarouselItem>
@@ -101,3 +101,5 @@ export default async function ProductDetailPage({ params }: { params: { id: stri
     </div>
   );
 }
+
+    
