@@ -1,11 +1,15 @@
 <img width="1488" height="727" alt="Ekran görüntüsü 2025-08-05 145050" src="https://github.com/user-attachments/assets/00c1fe3d-c59b-4bd6-a441-36be1ac57ce3" />
-<img width="1523" height="757" alt="Ekran görüntüsü 2025-08-05 144248" src="https://github.com/user-attachments/assets/ca3c9e11-4b98-40e1-bacb-e79095c03cf4" />
-<img width="1515" height="726" alt="Ekran görüntüsü 2025-08-05 144315" src="https://github.com/user-attachments/assets/7a3a4482-a1e1-43ef-ae5c-4d4ed635a345" />
-<img width="1532" height="712" alt="Ekran görüntüsü 2025-08-05 144359" src="https://github.com/user-attachments/assets/4d551850-d073-4287-834a-9cc00c9c95de" />
-<img width="1497" height="717" alt="Ekran görüntüsü 2025-08-05 144441" src="https://github.com/user-attachments/assets/8e6d6f9a-7876-44d3-a453-3566e48d8822" />
-<img width="1525" height="718" alt="Ekran görüntüsü 2025-08-05 144511" src="https://github.com/user-attachments/assets/833ea8cb-7362-4ebd-a449-97966f779d57" />
-<img width="1452" height="710" alt="Ekran görüntüsü 2025-08-05 145126" src="https://github.com/user-attachments/assets/aa39d4c9-a755-4480-8e2a-55cf5da85525" />
-
+<img width="1452" height="710" alt="Ekran görüntüsü 2025-08-05 145126" src="https://github.com/user-attachments/assets/53504db1-9d14-44f8-9841-c84eab59f688" />
+![WhatsApp Görsel 2025-08-05 saat 14 16 38_05ff99f5](https://github.com/user-attachments/assets/f9e7848d-a8ae-49d9-adbe-c07c4d24e287)
+![WhatsApp Görsel 2025-08-05 saat 14 16 56_deb5f197](https://github.com/user-attachments/assets/e76ef6b6-ae62-45a6-a0a3-91b4a9338cd8)
+![WhatsApp Görsel 2025-08-05 saat 14 18 19_b40d9976](https://github.com/user-attachments/assets/e8a6294d-c18a-4c1e-8ab3-7e2a3f0eb093)
+<img width="1515" height="717" alt="Ekran görüntüsü 2025-08-05 144220" src="https://github.com/user-attachments/assets/858bb193-2804-4b5f-a32c-5815c1e8cd4f" />
+<img width="1523" height="757" alt="Ekran görüntüsü 2025-08-05 144248" src="https://github.com/user-attachments/assets/8cebfff9-6972-4bf0-84d6-7e98050db48e" />
+<img width="1515" height="726" alt="Ekran görüntüsü 2025-08-05 144315" src="https://github.com/user-attachments/assets/557b4dc8-3134-4aa7-ba07-f2b38f662cd4" />
+<img width="1532" height="712" alt="Ekran görüntüsü 2025-08-05 144359" src="https://github.com/user-attachments/assets/d18850dd-2288-447e-becd-c961713c4a89" />
+<img width="1497" height="717" alt="Ekran görüntüsü 2025-08-05 144441" src="https://github.com/user-attachments/assets/056068d1-cb7d-469e-85c3-bfe4ee411ce4" />
+<img width="1525" height="718" alt="Ekran görüntüsü 2025-08-05 144511" src="https://github.com/user-attachments/assets/7d9695db-c47d-4a54-8ff8-9dd76375ddd3" />
+<img width="1520" height="716" alt="Ekran görüntüsü 2025-08-05 144538" src="https://github.com/user-attachments/assets/066b9736-e1a7-4f0b-8688-ffddc2746436" />
 
 ***https://9000-firebase-studio-1753878648861.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev***
 
