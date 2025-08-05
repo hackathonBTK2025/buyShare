@@ -1,9 +1,10 @@
 ![WhatsApp Görsel 2025-08-05 saat 14 16 38_05ff99f5](https://github.com/user-attachments/assets/41e81eda-72dc-410f-b5c3-355687fcd511)
 ![WhatsApp Görsel 2025-08-05 saat 14 16 56_deb5f197](https://github.com/user-attachments/assets/e7ea2fc7-117c-45af-83ae-0b797a50a758)
 ![WhatsApp Görsel 2025-08-05 saat 14 18 19_b40d9976](https://github.com/user-attachments/assets/9d828ac9-cc61-402f-86ef-7a412929a52c)
+***https://9000-firebase-studio-1753878648861.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev***
+
 Bu proje, e-ticaret, yapay zeka ve sosyal medya özelliklerini bir araya getirerek, kullanıcılara geleneksel alışveriş deneyimlerinin ötesinde, kişiselleştirilmiş, bilgilendirici ve sosyal bir platform sunmayı amaçlayan yenilikçi bir web uygulamasıdır. Proje, özellikle Firebase Studio platformunda geliştirilmek üzere tasarlanmıştır.
 Firebase Linki:
-***https://9000-firebase-studio-1753878648861.cluster-axf5tvtfjjfekvhwxwkkkzsk2y.cloudworkstations.dev***
 
 **Projenin Amacı ve Temel Vizyonu**
 Projenin temel amacı, mevcut e-ticaret sitelerinin eksikliklerini gidermektir. Geleneksel platformlar genellikle ürün özelliklerini teknik terimlerle veya yüzeysel bilgilerle sunar. Bu proje, bu bilgi boşluğunu doldurarak yapay zeka (LLM) entegrasyonu ile ürünler hakkında daha bağlamsal ve anlaşılır bilgiler sağlamayı hedefler. Aynı zamanda, sosyal medya unsurları ekleyerek ürün keşfini daha organik, etkileşimli ve güvene dayalı hale getirir.
