@@ -1,16 +1,17 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, FormEvent } from 'react';
 import Image from 'next/image';
 import { products as allProducts } from '@/lib/data';
 import { cn } from '@/lib/utils';
-import { Heart, Loader2, X, Star } from 'lucide-react';
+import { Heart, Loader2, Star, Search } from 'lucide-react';
 import type { Product } from '@/lib/types';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { AddToCartButton } from '@/components/add-to-cart-button';
 import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
 
 // Helper to shuffle array and get new items
 const getNewProducts = (existingIds: Set<string>): Product[] => {
@@ -60,9 +61,11 @@ export default function ExplorePage() {
   const [products, setProducts] = useState<Product[]>(allProducts.slice(0, 15));
   const [isLoading, setIsLoading] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
 
   const loadMoreProducts = useCallback(() => {
-    if (isLoading) return;
+    if (isLoading || isSearching) return;
     
     setIsLoading(true);
 
@@ -81,7 +84,7 @@ export default function ExplorePage() {
         setProducts(prev => [...prev, ...newProductsWithUniqueKeys]);
         setIsLoading(false);
     }, 500);
-  }, [isLoading, products]);
+  }, [isLoading, products, isSearching]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -95,6 +98,23 @@ export default function ExplorePage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [loadMoreProducts]);
 
+  const handleSearch = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) {
+        setProducts(allProducts.slice(0, 15));
+        setIsSearching(false);
+        return;
+    }
+    setIsSearching(true);
+    const filteredProducts = allProducts.filter(p => 
+        p.name.toLowerCase().includes(query) || 
+        p.description.toLowerCase().includes(query) ||
+        p.properties.color?.toLowerCase().includes(query)
+    );
+    setProducts(filteredProducts);
+  }
+
 
   return (
     <Dialog open={!!selectedProduct} onOpenChange={(isOpen) => !isOpen && setSelectedProduct(null)}>
@@ -104,6 +124,18 @@ export default function ExplorePage() {
             <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">
             Yeni trendleri, popüler ürünleri ve sana özel önerileri keşfet.
             </p>
+            <form onSubmit={handleSearch} className="max-w-md mx-auto mt-4 flex gap-2">
+                <Input 
+                    type="text" 
+                    placeholder="Mavi gömlek ara..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="h-11 text-base"
+                />
+                <Button type="submit" size="icon" className="h-11 w-11">
+                    <Search className="h-5 w-5"/>
+                </Button>
+            </form>
         </div>
 
         <div className="grid grid-cols-3 grid-rows-auto gap-1">
@@ -143,6 +175,11 @@ export default function ExplorePage() {
             );
             })}
         </div>
+        {products.length === 0 && (
+            <div className="text-center py-16">
+                <p className="text-lg text-muted-foreground">Aramanızla eşleşen ürün bulunamadı.</p>
+            </div>
+        )}
         {isLoading && (
             <div className="flex justify-center items-center py-8">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -155,7 +192,7 @@ export default function ExplorePage() {
                 <Separator/>
                 <h2 className="text-2xl font-bold p-4 md:px-8">Daha Fazla Keşfet</h2>
                  <div className="grid grid-cols-3 gap-1 p-4 md:px-8">
-                    {products.filter(p => p.id !== selectedProduct?.id).slice(0, 9).map((product) => (
+                    {allProducts.filter(p => p.id !== selectedProduct?.id).slice(0, 9).map((product) => (
                          <button key={product.id} onClick={() => setSelectedProduct(product)} className="group relative aspect-square overflow-hidden rounded-md">
                              <Image
                                 src={product.imageUrls[0]}
@@ -173,5 +210,3 @@ export default function ExplorePage() {
     </Dialog>
   );
 }
-
-    
